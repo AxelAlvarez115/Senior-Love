@@ -1,0 +1,672 @@
+@use "../vars";
+@use "../mixin";
+
+// ─── Layout admin (inchangé) ──────────────────────────────────────────────────
+.content {
+    width: 100%;
+
+    &__dashboard {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+        padding: 1rem;
+
+        @media screen and (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+// ─── Wrapper page home ────────────────────────────────────────────────────────
+.home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: 92vh;
+    background-image: url("/img/principale.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            160deg,
+            rgba(0, 0, 0, 0.25) 0%,
+            rgba(0, 0, 0, 0.65) 100%
+        );
+    }
+
+    &__overlay {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        color: white;
+        padding: 2rem;
+        max-width: 800px;
+    }
+
+    &__title {
+        font-size: clamp(3rem, 9vw, 6.5rem);
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+        margin-bottom: 1rem;
+        line-height: 1.1;
+    }
+
+    &__subtitle {
+        font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+        font-weight: 300;
+        letter-spacing: 0.04em;
+        margin-bottom: 2.8rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    &__cta {
+        display: inline-block;
+        background-color: vars.$main-red;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.9rem 2.4rem;
+        border-radius: 3rem;
+        font-size: 1.05rem;
+        border: 2px solid vars.$main-red;
+        transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+            background-color: white;
+            color: vars.$main-red;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        &--outline {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.85);
+
+            &:hover {
+                background-color: white;
+                color: vars.$main-red;
+                border-color: white;
+            }
+        }
+    }
+
+    &__scroll {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 2.8rem;
+        text-decoration: none;
+        animation: bounce 2s infinite;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        min-height: 80vh;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+.home-stats {
+    width: 100%;
+    background-color: vars.$main-red;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    &__item {
+        flex: 1;
+        min-width: 180px;
+        max-width: 280px;
+        text-align: center;
+        color: white;
+        padding: 2rem 2.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    &__number {
+        display: block;
+        font-size: 2.4rem;
+        font-weight: bold;
+        font-family: PlayFair_Display;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    &__label {
+        font-size: 0.8rem;
+        opacity: 0.85;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+        align-items: center;
+
+        &__item {
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 100%;
+
+            &:last-child { border-bottom: none; }
+        }
+    }
+}
+
+// ─── À propos ─────────────────────────────────────────────────────────────────
+.home-about {
+    width: 100%;
+    max-width: 780px;
+    margin: 5.5rem auto;
+    padding: 0 2rem;
+    text-align: center;
+
+    &__title {
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        margin-bottom: 1.5rem;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 56px;
+            height: 3px;
+            background-color: vars.$main-red;
+            border-radius: 2px;
+            margin: 0.9rem auto 0;
+        }
+    }
+
+    &__text {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: #555;
+    }
+}
+
+// ─── Features ─────────────────────────────────────────────────────────────────
+.home-features {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 2rem 5.5rem;
+
+    &__title {
+        text-align: center;
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        margin-bottom: 3rem;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 56px;
+            height: 3px;
+            background-color: vars.$main-red;
+            border-radius: 2px;
+            margin: 0.9rem auto 0;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        @media screen and (max-width: 900px) { grid-template-columns: 1fr 1fr; }
+        @media screen and (max-width: 580px) { grid-template-columns: 1fr; }
+    }
+}
+
+.home-feature {
+    background: white;
+    border-radius: 1.2rem;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
+    }
+
+    &__icon {
+        font-size: 3rem;
+        color: vars.$main-red;
+        margin-bottom: 1.2rem;
+        display: block;
+    }
+
+    &__title {
+        font-size: 1.15rem;
+        font-weight: bold;
+        margin-bottom: 0.8rem;
+        color: #222;
+    }
+
+    &__text {
+        font-size: 0.92rem;
+        color: #666;
+        line-height: 1.65;
+    }
+}
+
+// ─── Activités ────────────────────────────────────────────────────────────────
+.home-activities {
+    width: 100%;
+    background-color: #f7f7f7;
+    padding: 5rem 2rem;
+
+    &__title {
+        text-align: center;
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        margin-bottom: 2.5rem;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 56px;
+            height: 3px;
+            background-color: vars.$main-red;
+            border-radius: 2px;
+            margin: 0.9rem auto 0;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+
+        @media screen and (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+        @media screen and (max-width: 480px) { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    }
+}
+
+.home-activity {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    display: block;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    &__label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.2rem 1rem 0.9rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        letter-spacing: 0.03em;
+    }
+
+    &:hover &__img {
+        transform: scale(1.06);
+    }
+}
+
+// ─── Comment ça marche ────────────────────────────────────────────────────────
+.home-steps {
+    width: 100%;
+    padding: 5.5rem 2rem;
+
+    &__title {
+        text-align: center;
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        margin-bottom: 3.5rem;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 56px;
+            height: 3px;
+            background-color: vars.$main-red;
+            border-radius: 2px;
+            margin: 0.9rem auto 0;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: calc(16.66% + 16px);
+            right: calc(16.66% + 16px);
+            height: 2px;
+            background: repeating-linear-gradient(
+                to right,
+                vars.$main-red 0,
+                vars.$main-red 8px,
+                transparent 8px,
+                transparent 16px
+            );
+        }
+
+        @media screen and (max-width: 700px) {
+            grid-template-columns: 1fr;
+            max-width: 380px;
+
+            &::before { display: none; }
+        }
+    }
+}
+
+.home-step {
+    text-align: center;
+    padding: 1rem;
+
+    &__number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: vars.$main-red;
+        color: white;
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 1.2rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 12px rgba(207, 88, 88, 0.4);
+    }
+
+    &__title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 0.6rem;
+        color: #222;
+    }
+
+    &__text {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.6;
+    }
+}
+
+// ─── CTA final ────────────────────────────────────────────────────────────────
+.home-cta {
+    width: 100%;
+    background: linear-gradient(135deg, vars.$main-red 0%, #a84040 100%);
+    padding: 5.5rem 2rem;
+    text-align: center;
+
+    &__title {
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        color: white;
+        font-family: PlayFair_Display;
+        margin-bottom: 1rem;
+    }
+
+    &__text {
+        font-size: 1.05rem;
+        margin-bottom: 2.2rem;
+        color: rgba(255, 255, 255, 0.88);
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__button {
+        display: inline-block;
+        background-color: white;
+        color: vars.$main-red;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.9rem 2.4rem;
+        border-radius: 3rem;
+        font-size: 1.05rem;
+        transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+            background-color: vars.$main-yellow;
+            color: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+        }
+    }
+}
+
+// ─── Page banner (used on inner pages) ────────────────────────────────────────
+.page-banner {
+    width: 100%;
+    background: linear-gradient(135deg, vars.$main-red 0%, #a84040 100%);
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+
+    &__title {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-family: PlayFair_Display;
+        color: white;
+        margin-bottom: 0.4rem;
+    }
+
+    &__subtitle {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: 0.5rem;
+    }
+}
+
+// ─── Auth pages ───────────────────────────────────────────────────────────────
+.auth-page {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+    padding: 3rem 1.5rem;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+    padding: 2.8rem 2.5rem;
+    width: 100%;
+    max-width: 480px;
+
+    &--wide {
+        max-width: 640px;
+    }
+
+    &__title {
+        font-size: 1.9rem;
+        font-family: PlayFair_Display;
+        color: #222;
+        margin-bottom: 0.4rem;
+        text-align: center;
+    }
+
+    &__subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #888;
+        margin-bottom: 2rem;
+    }
+
+    &__divider {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 1.8rem 0 1.5rem;
+    }
+
+    &__switch {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+    &__link {
+        color: vars.$main-red;
+        font-weight: 700;
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+    }
+}
+
+// ─── Help page ────────────────────────────────────────────────────────────────
+.help-page {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+}
+
+.help-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+
+    @media screen and (max-width: 760px) { grid-template-columns: 1fr; }
+}
+
+.help-card {
+    background: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: block;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.13);
+    }
+
+    &__icon {
+        font-size: 3rem;
+        color: vars.$main-red;
+        display: block;
+        margin-bottom: 1.2rem;
+    }
+
+    &__title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 0.7rem;
+    }
+
+    &__text {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.65;
+    }
+}
+
+// ─── Error page ───────────────────────────────────────────────────────────────
+.error-page {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background-color: #f7f7f7;
+
+    &__code {
+        font-size: clamp(5rem, 15vw, 9rem);
+        font-weight: bold;
+        font-family: PlayFair_Display;
+        color: vars.$main-red;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    &__title {
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    &__text {
+        font-size: 1rem;
+        color: #777;
+        margin-bottom: 2rem;
+        max-width: 420px;
+    }
+
+    &__link {
+        display: inline-block;
+        background-color: vars.$main-red;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.8rem 2rem;
+        border-radius: 3rem;
+        font-size: 1rem;
+        transition: background-color 0.25s ease, transform 0.25s ease;
+
+        &:hover {
+            background-color: #a84040;
+            transform: translateY(-2px);
+        }
+    }
+}

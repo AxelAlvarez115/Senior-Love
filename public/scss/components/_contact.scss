@@ -1,0 +1,23 @@
+@use "../mixin";
+@use "../vars";
+
+.contact {
+    display: flex;
+    flex-direction: column;
+
+    &__container {
+
+        &__title {
+            background-color: vars.$main-red;
+        }
+
+        display: flex;
+        flex-direction: column;
+        right: 0;
+    }
+
+    &__title {
+        
+    }
+
+}

@@ -1,0 +1,41 @@
+<%- include('./partials/header')  %>
+<main class="main">
+    <div class="page-banner">
+        <h1 class="page-banner__title">Mes rencontres</h1>
+    </div>
+    <%- include('./partials/alerts', {type:'global'}) %>
+        <div class="account-page">
+        <nav class="account-nav">
+        <a href="/compte" class="account-nav__link">Mon profil</a>
+        <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
+        <a href="/compte/rencontre" class="account-nav__link account-nav__link--active">Mes rencontres</a>
+        </nav>
+        <div class="card__container">
+            <% if (contacts) { %>
+            <% for (const contact of contacts) { %>
+                <article class="meeting" href="/rencontre/profil/<%= contact.id %>">
+                    <div class="meeting__avatar">
+                        <i class='bx bx-user'></i>
+                    </div>
+                    <h2 class="meeting__name"><%= contact.firstname %></h2>
+                    <ul class="meeting__infos">
+                        <% if (contact.city) { %>
+                            <li class="meeting__info-item">
+                                <i class='bx bx-map-pin'></i> <%= contact.city %>
+                            </li>
+                        <% } %>
+                        <p class="meeting__description"><%= contact.description %></p>
+                        <div style="display: flex; justify-content: space-between;">
+                            <a class="card__content__link" href="/rencontre/profil/supprimer/<%= contact.id %>" class="meeting__button meeting__button--delete">Supprimer</a>
+                            <a class="card__content__link card__content__link--icon" href="/rencontre/<%= contact.id %>" class="meeting__button meeting__button--view">Voir le profil</a>
+                        </div>
+                    </ul>
+                </article>
+            <% } %>
+            <% } else { %>
+                <p>Vous n'avez pas encore de rencontres.</p>
+            <% } %>
+        </div>
+    </div>
+</main>
+<%- include('./partials/footer')  %>

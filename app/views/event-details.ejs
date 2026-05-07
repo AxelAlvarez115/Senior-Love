@@ -1,0 +1,123 @@
+<%- include('partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title"><%= event.name %></h1>
+    <p class="page-banner__subtitle"><%= event.Interest.name %> &bull; <%= event.city %></p>
+  </div>
+  <%- include('partials/alerts', {type:'global'}) %>
+
+  <div class="event-detail">
+    <div class="event-detail__main">
+      <img class="event-detail__img" src="/img/<%= event.Interest.name %>.jpg" alt="<%= event.name %>">
+      <span class="event-detail__badge"><%= event.Interest.name %></span>
+      <h2 class="event-detail__title">Informations sur l'événement</h2>
+      <ul class="event-detail__info-list">
+        <li class="event-detail__info-item">
+          <i class='bx bx-map-pin'></i>
+          <%= event.city %><% if (event.adresse) { %>, <%= event.adresse %><% } %>
+        </li>
+        <li class="event-detail__info-item">
+          <i class='bx bx-calendar'></i>
+          <%= new Date(event.date).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </li>
+      </ul>
+      <% if (event.description) { %>
+        <p class="event-detail__description"><%= event.description %></p>
+      <% } %>
+      <p class="event-detail__participants-title">
+        <i class='bx bx-group'></i> Participants (<%= users.length %>)
+      </p>
+      <div class="event-detail__participants">
+        <% for (const user of users) { %>
+          <% if (user.id == userId) { %>
+            <a class="event-detail__participant event-detail__participant--me" href="/compte">
+              <%= user.firstname %> <%= user.lastname %>
+            </a>
+          <% } else { %>
+            <a class="event-detail__participant" href="/rencontre/<%= user.id %>">
+              <%= user.firstname %> <%= user.lastname %>
+            </a>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+
+    <aside class="event-detail__sidebar">
+      <div class="event-detail__card">
+        <h2 class="event-detail__card-title">Participation</h2>
+        <% if (!doParticipate) { %>
+          <form action="/evenement/<%= event.id %>/participation" method="POST">
+            <button class="event-detail__card-btn event-detail__card-btn--primary" type="submit">
+              <i class='bx bx-check-circle'></i> Participer
+            </button>
+          </form>
+        <% } else { %>
+          <form action="/evenement/<%= event.id %>/participation" method="POST">
+            <button class="event-detail__card-btn event-detail__card-btn--danger" type="submit">
+              Annuler la participation
+            </button>
+          </form>
+        <% } %>
+        <% if(isAdmin) { %>
+          <button class="event-detail__card-btn event-detail__card-btn--outline buttonform" type="button">
+            <i class='bx bx-edit'></i> Modifier l'événement
+          </button>
+        <% } %>
+      </div>
+    </aside>
+  </div>
+
+  <section class="comments">
+    <h2 class="comments__title">Commentaires</h2>
+    <%- include('partials/alerts', {type:'com'}) %>
+    <div class="comments__form">
+      <form class="comment-form" action="/evenement/<%= event.id %>/ajout-com" method="POST">
+        <textarea placeholder="Partagez votre expérience..." name="contents" rows="3"></textarea>
+        <button class="comments__submit" type="submit">Publier</button>
+      </form>
+    </div>
+    <div class="comments__list">
+      <% for (const comment of comments) { %>
+        <div class="comment">
+          <div class="comment__header">
+            <div class="comment__avatar">
+              <%= comment.User.firstname.charAt(0).toUpperCase() %>
+            </div>
+            <div class="comment__infos">
+              <p class="comment__infos__user"><%= comment.User.firstname %> <%= comment.User.lastname %></p>
+              <% if(comment.updatedAt.getTime() === comment.createdAt.getTime()) { %>
+                <p class="comment__infos__date">Publié le <%= new Date(comment.createdAt).toLocaleDateString('fr-FR') %></p>
+              <% } else { %>
+                <p class="comment__infos__date">Modifié le <%= new Date(comment.updatedAt).toLocaleDateString('fr-FR') %></p>
+              <% } %>
+            </div>
+          </div>
+          <% if(comment.user_id===userId) { %>
+            <form id="form-update-<%= comment.id %>" action="/evenement/<%= event.id %>/<%= comment.id %>/modif-com" method="POST">
+              <input type="text" class="comment__content--input" name="content" value="<%= comment.contents %>" required>
+            </form>
+          <% } else { %>
+            <p class="comment__content"><%= comment.contents %></p>
+          <% } %>
+          <% if (isAdmin || comment.user_id===userId) { %>
+            <div class="comment--action">
+              <% if(comment.user_id===userId) { %>
+                <button form="form-update-<%= comment.id %>" class="comment__button" type="submit">Mettre à jour</button>
+              <% } %>
+              <form action="/evenement/<%= event.id %>/<%= comment.id %>/suppr-com" method="POST">
+                <button class="comment__button comment__button--delete" type="submit">Supprimer</button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <% if (isAdmin) { %>
+    <%- include('partials/eventForm', {event, action}) %>
+    <script src="/js/addPopUp.js" defer></script>
+  <% } %>
+  <script src="/js/comment.js"></script>
+</main>
+<%- include('partials/footer')%>

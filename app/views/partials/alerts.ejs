@@ -1,0 +1,5 @@
+<% if (alert && (typeof type === 'undefined' || alert.type === type)) { %>
+    <div class="alert alert--<%= alert.value %>" data-alert>
+        <%= alert.message %>
+    </div>
+<% } %>

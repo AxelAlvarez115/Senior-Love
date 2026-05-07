@@ -1,0 +1,43 @@
+<%- include('./partials/header') %>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Mes évènements</h1>
+  </div>
+  <%- include('./partials/alerts', {type:'global'}) %>
+  <div class="account-page">
+    <nav class="account-nav">
+      <a href="/compte" class="account-nav__link">Mon profil</a>
+      <a href="/compte/evenement" class="account-nav__link account-nav__link--active">Mes évènements</a>
+      <a href="/compte/rencontre" class="account-nav__link">Mes rencontres</a>
+    </nav>
+    <% if (events && events.length) { %>
+      <div class="card__container">
+        <% for (const event of events) { %>
+          <article class="card">
+            <img class="card__img" src="/img/<%= event.Interest ? event.Interest.name : 'sport' %>.jpg" alt="<%= event.name %>">
+            <div class="card__content">
+              <div class="card__content__container">
+                <p class="card__content__container__theme"><%= event.Interest ? event.Interest.name : '' %></p>
+              </div>
+              <h2 class="card__content__title"><%= event.name %></h2>
+              <p class="card__content__text">
+                <i class='bx bx-map-pin'></i> <%= event.city %>
+              </p>
+              <p class="card__content__text">
+                <i class='bx bx-calendar'></i> <%= new Date(event.date).toLocaleDateString('fr-FR') %>
+              </p>
+              <a class="card__content__link" href="/evenement/<%= event.id %>">En savoir plus</a>
+            </div>
+          </article>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="account-card" style="text-align:center; padding: 3rem 2rem;">
+        <i class='bx bx-calendar-x' style="font-size:2.8rem; color:#cf5858; display:block; margin-bottom:0.8rem;"></i>
+        <p style="color:#666; margin-bottom:1.2rem;">Vous ne participez à aucun évènement à venir.</p>
+        <a href="/evenement" class="form__button" style="display:inline-block; text-decoration:none;">Voir les évènements</a>
+      </div>
+    <% } %>
+  </div>
+</main>
+<%- include('./partials/footer') %>

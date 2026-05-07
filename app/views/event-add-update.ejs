@@ -1,0 +1,44 @@
+<%- include('partials/header')%>
+<main>
+    <h1>Evénements proches de chez vous</h1>
+    <div class="container">
+		<form action='/evenement/<%= link %>' method='POST'>
+			<% if (typeof alert !== 'undefined') { %>
+			<p class='message message--error' role='alert'>Erreur : <%= alert %></p>
+			<% } %>
+			<div class='input-form'>
+				<input type='name' name='name' id='name' value='<%= event.name %>' required/>
+				<label for='name'>Nom de l'événement :</label>
+			</div>
+            <div class='input-form'>
+				<input type='text' name='theme' id='theme' value='<%= event.theme %>' required/>
+				<label for='theme'>Theme de l'évènement :</label>
+			</div>
+			<div class='input-form'>
+				<input type='text' name='city' id='city' value='<%= event.city %>' required/>
+				<label for='theme'>Ville de l'évènement :</label>
+			</div>
+            <div class='input-form'>
+				<input type='text' name='adresse' id='adresse' value='<%= event.adresse %>' required/>
+				<label for='adresse'>Localisation :</label>
+			</div>
+			<div class='input-form'>
+				<input type='date' name='date' id='date' value='<%= event.date %>' required/>
+				<label for='date'>Date :</label>
+			</div>
+			<div class='input-form'>
+				<input type='text' name='description' id='description' value='<%= event.description %>' required/>
+				<label for='description'>Description :</label>
+			</div>
+			<div class='submit-form'>
+				<button class="buttonfrom" type='submit'><%= button %> l'événement</button>
+			</div>
+		</form>
+		<% if (event.id) { %>
+			<form action="/evenement/supprimer/<%= event.id %>" method='POST'>
+				<button class="buttonfrom" type='submit'>Supprimer l'événement</button>
+			</form>
+		<% } %>
+    </div>
+</main>
+<%- include('./partials/footer')%>	

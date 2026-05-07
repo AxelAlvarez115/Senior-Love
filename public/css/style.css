@@ -1,0 +1,12 @@
+html, body { height: 100%; }
+.header      { display: flex; background-color: #222; text-align:left; padding: 1.2rem 1rem; align-items: center;}
+.header-link { color: #ffffffb3; margin: 0 0.25rem; padding: 0.5rem; display: inline-block; }
+main { display: block; background-color: #746e6e; height: 50px;}
+.footer      { display: block; background-color: #222; text-align: center; padding: 5rem 1rem;}
+.footer-link { color: #ffffffb3; margin: 0 0.25rem; padding: 0.5rem; display: inline-block;}
+body { background-color: #746e6e; display: flex; flex-direction: column; justify-content:space-between; }
+.frm-login { display: flex; flex-direction: column; padding: 0.75rem; width: 25%; background-color: whitesmoke; border-radius: 15px;}
+.frm-login label { margin: 0.2rem; padding: 0.25rem;}
+.frm-login__title {text-align: center; color: rgb(41, 39, 39); margin: 0.2rem; padding: 0.5rem;}
+.frm-login input[type=submit] { margin-top: 0.75rem;}
+.container { display: flex; justify-content: center;}

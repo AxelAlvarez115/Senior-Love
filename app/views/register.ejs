@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+<main class="auth-page">
+  <div class="auth-card auth-card--wide">
+    <h1 class="auth-card__title">Créer un compte</h1>
+    <p class="auth-card__subtitle">Rejoignez la communauté Senior Love</p>
+    <form action='/inscription' method='POST'>
+      <div class="form__flex">
+        <%- include('./partials/alerts') %>
+        <div class='form__div'>
+          <label class="form__label" for='email'>Adresse email</label>
+          <input class="form__input" type='email' name='email' id='email' autocomplete="email" placeholder=' ' />
+        </div>
+        <div class='form__div'>
+          <label class="form__label" for='phone'>Numéro de téléphone</label>
+          <input class="form__input" type='tel' name='phone' id='phone' autocomplete="tel" placeholder=' ' />
+        </div>
+        <div class='form__div'>
+          <label class="form__label" for='firstname'>Prénom</label>
+          <input class="form__input" type='text' name='firstname' id='firstname' placeholder=' ' />
+        </div>
+        <div class='form__div'>
+          <label class="form__label" for='lastname'>Nom de famille</label>
+          <input class="form__input" type='text' name='lastname' id='lastname' placeholder=' ' />
+        </div>
+        <div class="form__div">
+          <label class="form__label" for="date_of_birth">Date de naissance</label>
+          <input class="form__input" type="date" name="date_of_birth" id="date_of_birth" min="1900-01-01" max="1975-01-01">
+        </div>
+        <div class="form__div">
+          <label class="form__label" for="zipcode">Code postal</label>
+          <input class="form__input" type="text" name="zipcode" placeholder=" " id="zipcode">
+        </div>
+        <div class="form__div">
+          <label class="form__label" for="city">Ville</label>
+          <input class="form__input" type="text" name="city" id="city" list="cityList" placeholder=" " required />
+          <datalist id="cityList"></datalist>
+        </div>
+        <div class="form__div">
+          <label class="form__label" for="gender">Genre</label>
+          <select class="form__select" name="gender" id="gender">
+            <option value="">-- Sélectionnez votre genre --</option>
+            <option value="femme">Femme</option>
+            <option value="homme">Homme</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class='form__div'>
+          <label class="form__label" for='password'>
+            Mot de passe
+            <input class="showPassword" type='checkbox' value="password">
+          </label>
+          <input class="form__input" type='password' name='password' id='password' placeholder=' ' required />
+        </div>
+        <div class='form__div'>
+          <label class="form__label" for='passwordConfirm'>
+            Confirmer le mot de passe
+            <input class="showPassword" type='checkbox' value="passwordConfirm">
+          </label>
+          <input class="form__input" type='password' name='passwordConfirm' id='passwordConfirm' placeholder=' ' required />
+        </div>
+        <% if (typeof interests !== 'undefined' && interests.length) { %>
+          <fieldset class='form__radio__container'>
+            <legend>Centres d'intérêt</legend>
+            <% for (const it of interests) { %>
+              <div class='form__radio'>
+                <input class='form__radio__input' type='checkbox' name='interest' id='interest-<%= it.id %>' value='<%= it.id %>'>
+                <label class='form__radio__label' for='interest-<%= it.id %>'><%= it.name %></label>
+              </div>
+            <% } %>
+          </fieldset>
+        <% } %>
+        <div class='form__div'>
+          <button class="form__button" id="send" type="submit">Créer mon compte</button>
+        </div>
+      </div>
+    </form>
+    <hr class="auth-card__divider">
+    <p class="auth-card__switch">
+      Vous avez déjà un compte ?
+      <a class="auth-card__link" href='/connexion'>Se connecter</a>
+    </p>
+  </div>
+</main>
+<script type="module" src="/js/script.js"></script>
+<script type="module" src="/js/showPassword.js"></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,33 @@
+<aside class="contact__container">
+    <h3>Vos contacts</h3>
+    <div class="contact">
+        <h4 class="contact__title">Vos demande</h4>
+        <% if (typeof requestees[0] !== 'undefined') { %>
+            <% for (const requestee of requestees) { %>
+                <a href="/meeting/<%= requestee.id %>" class="contact__name"><%= requestee.firstname %> <%= requestee.lastname %></a>
+            <% } %>
+        <% } else { %>
+            <p>Aucunes demandes en attente</p>
+        <% } %>
+    </div>
+    <div class="contact">
+        <h4 class="contact__title">En attente</h4>
+        <% if (typeof requesters[0] ==! 'undefined') { %>
+            <% for (const requester of requesters) { %>
+                <a href="/meeting/<%= requester.id %>" class="contact__name"><%= requester.firstname %> <%= requester.lastname %></a>
+            <% } %>
+        <% } else { %>
+            <p>Aucuns contacts en attente</p>
+        <% } %>
+    </div>
+    <div class="contact">
+        <h4 class="contact__title">Vos contacts</h4>
+        <% if (typeof contacts[0] !== 'undefined') { %>
+            <% for (const contact of contacts) { %>
+                <a href="/meeting/<%= contact.id %>" class="contact__name"><%= contact.firstname %> <%= contact.lastname %></a>
+            <% } %>
+        <% } else { %>
+            <p>Vous n'avez aucuns contactes</p>
+        <% } %>
+    </div>
+</aside>

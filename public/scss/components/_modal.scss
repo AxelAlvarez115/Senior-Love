@@ -1,0 +1,192 @@
+@use "../vars";
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1rem;
+    overflow-y: auto;
+
+    &__content {
+        background: white;
+        border-radius: 0.85rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 520px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    &__title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1a2332;
+        margin: 0;
+    }
+
+    &__close {
+        width: 30px;
+        height: 30px;
+        border: none;
+        background: #f5f5f5;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        transition: background 0.18s, color 0.18s;
+        line-height: 1;
+
+        &:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+    }
+
+    &__body {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+
+        &--single {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+
+        &--full {
+            grid-column: 1 / -1;
+        }
+    }
+
+    &__label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    &__input,
+    &__select,
+    &__textarea {
+        border: 1.5px solid #e0e0e0;
+        border-radius: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        font-size: 0.88rem;
+        outline: none;
+        width: 100%;
+        font-family: inherit;
+        transition: border-color 0.18s, box-shadow 0.18s;
+        background: white;
+
+        &:focus {
+            border-color: vars.$main-blue;
+            box-shadow: 0 0 0 3px rgba(13, 149, 171, 0.1);
+        }
+    }
+
+    &__textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    &__checkbox-row {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 0;
+
+        & input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: vars.$main-red;
+        }
+
+        & label {
+            font-size: 0.9rem;
+            color: #444;
+            cursor: pointer;
+        }
+    }
+
+    &__footer {
+        padding: 1rem 1.5rem 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    &__btn {
+        padding: 0.6rem 1.4rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.18s;
+
+        &--primary {
+            background: vars.$main-red;
+            color: white;
+
+            &:hover {
+                background: #b54848;
+            }
+        }
+
+        &--cancel {
+            background: #f0f0f0;
+            color: #666;
+
+            &:hover {
+                background: #e0e0e0;
+            }
+        }
+    }
+}
+
+.admin-create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: vars.$main-red;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s;
+
+    &:hover {
+        background: #b54848;
+    }
+
+    & i {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,8 @@
+<%- include('./partials/header')%>
+<main class="error-page">
+  <p class="error-page__code">Oops</p>
+  <h1 class="error-page__title"><%= message %></h1>
+  <p class="error-page__text">La page que vous cherchez est introuvable ou une erreur s'est produite.</p>
+  <a href="<%= link %>" class="error-page__link">← Retourner à la page <%= pageName %></a>
+</main>
+<%- include('./partials/footer')%>

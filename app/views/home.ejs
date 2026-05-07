@@ -1,0 +1,163 @@
+<%- include('partials/header')%>
+<%- include('partials/alerts', {type:'global'}) %>
+
+<main class="home">
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__overlay">
+      <h1 class="hero__title">Senior Love</h1>
+      <p class="hero__subtitle">L'amour ne prend pas de retraite&hellip;</p>
+      <% if (!isLogged) { %>
+        <div class="hero__actions">
+          <a class="hero__cta" href="/inscription">Je m'inscris gratuitement</a>
+          <a class="hero__cta hero__cta--outline" href="/connexion">Me connecter</a>
+        </div>
+      <% } else { %>
+        <div class="hero__actions">
+          <a class="hero__cta" href="/evenement">Événements</a>
+          <a class="hero__cta hero__cta--outline" href="/rencontre">Nouvelles rencontres</a>
+        </div>
+      <% } %>
+    </div>
+    <a href="#decouvrir" class="hero__scroll" aria-label="Défiler vers le bas">
+      <i class='bx bx-chevron-down'></i>
+    </a>
+  </section>
+
+  <!-- ── Stats ─────────────────────────────────────────────── -->
+  <section class="home-stats" id="decouvrir">
+    <div class="home-stats__item">
+      <span class="home-stats__number">1 000+</span>
+      <span class="home-stats__label">Membres actifs</span>
+    </div>
+    <div class="home-stats__item">
+      <span class="home-stats__number">50+</span>
+      <span class="home-stats__label">Événements par mois</span>
+    </div>
+    <div class="home-stats__item">
+      <span class="home-stats__number">+50 ans</span>
+      <span class="home-stats__label">Communauté senior</span>
+    </div>
+  </section>
+
+  <!-- ── À propos ───────────────────────────────────────────── -->
+  <section class="home-about">
+    <h2 class="home-about__title">Qu'est-ce que Senior Love&nbsp;?</h2>
+    <p class="home-about__text">
+      Senior Love est un site de rencontre dédié aux personnes de plus de 50 ans.
+      Il offre un espace convivial et sécurisé pour que les retraités puissent rencontrer
+      d'autres personnes partageant les mêmes centres d'intérêt et envies.
+      Inscrivez-vous à des événements, créez de vraies connexions et, qui sait,
+      peut-être trouverez-vous votre prochaine grande aventure.
+    </p>
+  </section>
+
+  <!-- ── Pourquoi nous rejoindre ───────────────────────────── -->
+  <section class="home-features">
+    <h2 class="home-features__title">Pourquoi nous rejoindre&nbsp;?</h2>
+    <div class="home-features__grid">
+
+      <div class="home-feature">
+        <i class='bx bx-heart home-feature__icon'></i>
+        <h3 class="home-feature__title">Rencontres authentiques</h3>
+        <p class="home-feature__text">
+          Découvrez des profils de personnes partageant vos passions et vos valeurs,
+          proches de chez vous.
+        </p>
+      </div>
+
+      <div class="home-feature">
+        <i class='bx bx-calendar-event home-feature__icon'></i>
+        <h3 class="home-feature__title">Activités en groupe</h3>
+        <p class="home-feature__text">
+          Participez à des sorties, ateliers et événements conviviaux organisés
+          par et pour la communauté.
+        </p>
+      </div>
+
+      <div class="home-feature">
+        <i class='bx bx-shield-quarter home-feature__icon'></i>
+        <h3 class="home-feature__title">Espace sécurisé</h3>
+        <p class="home-feature__text">
+          Votre vie privée est notre priorité. Profils modérés, données protégées
+          et assistance disponible.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Activités ─────────────────────────────────────────── -->
+  <section class="home-activities">
+    <h2 class="home-activities__title">Des activités pour tous les goûts</h2>
+    <div class="home-activities__grid">
+
+      <a href="/evenement" class="home-activity">
+        <img src="/img/sport.jpg" alt="Sport" class="home-activity__img" />
+        <div class="home-activity__label">Sport</div>
+      </a>
+
+      <a href="/evenement" class="home-activity">
+        <img src="/img/cuisine.jpg" alt="Cuisine" class="home-activity__img" />
+        <div class="home-activity__label">Cuisine</div>
+      </a>
+
+      <a href="/evenement" class="home-activity">
+        <img src="/img/danse.jpg" alt="Danse" class="home-activity__img" />
+        <div class="home-activity__label">Danse</div>
+      </a>
+
+      <a href="/evenement" class="home-activity">
+        <img src="/img/peinture.jpg" alt="Peinture" class="home-activity__img" />
+        <div class="home-activity__label">Peinture</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── Comment ça marche ─────────────────────────────────── -->
+  <section class="home-steps">
+    <h2 class="home-steps__title">Comment ça marche&nbsp;?</h2>
+    <div class="home-steps__grid">
+
+      <div class="home-step">
+        <span class="home-step__number">1</span>
+        <h3 class="home-step__title">Créez votre profil</h3>
+        <p class="home-step__text">
+          Inscrivez-vous en quelques minutes et renseignez vos centres d'intérêt.
+        </p>
+      </div>
+
+      <div class="home-step">
+        <div class="home-steps__connector" aria-hidden="true"></div>
+        <span class="home-step__number">2</span>
+        <h3 class="home-step__title">Explorez la communauté</h3>
+        <p class="home-step__text">
+          Parcourez les profils et les événements qui vous correspondent.
+        </p>
+      </div>
+
+      <div class="home-step">
+        <span class="home-step__number">3</span>
+        <h3 class="home-step__title">Rencontrez &amp; profitez</h3>
+        <p class="home-step__text">
+          Rejoignez des événements, échangez et nouez de belles connexions.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CTA final (non connecté uniquement) ───────────────── -->
+  <% if (!isLogged) { %>
+  <section class="home-cta">
+    <h2 class="home-cta__title">Prêt à commencer&nbsp;?</h2>
+    <p class="home-cta__text">Rejoignez notre communauté et vivez de nouvelles aventures.</p>
+    <a href="/inscription" class="home-cta__button">Créer mon compte</a>
+  </section>
+  <% } %>
+
+</main>
+
+<%- include('./partials/footer')%>

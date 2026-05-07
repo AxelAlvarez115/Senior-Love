@@ -1,0 +1,113 @@
+@use "../mixin";
+@use "../vars";
+
+.comment {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-left: 3px solid #f0f0f0;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-left-color: vars.$main-red;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    &__avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, vars.$main-red 0%, #e87070 100%);
+        color: white;
+        font-size: 0.88rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        text-transform: uppercase;
+    }
+
+    &__infos {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        min-width: 0;
+
+        &__user {
+            font-weight: 700;
+            color: #222;
+            font-size: 0.93rem;
+        }
+
+        &__date {
+            font-size: 0.78rem;
+            color: #bbb;
+        }
+    }
+
+    &__content {
+        font-size: 0.97rem;
+        color: #444;
+        line-height: 1.65;
+        padding-left: 0;
+
+        &--input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 0.55rem 0.85rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+
+            &:focus {
+                border-color: vars.$main-red;
+            }
+        }
+    }
+
+    &__button {
+        padding: 0.32rem 1rem;
+        border-radius: 2rem;
+        border: none;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        background-color: #e8f5e9;
+        color: #2e7d32;
+
+        &:hover {
+            background-color: #c8e6c9;
+        }
+
+        // Suppression (dernier bouton dans .comment--action)
+        &--delete {
+            background-color: #fee2e2;
+            color: #c53030;
+
+            &:hover {
+                background-color: #fca5a5;
+            }
+        }
+    }
+
+    &--action {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+}

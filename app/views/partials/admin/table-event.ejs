@@ -1,0 +1,102 @@
+<div class="admin-page-header">
+    <h1 class="admin-page-header__title">Évènements</h1>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+        <span class="admin-page-header__count"><%= events.length %> résultat<%= events.length > 1 ? 's' : '' %></span>
+        <button class="admin-create-btn" onclick="openAdminModal('modal-event-create')">
+            <i class='bx bx-plus'></i> Ajouter
+        </button>
+    </div>
+</div>
+
+<div class="admin-table-wrapper">
+    <div class="admin-table-header">
+        <span class="admin-table-header__title">Liste des évènements</span>
+        <span class="admin-table-header__count"><%= events.length %></span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table__header-cell">#</th>
+                <th class="table__header-cell">Nom</th>
+                <th class="table__header-cell">Ville</th>
+                <th class="table__header-cell">Date</th>
+                <th class="table__header-cell">Adresse</th>
+                <th class="table__header-cell">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const event of events) { %>
+                <tr class="table__row">
+                    <td class="table__cell table__cell--id"><%= event.id %></td>
+                    <td class="table__cell"><%= event.name %></td>
+                    <td class="table__cell"><%= event.city %></td>
+                    <td class="table__cell"><%= new Date(event.date).toLocaleDateString('fr-FR') %></td>
+                    <td class="table__cell"><%= event.adresse || '—' %></td>
+                    <td class="table__action-cell">
+                        <div class="table__actions">
+                            <a class="table__action-btn table__action-btn--view" href="/evenement/<%= event.id %>" title="Voir la page">
+                                <i class='bx bx-show'></i>
+                            </a>
+                            <button class="table__action-btn table__action-btn--edit" onclick="openEditForm(<%= JSON.stringify(event) %>, 'event')" title="Modifier">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <button class="table__action-btn table__action-btn--delete" onclick="openDeleteForm(<%= JSON.stringify(event) %>, 'event')" title="Supprimer">
+                                <i class='bx bx-trash'></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal création évènement -->
+<div id="modal-event-create" class="modal hidden">
+    <div class="modal__content">
+        <div class="modal__header">
+            <h2 class="modal__title">Ajouter un évènement</h2>
+            <button class="modal__close" onclick="closeAdminModal('modal-event-create')">&times;</button>
+        </div>
+        <form action="/admin/events/create" method="POST">
+            <div class="modal__body">
+                <div class="modal__field modal__field--full">
+                    <label class="modal__label" for="e-name">Nom *</label>
+                    <input class="modal__input" type="text" id="e-name" name="name" required maxlength="70">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="e-city">Ville *</label>
+                    <input class="modal__input" type="text" id="e-city" name="city" required maxlength="58">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="e-date">Date *</label>
+                    <input class="modal__input" type="datetime-local" id="e-date" name="date" required>
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="e-adresse">Adresse</label>
+                    <input class="modal__input" type="text" id="e-adresse" name="adresse" maxlength="70">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="e-interest">Thème *</label>
+                    <select class="modal__select" id="e-interest" name="interest_id" required>
+                        <option value="">Choisir un thème</option>
+                        <% for (const interest of interestOptions) { %>
+                            <option value="<%= interest.id %>"><%= interest.name %></option>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="modal__field modal__field--full">
+                    <label class="modal__label" for="e-description">Description *</label>
+                    <textarea class="modal__textarea" id="e-description" name="description" required></textarea>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button type="button" class="modal__btn modal__btn--cancel" onclick="closeAdminModal('modal-event-create')">Annuler</button>
+                <button type="submit" class="modal__btn modal__btn--primary">Créer l'évènement</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/table copy.js" defer></script>
+<script src="/js/adminCreate.js" defer></script>

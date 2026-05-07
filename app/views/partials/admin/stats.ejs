@@ -1,0 +1,47 @@
+<div class="admin-page-header">
+    <h1 class="admin-page-header__title">Tableau de bord</h1>
+</div>
+
+<div class="admin-stats">
+    <a class="admin-stat-card" href="/admin/users">
+        <div class="admin-stat-card__icon admin-stat-card__icon--red">
+            <i class='bx bx-group'></i>
+        </div>
+        <div>
+            <div class="admin-stat-card__value"><%= stats.userCount %></div>
+            <div class="admin-stat-card__label">Utilisateurs</div>
+        </div>
+    </a>
+    <a class="admin-stat-card" href="/admin/events">
+        <div class="admin-stat-card__icon admin-stat-card__icon--blue">
+            <i class='bx bx-calendar-event'></i>
+        </div>
+        <div>
+            <div class="admin-stat-card__value"><%= stats.eventCount %></div>
+            <div class="admin-stat-card__label">Évènements</div>
+        </div>
+    </a>
+    <a class="admin-stat-card" href="/admin/comments">
+        <div class="admin-stat-card__icon admin-stat-card__icon--yellow">
+            <i class='bx bx-message-dots'></i>
+        </div>
+        <div>
+            <div class="admin-stat-card__value"><%= stats.commentCount %></div>
+            <div class="admin-stat-card__label">Commentaires</div>
+        </div>
+    </a>
+    <a class="admin-stat-card" href="/admin/interests">
+        <div class="admin-stat-card__icon admin-stat-card__icon--green">
+            <i class='bx bx-bookmark-heart'></i>
+        </div>
+        <div>
+            <div class="admin-stat-card__value"><%= stats.interestCount %></div>
+            <div class="admin-stat-card__label">Centres d'intérêt</div>
+        </div>
+    </a>
+</div>
+
+<div class="admin-welcome">
+    <i class='bx bx-bar-chart-alt-2'></i>
+    <p>Sélectionnez une section dans le menu pour gérer les données.</p>
+</div>

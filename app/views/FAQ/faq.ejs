@@ -1,0 +1,91 @@
+<%- include('partials/header')%>
+<main>
+    <div class="wrapper">
+        <h2>FAQ - Foire Aux Questions</h2>
+
+        <div class="faq" >
+            <button class="accordion">
+                Qu'est-ce que Senior Love ?
+                <i class='bx bxs-chevron-down'></i>
+            </button>
+       
+        <div class="pannel">
+            <p>
+                Expliquer ce qu'est Senior-Love
+            </p>
+        </div>
+    </div>    
+
+        <div class="faq">
+            <button class="accordion">
+                Comment se connecter ?
+                <i class='bx bxs-chevron-down'></i>
+            </button>
+        
+        <div class="pannel">
+            <p>
+                Expliquer comment se connecter
+            </p>
+        </div> 
+    </div>
+
+        <div class="faq">
+            <button class="accordion">
+                Comment s'inscrire ?
+                <i class='bx bxs-chevron-down'></i>
+            </button>
+        
+        <div class="pannel">
+            <p>
+                Expliquer comment s'inscrire
+            </p>
+        </div> 
+    </div>
+
+        <div class="faq">>
+            <button class="accordion">
+                Comment supprimer mon compte ?
+                <i class='bx bxs-chevron-down'></i>
+            </button>
+       
+        <div class="pannel">
+            <p>
+                Expliquer comment supprimer le compte
+            </p>
+        </div> 
+    </div>
+
+        <div class="faq">>
+            <button class="accordion">
+                Senior Love est-il gratuit ?
+                <i class='bx bxs-chevron-down'></i>
+            </button>
+       
+        <div class="pannel">
+            <p>
+                Expliquer que SeniorLove est gratuit
+            </p>
+        </div> 
+    </div>
+</div>
+</main>
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        this.parentElement.classList.toggle("active");
+
+        var pannel = this.nextElementSibling;
+
+        if (pannel.style.display === "block") {
+          pannel.style.display = "none";
+        } else {
+          pannel.style.display = "block";
+        }
+      });
+    }
+  </script>
+<%- include('./partials/footer')%>

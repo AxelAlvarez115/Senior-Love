@@ -1,0 +1,37 @@
+<%- include('partials/header')%>
+<main>
+    <h1>Modifier les informations de mon compte</h1>
+    <div class="container">
+		<form action='/compte/infos' method='POST'>
+			<% if (typeof alert !== 'undefined') { %>
+				<div class="alert">
+					<p class='alert alert--error' role='alert'><%= alert %></p>
+					<button class="alert__button"><i class="bx bx-x"></i></button>
+				</div>
+			<% } %>
+			<div class='input-form'>
+				<input type='text' name='firstname' id='firstname' value='<%= user.firstname %>' required/>
+				<label for='firstname'>Prénom :</label>
+			</div>
+            <div class='input-form'>
+				<input type='text' name='lastname' id='lastname' value='<%= user.lastname %>' required/>
+				<label for='lastname'>Nom :</label>
+			</div>
+            <div class='input-form'>
+				<input type='text' name='city' id='city' value='<%= user.city %>' required/>
+				<label for='city'>Ville :</label>
+			</div>
+            <div class='input-form'>
+				<input type='text' name='bio' id='bio' value='<%= user.bio %>' required/>
+				<label for='name'>Description :</label>
+			</div>
+			<div class='submit-form'>
+				<button class="buttonfrom" type='submit'>Mettre à jour</button>
+			</div>
+		</form>
+		<form action="/compte/supprimer" method='POST'>
+			<button class="buttonfrom" type='submit'></button>
+		</form>
+    </div>
+</main>
+<%- include('./partials/footer')%>	

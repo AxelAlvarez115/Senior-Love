@@ -1,0 +1,137 @@
+<div class="admin-page-header">
+    <h1 class="admin-page-header__title">Utilisateurs</h1>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+        <span class="admin-page-header__count"><%= users.length %> résultat<%= users.length > 1 ? 's' : '' %></span>
+        <button class="admin-create-btn" onclick="openAdminModal('modal-user-create')">
+            <i class='bx bx-plus'></i> Ajouter
+        </button>
+    </div>
+</div>
+
+<div class="admin-table-wrapper">
+    <div class="admin-table-header">
+        <span class="admin-table-header__title">Liste des comptes</span>
+        <span class="admin-table-header__count"><%= users.length %></span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="table__header-cell">#</th>
+                <th class="table__header-cell">Prénom</th>
+                <th class="table__header-cell">Nom</th>
+                <th class="table__header-cell">Email</th>
+                <th class="table__header-cell">Téléphone</th>
+                <th class="table__header-cell">Naissance</th>
+                <th class="table__header-cell">Rôle</th>
+                <th class="table__header-cell">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const user of users) { %>
+                <tr class="table__row">
+                    <td class="table__cell table__cell--id"><%= user.id %></td>
+                    <td class="table__cell"><%= user.firstname %></td>
+                    <td class="table__cell"><%= user.lastname %></td>
+                    <td class="table__cell table__cell--truncate"><%= user.email %></td>
+                    <td class="table__cell"><%= user.phone || '—' %></td>
+                    <td class="table__cell"><%= user.date_of_birth ? user.date_of_birth.toString().slice(0,10).split('-').reverse().join('/') : '—' %></td>
+                    <td class="table__cell">
+                        <% if (user.administrator) { %>
+                            <span class="table__badge table__badge--admin"><i class='bx bx-shield-quarter'></i> Admin</span>
+                        <% } else { %>
+                            <span class="table__badge table__badge--no">Membre</span>
+                        <% } %>
+                    </td>
+                    <td class="table__action-cell">
+                        <div class="table__actions">
+                            <a class="table__action-btn table__action-btn--view" href="/rencontre/<%= user.id %>" title="Voir le profil">
+                                <i class='bx bx-show'></i>
+                            </a>
+                            <button class="table__action-btn table__action-btn--edit" onclick="openEditForm(<%= JSON.stringify(user) %>, 'user')" title="Modifier">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <button class="table__action-btn table__action-btn--delete" onclick="openDeleteForm(<%= JSON.stringify(user) %>, 'user')" title="Supprimer">
+                                <i class='bx bx-trash'></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal création utilisateur -->
+<div id="modal-user-create" class="modal hidden">
+    <div class="modal__content">
+        <div class="modal__header">
+            <h2 class="modal__title">Ajouter un utilisateur</h2>
+            <button class="modal__close" onclick="closeAdminModal('modal-user-create')">&times;</button>
+        </div>
+        <form action="/admin/users/create" method="POST">
+            <div class="modal__body">
+                <div class="modal__field">
+                    <label class="modal__label" for="u-firstname">Prénom *</label>
+                    <input class="modal__input" type="text" id="u-firstname" name="firstname" required maxlength="40">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-lastname">Nom *</label>
+                    <input class="modal__input" type="text" id="u-lastname" name="lastname" required maxlength="40">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-email">Email *</label>
+                    <input class="modal__input" type="email" id="u-email" name="email" required maxlength="40">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-password">Mot de passe *</label>
+                    <input class="modal__input" type="password" id="u-password" name="password" required>
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-phone">Téléphone *</label>
+                    <input class="modal__input" type="tel" id="u-phone" name="phone" required maxlength="20">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-city">Ville *</label>
+                    <input class="modal__input" type="text" id="u-city" name="city" required maxlength="58">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-dob">Date de naissance</label>
+                    <input class="modal__input" type="date" id="u-dob" name="date_of_birth">
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-gender">Genre</label>
+                    <select class="modal__select" id="u-gender" name="gender">
+                        <option value="">—</option>
+                        <option value="femme">Femme</option>
+                        <option value="homme">Homme</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="modal__field">
+                    <label class="modal__label" for="u-gp">Préférence genre</label>
+                    <select class="modal__select" id="u-gp" name="gender_preference">
+                        <option value="">—</option>
+                        <option value="femme">Femme</option>
+                        <option value="homme">Homme</option>
+                        <option value="tous">Tous</option>
+                    </select>
+                </div>
+                <div class="modal__field modal__field--full">
+                    <label class="modal__label" for="u-bio">Bio</label>
+                    <textarea class="modal__textarea" id="u-bio" name="bio" maxlength="255"></textarea>
+                </div>
+                <div class="modal__checkbox-row">
+                    <input type="checkbox" id="u-admin" name="administrator" value="on">
+                    <label for="u-admin">Compte administrateur</label>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button type="button" class="modal__btn modal__btn--cancel" onclick="closeAdminModal('modal-user-create')">Annuler</button>
+                <button type="submit" class="modal__btn modal__btn--primary">Créer l'utilisateur</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/table copy.js" defer></script>
+<script src="/js/adminCreate.js" defer></script>

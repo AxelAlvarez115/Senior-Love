@@ -1,0 +1,33 @@
+<%- include('./partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Mon compte</h1>
+  </div>
+  <%- include('partials/alerts', {type:'global'}) %>
+  <div class="account-page">
+    <nav class="account-nav">
+      <a href="/compte" class="account-nav__link account-nav__link--active">Mon profil</a>
+      <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
+      <a href="/compte/rencontre" class="account-nav__link">Mes rencontres</a>
+    </nav>
+    <div class="account-card">
+      <h2 class="account-card__title">Votre profil</h2>
+      <%- include('partials/alerts', {type:'profil'}) %>
+      <ul class="profile-data">
+        <li class="profile-data__item"><strong>Prénom :</strong> <%= user.firstname %></li>
+        <li class="profile-data__item"><strong>Nom :</strong> <%= user.lastname %></li>
+        <li class="profile-data__item"><strong>Email :</strong> <%= user.email %></li>
+        <li class="profile-data__item"><strong>Téléphone :</strong> <%= user.phone || '—' %></li>
+        <li class="profile-data__item"><strong>Date de naissance :</strong> <%= user.date_of_birth || '—' %></li>
+        <li class="profile-data__item"><strong>Ville :</strong> <%= user.city || '—' %></li>
+        <li class="profile-data__item"><strong>Genre :</strong> <%= user.gender || '—' %></li>
+        <li class="profile-data__item"><strong>À propos :</strong> <%= user.bio || '—' %></li>
+      </ul>
+      <button class="form__button" id="formsButton">Modifier le profil</button>
+    </div>
+  </div>
+  <script src="/js/forms.js" defer></script>
+  <script type="module" src="/js/showPassword.js"></script>
+  <%- include('./partials/userForm', user)%>
+</main>
+<%- include('./partials/footer')%>

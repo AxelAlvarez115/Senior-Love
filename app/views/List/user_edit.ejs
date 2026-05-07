@@ -1,0 +1,54 @@
+<%- include('partials/header')%>
+<main>
+    <div class='container'>
+        <h1>Profil de l'utilisateur</h1>
+        <div class='userInformation'>
+            <form action='/inscription' method='POST'>tel mdp ville
+                <% if (typeof alert !== 'undefined') { %>
+                <p class='message message--error' role='alert'>Erreur : <%= alert %></p>
+                <% } %>
+                <div class='input-form'>
+                    <input class=input-inscr type='email' name='email' id='email' autocomplete="email"
+                        placeholder='<%= user.email %>' />
+                    <label for='email'>Adresse email</label>
+                </div>
+                <div class='input-form'>
+                    <input class=input-inscr type='phone' name='phone' id='phone' autocomplete="tel"
+                        placeholder='<%= user.email %>' />
+                    <label for='phone'>Saisissez votre numéro de téléphone</label>
+                </div>
+                <div class='input-form'>
+                    <input class=input-inscr type='text' name='firstname' id='firstname'
+                        placeholder='<%= user.email %>' />
+                    <label for='firstname'>Quel est votre prénom ?</label>
+                </div>
+                <div class='input-form'>
+                    <input class=input-inscr type='text' name='lastname' id='lastname'
+                        placeholder='<%= user.email %>' />
+                    <label for='lastname'>Quel est votre nom de famille ?</label>
+                </div>
+                <div class="input-form">
+                    <input class=input-inscr type="text" name="zipcode" class="input-inscr" placeholder="<%= user.email %>" id="zipcode">
+                    <label for="zipcode">Code Postal</label>
+                </div>
+                <div class="input-form">
+                    <label for="city"> Dans quelle ville habitez-vous ? </label>
+                    <select class="input-inscr" name="city" id="city" placeholder="<%= user.email %>"> </select>
+                  </div>
+                <div class='input-form'>
+                    <input class=input-inscr type='password' name='password' id='password'
+                        placeholder='<%= user.email %>' /> <input type='checkbox' id='showPasswordCheckbox' onclick=togglePasswordType() class='bx bx-show'>
+                    <label for='password'>Saisissez un mot de passe</label> 
+                </div>
+                <div class="input-form">
+                    <label for="city"> Dans quelle ville habitez-vous ? </label>
+                    <select class="input-inscr" name="city" id="city" placeholder="<%= user.email %>"> </select>
+                </div>
+                <div class="submit-form">
+                    <button class="buttonform" id="send" type="submit">Créer mon compte</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<%- include('./partials/footer')%>

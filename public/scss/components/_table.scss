@@ -1,0 +1,208 @@
+@use "../vars";
+
+.admin-table-wrapper {
+    background: white;
+    border-radius: 0.8rem;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.admin-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+
+    &__title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a2332;
+    }
+
+    &__count {
+        font-size: 0.8rem;
+        color: #999;
+        background: #f5f5f5;
+        border-radius: 2rem;
+        padding: 0.2rem 0.65rem;
+    }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: #f8f9fb;
+    }
+
+    &__header-cell {
+        padding: 0.65rem 1rem;
+        font-size: 0.73rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #999;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+        white-space: nowrap;
+    }
+
+    &__row {
+        transition: background 0.15s;
+
+        &:last-child .table__cell {
+            border-bottom: none;
+        }
+
+        &:hover .table__cell {
+            background: #fafafa;
+        }
+    }
+
+    &__cell {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid #f5f5f5;
+        font-size: 0.88rem;
+        color: #444;
+        vertical-align: middle;
+        white-space: nowrap;
+        max-width: 260px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &--id {
+            width: 48px;
+            color: #bbb;
+            font-size: 0.8rem;
+        }
+
+        &--truncate {
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.2rem 0.6rem;
+        border-radius: 2rem;
+        font-size: 0.73rem;
+        font-weight: 600;
+        gap: 0.3rem;
+
+        &--yes {
+            background: rgba(46, 125, 50, 0.1);
+            color: #2e7d32;
+        }
+
+        &--no {
+            background: #f3f3f3;
+            color: #bbb;
+        }
+
+        &--admin {
+            background: rgba(207, 88, 88, 0.1);
+            color: vars.$main-red;
+        }
+    }
+
+    &__link {
+        color: vars.$main-blue;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__action-cell {
+        width: 120px;
+        padding: 0.85rem 0.75rem;
+        border-bottom: 1px solid #f5f5f5;
+        vertical-align: middle;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    &__action-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 0.4rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.18s, color 0.18s;
+        background: transparent;
+        text-decoration: none;
+
+        &--view {
+            color: vars.$main-blue;
+
+            &:hover {
+                background: rgba(13, 149, 171, 0.1);
+            }
+        }
+
+        &--edit {
+            color: #e09000;
+
+            &:hover {
+                background: rgba(224, 144, 0, 0.1);
+            }
+        }
+
+        &--save {
+            color: #2e7d32;
+
+            &:hover {
+                background: rgba(46, 125, 50, 0.1);
+            }
+        }
+
+        &--delete {
+            color: vars.$main-red;
+
+            &:hover {
+                background: rgba(207, 88, 88, 0.1);
+            }
+        }
+    }
+
+    &__inline-form {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    &__input {
+        border: 1px solid #e0e0e0;
+        border-radius: 0.4rem;
+        padding: 0.35rem 0.6rem;
+        font-size: 0.85rem;
+        outline: none;
+        width: 140px;
+        transition: border-color 0.18s;
+
+        &:focus {
+            border-color: vars.$main-blue;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

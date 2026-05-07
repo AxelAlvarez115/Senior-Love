@@ -1,0 +1,96 @@
+<div class="darkBackground hidden">
+    <div class="form__container">
+        <%
+        function formatDate(date) {
+            if (!date) return '';
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day   = '' + d.getDate(),
+                year  = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length   < 2) day   = '0' + day;
+            return [year, month, day].join('-');
+        }
+        %>
+
+        <button class="forms__cancel" type="button"><i class='bx bx-x'></i></button>
+
+        <h2 class="form__container__title">
+            <%= action === 'modifier' ? 'Modifier' : 'Ajouter' %> un événement
+        </h2>
+
+        <% if (action === 'modifier') { %>
+            <form class="form" action="/evenement/modifier/<%= event.id %>" method="POST">
+        <% } else { %>
+            <form class="form" action="/evenement/ajouter" method="POST">
+        <% } %>
+
+            <div class="form__grid">
+                <div class="form__div form__div--full">
+                    <label class="form__label" for="name">Nom de l'événement *</label>
+                    <input class="form__input" type="text" name="name" id="name" value="<%= event.name || '' %>" required maxlength="70">
+                </div>
+
+                <div class="form__div">
+                    <label class="form__label">Thème *</label>
+                    <select class="form__select" name="interest_id" required>
+                        <option value="">— Choisissez un thème —</option>
+                        <% for (const interest of interests) { %>
+                            <option value="<%= interest.id %>"<% if (event.Interest && interest.id === event.Interest.id) { %> selected<% } %>>
+                                <%= interest.name %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="form__div">
+                    <label class="form__label" for="date">Date *</label>
+                    <input class="form__input" type="date" name="date" id="date" value="<%= formatDate(event.date) %>" required>
+                </div>
+
+                <div class="form__div">
+                    <label class="form__label" for="zipcode">Code postal</label>
+                    <input class="form__input" type="text" name="zipcode" id="zipcode" placeholder="Ex : 75001">
+                </div>
+
+                <div class="form__div">
+                    <label class="form__label" for="city">Ville *</label>
+                    <select class="form__select" name="city" id="city" required>
+                        <% if (event && event.city) { %>
+                            <option selected><%= event.city %></option>
+                        <% } else { %>
+                            <option value="">— Saisissez un code postal —</option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="form__div form__div--full">
+                    <label class="form__label" for="adresse">Adresse</label>
+                    <input class="form__input" type="text" name="adresse" id="adresse" value="<%= event.adresse || '' %>" placeholder="Rue, bâtiment…">
+                </div>
+
+                <div class="form__div form__div--full">
+                    <label class="form__label" for="description">Description *</label>
+                    <textarea class="form__input form__textarea" name="description" id="description" rows="3" required><%= event.description || '' %></textarea>
+                </div>
+            </div>
+
+            <div class="form__actions">
+                <% if (event.id) { %>
+                    <button class="form__button form__button--danger" type="button"
+                        onclick="document.getElementById('delete-event-form').submit()">
+                        Supprimer
+                    </button>
+                <% } %>
+                <button class="form__button" type="submit">
+                    <%= action === 'modifier' ? 'Enregistrer' : 'Créer l\'événement' %>
+                </button>
+            </div>
+        </form>
+
+        <% if (event.id) { %>
+            <form id="delete-event-form" action="/evenement/supprimer/<%= event.id %>" method="POST" style="display:none;"></form>
+        <% } %>
+    </div>
+</div>
+<script type="module" src="/js/script.js"></script>

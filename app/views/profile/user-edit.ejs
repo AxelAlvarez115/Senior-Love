@@ -1,0 +1,57 @@
+<%- include('./partials/header')%>
+<main>
+    <h1>Profil de <%user.firstname> <%user.lastname%></h1>
+    <div>
+        <ul>
+            <li><a href="#profile" class="settings-link active">Profil</a></li>
+            <li><a href="#notification" class="settings-link">notifications</a></li>
+            <li><a href="#interest" class="settings-link"> Centre d'intérêt</a></li>
+            <li><a href="../FAQ/faq.ejs" class="settings-link">FAQ</a></li>
+            <li><button type="button" class="delete-button" onclick="">supprimez le compte</button></li>
+        </ul>
+    </div>
+    <section class="profile extended">
+        <%# <img src="/" alt="avatar" class="current-avatar"> %>
+        <%#<button class="hidden avatar-change">changer d'avatar</button> %>
+        <p class="name">Prénom</p>
+        <input type="text" class="name-input" placeholder="<%user.firstname%>">
+        <p class="name">Nom</p>
+        <input type="text" class="name-input" placeholder="<%user.lastname%>">
+        <p class="gender">genre: <%req.session.gender%></p>
+        <fieldset>
+            <input type="radio" class="gender-input" id="female"/>
+            <label for="female">Femme</label>
+            <input type="radio" class="gender-input" id="male"/>
+            <label for="male"> Homme</label>
+            <input type="radio" class="gender-input" id="other"/>
+            <label for="other">Autre</label>
+        </fieldset>
+        <p class="city">Ville</p>
+        <input type="text" class="city-input" placeholder="<%user.city%>">
+        <p class="password"></p>
+        <input type="password-input" value=" " class="password"/>
+        <p class="email">email</p>
+    </section>
+    <section class="notifications collapsed">
+        <div>
+            <label for="notification1">Lorem ipsum dolor sit amet.</label>
+            <input type="checkbox" class="settings-checkbox" id="notification1" checked/>
+        </div>
+        <div>
+            <label for="notification2">Lorem ipsum dolor sit amet.</label>
+            <input type="checkbox" class="settings-checkbox" id="notification2" />
+        </div>
+        <div>
+            <label for="notification3">Lorem ipsum dolor sit amet.</label>
+            <input type="checkbox" class="settings-checkbox" id="notification3" checked/>
+        </div>
+    </section>
+    <%# <section class="interest"> %>
+    <%#     for (let i = 0; i <= interest.length; i++)  %>
+    <%#         <label for="interest.i">interest.i</label>; %>
+    <%#         <input type="checkbox" class="interest-checkbox" id="interest.i"/> %>
+    <%#     }  %>
+    <%# </section> %>
+    <button>Enregistrer les données</button>
+</main>  
+<%- include('./partials/footer')%>

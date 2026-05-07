@@ -1,0 +1,83 @@
+@use "../mixin.scss";
+@use "../vars";
+
+// .alert {
+//     display: flex;
+//     position: relative;
+//     font-size: 1.2rem;
+//     text-align: center;
+//     align-items: center;
+//     justify-content: center;
+//     padding: 10px;
+//     // margin-bottom: 20px;
+//     border-radius: 4px;
+//     background-color: rgb(122, 255, 122);
+
+//     &__button {
+//         display: inline-flex;
+//         position: absolute;
+//         text-align: center;
+//         right: 10px;
+//         border: none;
+//         background-color: rgba(255, 0, 0, 0);
+//         font-size: 1.7rem;
+//         color: white;
+//         cursor: pointer;
+//         transition: background-color 0.3s;
+//         color: black;
+
+//         &--error {
+//             color: white;
+//         }
+//     }
+
+//     &--error {
+//         color: white;
+//         background-color: var(--red-dark);
+//         border-color: var(--red-light);
+//         background-color: rgb(255, 142, 49);
+//     }
+// }
+
+.alert {
+    position: fixed;
+    top: 75px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    z-index: 1000;
+    cursor: pointer;
+    animation: slideIn 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+
+    &--success {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    &--error {
+        background-color: #F44336;
+        color: white;
+    }
+
+    &--warning {
+        background-color: #f0a500;
+        color: white;
+    }
+
+    &--fade {
+        opacity: 0;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

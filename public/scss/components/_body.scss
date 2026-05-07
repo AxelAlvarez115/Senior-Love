@@ -1,0 +1,169 @@
+@use "../mixin.scss";
+@use "../vars";
+
+.showEvent {
+    background-image: url("/img/evenement.jpg");
+    width: 100%;
+    margin-top: 20px;
+    height: 400px;
+    font-size: 1.5em;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonsContainer {
+    width: 100%;
+    border-top: 1px solid rgb(196, 196, 196);
+    border-bottom: 1px solid rgb(196, 196, 196);
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 30px;
+}
+
+.assistanceButton {
+    border-radius: 10px;
+    border: 3px solid vars.$main-blue;
+    width: calc(33.33% - 20px);
+    padding:50px;
+    text-align: center;
+    margin: 20px 0;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+
+    & a {
+        color: black;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1.2em;
+    }
+
+}
+
+.hometext {
+    font-size: x-large;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align:justify;
+    display: flex;
+    margin: 25px;
+}
+
+@media screen and (min-width: 768px) {
+    .conversation-button,
+    .next-button {
+        margin: 0 auto;  
+        margin-bottom: 20px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .assistanceButton {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .assistanceButton {
+        width: calc(100% - 20px);
+    }
+    
+}
+
+@media (max-width: 375px) {
+    .assistanceButton {
+        width: calc(100% - 20px);
+        margin: 10px 0;
+
+        & a {
+            font-size: 1em;
+        }
+    }
+
+    
+}
+
+
+.s-icon {
+    display: flex;
+}
+
+.sbuttonmain .socialbutton {
+    background-color: white;
+    float: left;
+    width: 56px;
+    height: 56px;
+    border-radius: 50px;
+    margin: 0 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.sbuttonmain .socialbutton:hover {
+    width: 160px;
+}
+
+.sbuttonmain .socialbutton:nth-child(3):hover{
+    background-color: #1DA1F2; 
+    color: white;
+}
+.sbuttonmain .socialbutton:nth-child(2):hover{
+    background-color: #4267B2 ;
+    color: white;
+}
+.sbuttonmain .socialbutton:nth-child(1):hover{
+    background:linear-gradient(
+        to right, 
+        hsl(37, 97%, 70%),
+        hsl(329, 70%, 58%)
+    );
+    color: white;
+}
+.sbuttonmain .socialbutton:nth-child(4):hover{
+    background-color: #0e76a8 ;
+    color: white;
+}
+.sbuttonmain .socialbutton:nth-child(5):hover{
+    background:linear-gradient(
+        to right, 
+        hsl(348, 99%, 58%),
+        hsl(0, 0%, 0%),
+        hsl(178, 90%, 55%)
+        
+    );
+    color: white;
+}
+
+.socialbutton .s-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    transition: all 0.03s ease-in-out;
+}
+
+.socialbutton .s-icon i {
+    font-size: 24px;
+}
+
+.socialbutton span {
+    font-size: 18px;
+    font-weight: 600;
+    display: none;
+}
+

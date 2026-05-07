@@ -1,0 +1,53 @@
+<%- include('partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Profil de <%= contact.firstname %></h1>
+  </div>
+
+  <%- include('partials/alerts', {type:'global'}) %>
+
+  <div class="account-page">
+    <div class="profile-card">
+
+      <!-- Avatar initiales -->
+      <div class="profile-card__avatar">
+        <%= contact.firstname ? contact.firstname.charAt(0).toUpperCase() : '' %><%= contact.lastname ? contact.lastname.charAt(0).toUpperCase() : '' %>
+      </div>
+
+      <!-- Nom -->
+      <h2 class="profile-card__name">
+        <%= contact.firstname %> <%= contact.lastname %>
+      </h2>
+
+      <!-- Chips infos -->
+      <div class="profile-card__chips">
+        <% if (contact.city) { %>
+          <span class="profile-card__chip">
+            <i class='bx bx-map-pin'></i> <%= contact.city %>
+          </span>
+        <% } %>
+        <% if (contact.gender) { %>
+          <span class="profile-card__chip">
+            <i class='bx bx-user-circle'></i> <%= contact.gender %>
+          </span>
+        <% } %>
+      </div>
+
+      <!-- Bio -->
+      <% if (contact.bio) { %>
+        <p class="profile-card__bio"><%= contact.bio %></p>
+      <% } %>
+
+      <!-- Bouton contact -->
+      <div class="profile-card__action">
+        <form action='/rencontre/<%= contact.id %>/ajouter' method='POST'>
+          <button class="profile-card__btn" type="submit">
+            <i class='bx bx-user-plus'></i> Ajouter aux contacts
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</main>
+<%- include('./partials/footer')%>

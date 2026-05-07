@@ -1,0 +1,21 @@
+<%- include('../partials/header')%>
+<main class="admin-layout">
+    <%- include('../partials/admin/dashboard')%>
+    <div class="admin-content">
+        <%- include('../partials/alerts', {type:'global'}) %>
+        <% if (typeof users !== 'undefined') { %>
+            <%- include('../partials/admin/table-user', { users }) %>
+        <% } else if (typeof events !== 'undefined') { %>
+            <%- include('../partials/admin/table-event', { events }) %>
+        <% } else if (typeof comments !== 'undefined') { %>
+            <%- include('../partials/admin/table-comment', { comments }) %>
+        <% } else if (typeof interests !== 'undefined') { %>
+            <%- include('../partials/admin/table-interest', { interests }) %>
+        <% } else if (typeof affinities !== 'undefined') { %>
+            <%- include('../partials/admin/table-affinity', { affinities }) %>
+        <% } else { %>
+            <%- include('../partials/admin/stats', { stats }) %>
+        <% } %>
+    </div>
+</main>
+<%- include('../partials/footer')%>

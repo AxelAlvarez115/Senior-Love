@@ -1,0 +1,38 @@
+@mixin small {
+	@media screen and (min-width: 50rem) {
+		@content;
+	}
+}
+
+@mixin medium {
+	@media screen and (min-width: 60rem) {
+		@content;
+	}
+}
+
+@mixin big {
+	@media screen and (min-width: 90rem) {
+		@content;
+	}
+}
+
+@mixin tag($laCouleur) {
+	padding: 1rem;
+	border-radius: 5px;
+	color: white;
+	background-color: $laCouleur;
+}
+
+@mixin unbuttonize {
+	// This removes styles added by default to button elements.
+	// For when something should semantically be a button,
+	// but isn't buttony in appearance.
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	text-align: inherit;
+	font: inherit;
+	border-radius: 0;
+	appearance: none; // Just in case we missed anything.
+  }

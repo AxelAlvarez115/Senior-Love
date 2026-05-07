@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Senior Love</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  </head>
+  <body>
+    <header class="header">
+      <!-- Logo -->
+      <a class="header__logo" href="/">
+        <img src="/img/logo.png" alt="Senior Love" />
+        <span>Senior Love</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="header__menu">
+        <a class="header__button" href="/faq">FAQ</a>
+        <a class="header__button" href="/assistance">Assistance</a>
+        <a class="header__button" href="/evenement">Événements</a>
+        <a class="header__button" href="/rencontre">Rencontres</a>
+      </nav>
+
+      <!-- Desktop account -->
+      <div class="header__account">
+        <% if (!isLogged) { %>
+          <a href="/inscription" class="header__button header__button--cta">Inscription</a>
+          <a href="/connexion" class='header__button'><i class='bx bx-log-in'></i> Connexion</a>
+        <% } else { %>
+          <% if(isAdmin) { %>
+            <a class="header__button" href="/admin"><i class='bx bx-shield'></i> Admin</a>
+          <% } %>
+          <a class='header__button' href="/compte"><i class='bx bx-user-circle'></i> Compte</a>
+          <a class="header__button" href="/deconnexion"><i class='bx bx-log-out'></i> Déconnexion</a>
+        <% } %>
+      </div>
+
+      <!-- Mobile toggle -->
+      <div class="toggle">
+        <i class='open bx bx-menu' id="menuIcon"></i>
+        <% if (!isLogged) { %>
+          <a href="/connexion" class="open header__mobile-user"><i class='bx bx-user-circle'></i></a>
+        <% } else { %>
+          <i class='open bx bx-user-circle' id="accountIcon"></i>
+        <% } %>
+
+        <ul class="toggle-nav hidden" id="menu-list">
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/faq">Foire Aux Questions</a></li>
+          <li><a href="/assistance">Assistance</a></li>
+          <li><a href="/evenement">Événements</a></li>
+          <li><a href="/rencontre">Rencontres</a></li>
+        </ul>
+
+        <ul class="toggle-nav hidden" id="account-list">
+          <% if (!isLogged) { %>
+            <li><a href="/inscription">Inscription</a></li>
+            <li><a href="/connexion">Connexion</a></li>
+          <% } else { %>
+            <% if(isAdmin) { %>
+              <li><a href="/admin">Admin</a></li>
+            <% } %>
+            <li><a href="/compte">Mon compte</a></li>
+            <li><a href="/deconnexion">Déconnexion</a></li>
+          <% } %>
+        </ul>
+      </div>
+
+      <script src="/js/burgerMenu.js" defer></script>
+    </header>
+  <script src="./hideButtonConnect.js"></script>
+	</header>

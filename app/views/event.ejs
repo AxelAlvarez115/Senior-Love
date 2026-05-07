@@ -1,0 +1,80 @@
+<%- include('partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Événements</h1>
+    <p class="page-banner__subtitle">Découvrez et rejoignez des activités près de chez vous</p>
+  </div>
+  <%- include('partials/alerts', {type: 'global'}) %>
+
+  <!-- Barre de recherche -->
+  <section class="events-search">
+    <div class="events-search__inner">
+      <form class="events-search__form" action="/evenement" method="GET">
+        <div class="events-search__field">
+          <i class='bx bx-map-pin'></i>
+          <input type="text" name="city" id="cityName" placeholder="Ville...">
+        </div>
+        <div class="events-search__divider"></div>
+        <div class="events-search__field">
+          <i class='bx bx-category'></i>
+          <select name="interest">
+            <option value="">Tous les thèmes</option>
+            <% for (const interest of interests) { %>
+              <option value="<%= interest.id %>"><%= interest.name %></option>
+            <% } %>
+          </select>
+        </div>
+        <button class="events-search__btn" type="submit">
+          <i class='bx bx-search'></i> Rechercher
+        </button>
+      </form>
+      <% if(isAdmin) { %>
+        <div class="events-search__admin">
+          <button class="buttonform form__button" type="button">+ Ajouter un événement</button>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- Résultats -->
+  <section class="events-section">
+    <% if (events && events.length) { %>
+      <div class="events-section__header">
+        <p class="events-section__title"><%= events.length %> événement<%= events.length > 1 ? 's' : '' %> trouvé<%= events.length > 1 ? 's' : '' %></p>
+      </div>
+      <div class="card__container">
+        <% for (const event of events) { %>
+          <article class="card">
+            <img class="card__img" src="/img/<%= event.Interest.name %>.jpg" alt="<%= event.name %>">
+            <div class="card__content">
+              <div class="card__content__container">
+                <p class="card__content__container__theme"><%= event.Interest.name %></p>
+              </div>
+              <h2 class="card__content__title"><%= event.name %></h2>
+              <p class="card__content__text">
+                <i class='bx bx-map-pin'></i> <%= event.city %>
+              </p>
+              <p class="card__content__text">
+                <i class='bx bx-calendar'></i> <%= new Date(event.date).toLocaleDateString('fr-FR') %>
+              </p>
+              <a class=" card__content__link card__content__link--icon" href="/evenement/<%= event.id %>">En savoir plus</a>
+            </div>
+          </article>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="events-section__empty">
+        <i class='bx bx-search-alt'></i>
+        <p>Aucun événement trouvé pour ces critères.</p>
+        <a class="form__button" href="/evenement">Voir tous les événements</a>
+      </div>
+    <% } %>
+  </section>
+
+  <% if (isAdmin) { %>
+    <%- include('partials/eventForm', {event, action}) %>
+    <script src="/js/addPopUp.js" defer></script>
+  <% } %>
+</main>
+<script type="module" src="/js/script.js"></script>
+<%- include('partials/footer')%>

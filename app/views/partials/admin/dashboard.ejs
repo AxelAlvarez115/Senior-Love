@@ -1,0 +1,33 @@
+<aside class="admin-sidebar">
+    <div class="admin-sidebar__header">
+        <i class='bx bx-shield-quarter'></i>
+        <span>Administration</span>
+    </div>
+
+    <p class="admin-sidebar__section-title">Gestion</p>
+
+    <a class="admin-sidebar__link <%= typeof users !== 'undefined' ? 'active' : '' %>" href="/admin/users">
+        <i class='bx bx-group'></i> Utilisateurs
+    </a>
+    <a class="admin-sidebar__link <%= typeof events !== 'undefined' ? 'active' : '' %>" href="/admin/events">
+        <i class='bx bx-calendar-event'></i> Évènements
+    </a>
+    <a class="admin-sidebar__link <%= typeof comments !== 'undefined' ? 'active' : '' %>" href="/admin/comments">
+        <i class='bx bx-message-dots'></i> Commentaires
+    </a>
+
+    <p class="admin-sidebar__section-title">Références</p>
+
+    <a class="admin-sidebar__link <%= typeof interests !== 'undefined' ? 'active' : '' %>" href="/admin/interests">
+        <i class='bx bx-bookmark-heart'></i> Centres d'intérêt
+    </a>
+    <a class="admin-sidebar__link <%= typeof affinities !== 'undefined' ? 'active' : '' %>" href="/admin/affinities">
+        <i class='bx bx-heart'></i> Affinités
+    </a>
+
+    <div class="admin-sidebar__footer">
+        <a class="admin-sidebar__link" href="/">
+            <i class='bx bx-arrow-back'></i> Retour au site
+        </a>
+    </div>
+</aside>

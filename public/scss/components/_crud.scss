@@ -1,0 +1,45 @@
+@use "../mixin.scss";
+@use "../vars";
+
+.crud {
+
+}
+
+.crud__info {
+    margin-top: 100px;
+}
+.crud__modifier {
+    margin: 10rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    box-shadow: 1px;
+    background-color: rgb(255, 255, 255);
+}
+
+.crud__modifier__container {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+}
+
+.crud__modifier__title {
+    align-self: center;
+    padding-top: 2rem;
+}
+
+.crud__modifier__switch {
+    margin: 2rem;
+    padding-bottom: 2rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.crud__modifier__form {
+    margin: 2rem;
+}
+
+.crud__modifier__buttons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}

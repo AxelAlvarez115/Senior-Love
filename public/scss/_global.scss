@@ -1,0 +1,65 @@
+@use "./font.scss";
+@use "./mixin.scss";
+@use "./vars";
+
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	--red-dark: #e62623;
+	--red-light: #dc3838;
+	--blue-dark: #5470d6;
+	--blue-light: #6e73a6;
+	--border: rgba(0, 0, 0, 0.2);
+	--text: black;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	font-family: Roboto, sans-serif;	
+	width: 100%;
+	margin: 0;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+
+h1 {
+	font-family: PlayFair_Display;
+	font-weight: bold;
+	text-align: center;
+}
+
+.hidden {
+	display: none !important;
+}
+
+input {
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover, 
+	&:-webkit-autofill:focus, 
+	&:-webkit-autofill:active {
+		transition: background-color 5000s ease-in-out 0s;
+		-webkit-text-fill-color: #000 !important;
+	}
+}
+
+
+.darkBackground {
+	display: flex;
+	justify-content: flex-start;
+    position: fixed;
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.295);
+	z-index: 100;
+}
+

@@ -1,0 +1,55 @@
+<%- include('partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Nouvelles rencontres</h1>
+    <p class="page-banner__subtitle">Découvrez des personnes qui partagent vos passions</p>
+  </div>
+  <%- include('partials/alerts', {type: 'global'}) %>
+  <% if (users && users.length) { %>
+    <div class="meeting__container">
+      <div class="meeting__slider">
+        <% for (const user of users) { %>
+          <div class="meeting">
+            <div class="meeting__avatar">
+              <i class='bx bx-user'></i>
+            </div>
+            <h2 class="meeting__name"><%= user.firstname %></h2>
+            <ul class="meeting__infos">
+              <% if (user.city) { %>
+                <li class="meeting__info-item">
+                  <i class='bx bx-map-pin'></i> <%= user.city %>
+                </li>
+              <% } %>
+              <% if (user.gender) { %>
+                <li class="meeting__info-item">
+                  <i class='bx bx-user-circle'></i> <%= user.gender %>
+                </li>
+              <% } %>
+              <% if (user.bio) { %>
+                <li class="meeting__info-item meeting__info-item--bio">
+                  <%= user.bio %>
+                </li>
+              <% } %>
+            </ul>
+            <div class="meeting__button__container">
+              <div class='meeting__button__chat'>
+                <a href='/rencontre/<%= user.id %>'>Voir le profil</a>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+      <div class="meeting__slider__button__container">
+        <button class="meeting__slider__button" id="leftButton">← Précédent</button>
+        <button class="meeting__slider__button" id="rightButton">Suivant →</button>
+      </div>
+    </div>
+  <% } else { %>
+    <div style="text-align:center; padding: 5rem 2rem; color: #888;">
+      <i class='bx bx-user-x' style="font-size:3.5rem; color:#cf5858; display:block; margin-bottom:1rem;"></i>
+      <p style="font-size:1.1rem;">Aucun profil disponible pour le moment.</p>
+    </div>
+  <% } %>
+  <script src="/js/meeting.js" defer></script>
+</main>
+<%- include('./partials/footer')%>

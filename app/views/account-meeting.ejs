@@ -6,12 +6,12 @@
     <%- include('./partials/alerts', {type:'global'}) %>
         <div class="account-page">
         <nav class="account-nav">
-        <a href="/compte" class="account-nav__link">Mon profil</a>
-        <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
-        <a href="/compte/rencontre" class="account-nav__link account-nav__link--active">Mes rencontres</a>
+            <a href="/compte" class="account-nav__link">Mon profil</a>
+            <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
+            <a href="/compte/rencontre" class="account-nav__link account-nav__link--active">Mes rencontres</a>
         </nav>
-        <div class="card__container">
-            <% if (contacts) { %>
+            <% if (contacts && contacts.length) { %>
+            <div class="card__container">
             <% for (const contact of contacts) { %>
                 <article class="meeting" href="/rencontre/profil/<%= contact.id %>">
                     <div class="meeting__avatar">
@@ -33,7 +33,11 @@
                 </article>
             <% } %>
             <% } else { %>
-                <p>Vous n'avez pas encore de rencontres.</p>
+                <div class="account-card" style="text-align:center; padding: 3rem 2rem;">
+                    <i class="bx bx-user-x" style="font-size:2.8rem; color:#cf5858; display:block; margin-bottom:0.8rem;"></i>
+                    <p style="color:#666; margin-bottom:1.2rem;">Vous n'avez encore fait aucune rencontre.</p>
+                    <a href="/rencontre" class="form__button" style="display:inline-block; text-decoration:none;">Trouver des rencontres</a>
+                </div>
             <% } %>
         </div>
     </div>

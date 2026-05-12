@@ -421,19 +421,24 @@ main {
   }
 }
 .footer__logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.45rem;
   text-decoration: none;
   color: white;
   font-family: PlayFair_Display;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.8rem;
+  white-space: nowrap;
 }
-.footer__logo i {
-  color: #cf5858;
-  font-size: 1.5rem;
+.footer__logo img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.footer__logo:hover i {
+  transform: scale(1.15);
+  transition: transform 0.2s ease;
 }
 .footer__tagline {
   font-size: 0.88rem;
@@ -1252,8 +1257,13 @@ main {
 }
 
 .wrapper {
-  max-width: 80%;
+  width: 70%;
   margin: 3rem auto;
+}
+@media screen and (max-width: 760px) {
+  .wrapper {
+    width: 90%;
+  }
 }
 
 .wrapper > p, .wrapper > h2 {

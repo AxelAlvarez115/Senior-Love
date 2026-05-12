@@ -18,9 +18,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./public"));
 
-if (!process.env.SECRET_POUR_EXPRESS_SESSION || process.env.SECRET_POUR_EXPRESS_SESSION.length < 32) {
-	console.warn("ATTENTION: SECRET_POUR_EXPRESS_SESSION manquant ou trop court (>= 32 caractères recommandés).");
-}
+// if (!process.env.SECRET_POUR_EXPRESS_SESSION || process.env.SECRET_POUR_EXPRESS_SESSION.length < 32) {
+// 	console.warn("ATTENTION: SECRET_POUR_EXPRESS_SESSION manquant ou trop court (>= 32 caractères recommandés).");
+// }
 
 app.use(
 	session({

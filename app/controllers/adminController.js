@@ -9,10 +9,10 @@ const adminController = {
                 Comment.count(),
                 Interest.count(),
             ]);
-            res.render('admin/index', { dashboard: true }, { stats: { userCount, eventCount, commentCount, interestCount } });
+            res.render('admin/index', { dashboard: true, stats: { userCount, eventCount, commentCount, interestCount } });
         } catch (error) {
             console.error(error);
-            res.render('admin/index', { dashboard: true }, { stats: { userCount: 0, eventCount: 0, commentCount: 0, interestCount: 0 } });
+            res.render('admin/index', { dashboard: true, stats: { userCount: 0, eventCount: 0, commentCount: 0, interestCount: 0 } });
         }
     },
 

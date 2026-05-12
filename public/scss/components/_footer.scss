@@ -23,19 +23,25 @@
 
     // ── Brand ─────────────────────────────────────────────────────────────────
     &__logo {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         gap: 0.45rem;
         text-decoration: none;
         color: white;
         font-family: PlayFair_Display;
-        font-size: 1.35rem;
+        font-size: 1.25rem;
         font-weight: bold;
-        margin-bottom: 0.8rem;
+        white-space: nowrap;
 
-        i {
-            color: vars.$main-red;
-            font-size: 1.5rem;
+        img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        &:hover i {
+            transform: scale(1.15);
+            transition: transform 0.2s ease;
         }
     }
 

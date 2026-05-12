@@ -4,7 +4,7 @@
         <span>Administration</span>
     </div>
 
-    <a href="/admin" class="admin-sidebar__link">
+    <a class="admin-sidebar__link <%= typeof dashboard !== 'undefined' ? 'active' : '' %>" href="/admin">
         <i class='bx bx-dashboard'></i> Tableau de bord
     </a>
 

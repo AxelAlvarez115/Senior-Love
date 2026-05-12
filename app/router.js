@@ -86,7 +86,7 @@ export default router;
 
 // A faire:
 
-// Gérer le cas de redirection après tentative d'acces à une page avec login nécessaire x
+// Gérer le cas de redirection après tentative d'acces à une page avec login nécessaire
 
 // Routes à faire :
 

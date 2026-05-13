@@ -1,52 +1,167 @@
-# projet-08-senior-love
+# Senior Love
 
-Styliser event et event detail
+Application web de rencontres et de mise en relation dédiée aux seniors. Les utilisateurs peuvent se découvrir, participer à des événements locaux et nouer des contacts.
 
-user-list -> styliser vite fait
+---
 
-account -> styliser
+## Stack technique
 
-assistance technique -> styliser, faire des pages d'erreur custom
+| Couche | Technologie |
+|--------|-------------|
+| Runtime | Node.js (ESM) |
+| Framework | Express.js |
+| Template | EJS |
+| Base de données | PostgreSQL + Sequelize |
+| Style | SCSS → CSS |
+| Sessions | express-session |
+| Hash mots de passe | bcrypt |
+| Validation | validator.js |
 
+---
 
+## Prérequis
 
-Accueil & Accueil connecté -> styliser niveau texte
+- Node.js >= 18
+- PostgreSQL >= 14
+- npm
 
-FAQ -> remplir le texte 
+---
 
-BDD :
+## Installation
 
-USER :
+```bash
+# 1. Cloner le dépôt
+git clone <url-du-repo>
+cd Senior-Love
 
-user_id
-firstname
-lastname
-password
-email
-phone
-date_of_birth
-bio
-gender
-admin
+# 2. Installer les dépendances
+npm install
 
-CITY :
+# 3. Configurer les variables d'environnement
+cp .env.exemple .env
+# Éditer .env avec vos valeurs
 
-city_id
-name
+# 4. Créer la base de données et l'alimenter
+psql -U <utilisateur> -d <base_de_donnees> -f app/database/database.sql
 
-EVENT :
+# 5. Lancer l'application
+npm run dev
+```
 
-event_id
-name
-desc
+---
 
-INTEREST :
+## Variables d'environnement
 
-interest_id
-name
+Fichier `.env` à créer à la racine (voir `.env.exemple`) :
 
-COMMENT :
+```env
+PORT=3000
+DB_USER=senior
+DB_PASSWORD=senior
+DB_HOST=localhost
+DB_NAME=senior
+SECRET_POUR_EXPRESS_SESSION=<chaine_aleatoire_32_chars_minimum>
+```
 
-comment_id
-content
-report
+---
+
+## Scripts npm
+
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Serveur + compilation SCSS en parallèle (développement) |
+| `npm run nodemon` | Serveur uniquement avec rechargement auto |
+| `npm run start` | Compilation SCSS uniquement (watch) |
+
+---
+
+## Structure du projet
+
+```
+Senior-Love/
+├── index.js                  # Point d'entrée Express
+├── app/
+│   ├── router.js             # Toutes les routes
+│   ├── controllers/          # Logique métier par domaine
+│   │   ├── authController.js
+│   │   ├── accountController.js
+│   │   ├── eventController.js
+│   │   ├── commentController.js
+│   │   ├── userController.js
+│   │   ├── adminController.js
+│   │   └── mainController.js
+│   ├── models/               # Modèles Sequelize
+│   ├── views/                # Templates EJS
+│   ├── middleware/
+│   │   ├── identification.js # Garde de route (connecté / admin)
+│   │   ├── addUserData.js    # Injection données utilisateur dans res.locals
+│   │   └── handleAlerts.js  # Gestion des messages flash
+│   └── database/
+│       ├── database.js       # Connexion Sequelize
+│       └── database.sql      # Migration + données de test
+└── public/
+    ├── css/                  # CSS compilé
+    ├── scss/                 # Sources SCSS
+    ├── js/                   # Scripts client
+    └── img/                  # Images statiques
+```
+
+---
+
+## Base de données
+
+### Schéma
+
+| Table | Description |
+|-------|-------------|
+| `user` | Utilisateurs (soft delete via `deletedAt`) |
+| `event` | Événements locaux |
+| `comment` | Commentaires sur les événements |
+| `interest` | Centres d'intérêt (Sport, Cuisine, Danse…) |
+| `affinity` | Affinités de personnalité (Calme, Aventurier…) |
+| `user_event` | Inscriptions aux événements |
+| `user_interest` | Centres d'intérêt par utilisateur |
+| `user_affinity` | Affinités par utilisateur |
+| `user_relationship` | Contacts acceptés |
+| `user_contactrequest` | Demandes de contact en attente |
+
+### Comptes de test
+
+> Mot de passe universel : `password`
+
+| Email | Rôle |
+|-------|------|
+| marie.dupont@test.fr | Utilisateur |
+| jean.martin@test.fr | Utilisateur |
+| francoise.petit@test.fr | Utilisateur |
+| pierre.bernard@test.fr | Utilisateur |
+| michele.lefebvre@test.fr | Utilisateur |
+| robert.dubois@test.fr | Utilisateur |
+| admin@seniorlove.fr | Administrateur |
+
+---
+
+## Fonctionnalités
+
+- **Authentification** — inscription, connexion, déconnexion
+- **Compte** — modification des informations, mot de passe, email, suppression du compte
+- **Rencontres** — liste des membres, profils, envoi et gestion des demandes de contact
+- **Événements** — liste, détail, participation, commentaires (ajout / modification / suppression)
+- **FAQ & Assistance** — pages d'aide
+- **Administration** — gestion des utilisateurs, événements, commentaires, centres d'intérêt et affinités
+
+---
+
+## Routes principales
+
+| Méthode | Route | Accès |
+|---------|-------|-------|
+| GET | `/` | Public |
+| GET/POST | `/inscription` | Non connecté |
+| GET/POST | `/connexion` | Non connecté |
+| GET | `/rencontre` | Connecté |
+| GET | `/evenement` | Connecté |
+| GET | `/compte` | Connecté |
+| GET | `/admin` | Admin |
+| GET | `/faq` | Public |
+| GET | `/assistance` | Public |

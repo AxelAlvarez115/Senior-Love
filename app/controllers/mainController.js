@@ -1,6 +1,7 @@
-import { User, User_Relationship } from '../models/index.js';
+import { User, User_Relationship, Notification } from '../models/index.js';
 import { Op } from "sequelize";
 import User_ContactRequest from '../models/user_contactRequest.js';
+import { io } from "../../index.js";
 
 const mainController = {
 	home: function (req, res) {
@@ -82,11 +83,23 @@ const mainController = {
 					await isRequest.destroy({force: true});
 					await User_Relationship.create({user_id: userId, contact_id: contact.id});
 					await User_Relationship.create({user_id: contact.id, contact_id: userId});
+					const currentUser = await User.findByPk(userId);
+					await Notification.create({ recipient_id: isRequest.requester_id, sender_id: userId, type: "contact_accepted" });
+					io.to(`user:${isRequest.requester_id}`).emit("notification:new", {
+						type: "contact_accepted",
+						senderName: currentUser.firstname,
+					});
 					res.render('meetingProfil', { contact, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
 				}
 			}
 			else {
+				const currentUser2 = await User.findByPk(userId);
 				await User_ContactRequest.create({requester_id: userId, requestee_id: contact.id});
+				await Notification.create({ recipient_id: contact.id, sender_id: userId, type: "contact_request" });
+				io.to(`user:${contact.id}`).emit("notification:new", {
+					type: "contact_request",
+					senderName: currentUser2.firstname,
+				});
 				res.render('meetingProfil', { contact, alert: { type: 'global', value: 'success', message: `Votre demande de contact à ${contact.firstname} a bien été enregistrée.` } });
 			}
 		}

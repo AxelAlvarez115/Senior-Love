@@ -9,6 +9,7 @@ import User_ContactRequest from "./user_contactRequest.js";
 import sequelize from "../database/database.js";
 import Affinity from "./affinity.js";
 import User_Affinity from "./user_affinity.js";
+import Notification from "./notification.js";
 User.hasMany(Comment, { foreignKey: "user_id" });
 Comment.belongsTo(User, { foreignKey: "user_id" });
 
@@ -42,4 +43,9 @@ Event.belongsTo(Interest, { foreignKey: 'interest_id'});
 // await sequelize.sync({ alter: true });
 console.log("All models were synchronized successfully.");
 
-export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity };
+User.hasMany(Notification, { foreignKey: "recipient_id", as: "receivedNotifications" });
+User.hasMany(Notification, { foreignKey: "sender_id", as: "sentNotifications" });
+Notification.belongsTo(User, { foreignKey: "recipient_id", as: "recipient" });
+Notification.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
+
+export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity, Notification };

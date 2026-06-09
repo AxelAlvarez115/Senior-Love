@@ -17,11 +17,12 @@ export function initSocket(io, sessionMiddleware) {
         // Chaque user rejoint sa "room" privée identifiée par son id
         socket.join(`user:${socket.userId}`);
 
-        // --- Notifications (à câbler dans les controllers) ---
-        // io.to(`user:${destinataireId}`).emit("notification:new", data)
-
-        // --- Chat (à compléter plus tard) ---
-        // socket.on("chat:message", (data) => { ... })
+        socket.on("chat:message", ({ to, message }) => {
+            io.to(`user:${to}`).emit("chat:message", {
+                from: socket.userId,
+                message,
+            });
+        });
 
         socket.on("disconnect", () => {});
     });

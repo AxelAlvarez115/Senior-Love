@@ -37,4 +37,8 @@
 </footer>
 </body>
 <script type="module" src="/js/menuchange.js"></script>
+<% if (isLogged) { %>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/socket.js"></script>
+<% } %>
 </html>

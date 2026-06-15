@@ -49,6 +49,16 @@
                         <input class="form__input" type="text" name="city" id="city" value="<%= user.city %>" required maxlength="58">
                     </div>
 
+                    <div class="form__div">
+                        <label class="form__label" for="phone">Téléphone</label>
+                        <input class="form__input" type="tel" name="phone" id="phone" value="<%= user.phone || '' %>" maxlength="20">
+                    </div>
+
+                    <div class="form__div">
+                        <label class="form__label" for="date_of_birth">Date de naissance</label>
+                        <input class="form__input" type="date" name="date_of_birth" id="date_of_birth" value="<%= user.date_of_birth || '' %>">
+                    </div>
+
                     <div class="form__div form__div--full">
                         <label class="form__label" for="bio">À propos de vous</label>
                         <textarea class="form__input form__textarea" name="bio" id="bio" rows="3" maxlength="255" placeholder="Décrivez-vous en quelques mots…"><%= user.bio || '' %></textarea>
@@ -87,6 +97,13 @@
             <form class="form hidden" id="passwordForm" action="/compte/mot-de-passe" method="POST">
                 <div class="form__grid">
                     <div class="form__div form__div--full">
+                        <label class="form__label" for="currentPassword">Mot de passe actuel</label>
+                        <input class="form__input" type="password" name="currentPassword" id="currentPassword" placeholder="••••••••">
+                        <label class="show-password-row">
+                            <input type="checkbox" class="showPassword" value="currentPassword"> Afficher
+                        </label>
+                    </div>
+                    <div class="form__div form__div--full">
                         <label class="form__label" for="password">Nouveau mot de passe</label>
                         <input class="form__input" type="password" name="password" id="password" placeholder="••••••••">
                         <label class="show-password-row">
@@ -98,13 +115,6 @@
                         <input class="form__input" type="password" name="validatePassword" id="validatePassword" placeholder="••••••••">
                         <label class="show-password-row">
                             <input type="checkbox" class="showPassword" value="validatePassword"> Afficher
-                        </label>
-                    </div>
-                    <div class="form__div form__div--full">
-                        <label class="form__label" for="currentPassword">Mot de passe actuel</label>
-                        <input class="form__input" type="password" name="currentPassword" id="currentPassword" placeholder="••••••••">
-                        <label class="show-password-row">
-                            <input type="checkbox" class="showPassword" value="currentPassword"> Afficher
                         </label>
                     </div>
                 </div>

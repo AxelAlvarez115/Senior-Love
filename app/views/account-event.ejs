@@ -5,11 +5,7 @@
   </div>
   <%- include('./partials/alerts', {type:'global'}) %>
   <div class="account-page">
-    <nav class="account-nav">
-      <a href="/compte" class="account-nav__link">Mon profil</a>
-      <a href="/compte/evenement" class="account-nav__link account-nav__link--active">Mes évènements</a>
-      <a href="/compte/rencontre" class="account-nav__link">Mes rencontres</a>
-    </nav>
+    <%- include('partials/accountNav', { page: 'evenement' }) %>
     <% if (events && events.length) { %>
       <div class="card__container">
         <% for (const event of events) { %>
@@ -32,10 +28,10 @@
         <% } %>
       </div>
     <% } else { %>
-      <div class="account-card" style="text-align:center; padding: 3rem 2rem;">
-        <i class='bx bx-calendar-x' style="font-size:2.8rem; color:#cf5858; display:block; margin-bottom:0.8rem;"></i>
-        <p style="color:#666; margin-bottom:1.2rem;">Vous ne participez à aucun évènement à venir.</p>
-        <a href="/evenement" class="form__button" style="display:inline-block; text-decoration:none;">Voir les évènements</a>
+      <div class="account-empty">
+        <i class='bx bx-calendar-x account-empty__icon'></i>
+        <p class="account-empty__text">Vous ne participez à aucun évènement à venir.</p>
+        <a href="/evenement" class="form__button account-empty__cta">Voir les évènements</a>
       </div>
     <% } %>
   </div>

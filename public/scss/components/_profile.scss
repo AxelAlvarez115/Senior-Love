@@ -1,6 +1,81 @@
 @use "../mixin";
 @use "../vars";
 
+// ─── Account profile header ───────────────────────────────────────────────────
+.account-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    &__name {
+        font-size: 1.3rem;
+        font-family: PlayFair_Display;
+        color: #222;
+        font-weight: 700;
+    }
+
+    &__location {
+        font-size: 0.88rem;
+        color: #888;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+
+        i { color: vars.$main-red; }
+    }
+}
+
+.account-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, vars.$main-red 0%, #a84040 100%);
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: PlayFair_Display;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+}
+
+// ─── Account empty state ──────────────────────────────────────────────────────
+.account-empty {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+
+    &__icon {
+        font-size: 2.8rem;
+        color: vars.$main-red;
+        display: block;
+        margin-bottom: 0.8rem;
+    }
+
+    &__text {
+        color: #666;
+        margin-bottom: 1.2rem;
+    }
+
+    &__cta {
+        display: inline-block;
+        text-decoration: none;
+    }
+}
+
 // ─── Account page layout ──────────────────────────────────────────────────────
 .account-page {
     width: 100%;
@@ -80,8 +155,19 @@
         color: #555;
         padding: 0.6rem 0;
         border-bottom: 1px solid #f5f5f5;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
 
-        strong { color: #333; }
+        i {
+            color: vars.$main-red;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        &--full {
+            grid-column: 1 / -1;
+        }
     }
 }
 

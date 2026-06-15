@@ -7,6 +7,7 @@ import eventController from './controllers/eventController.js';
 import identification from './middleware/identification.js';
 import accountController from './controllers/accountController.js';
 import commentController from './controllers/commentController.js';
+import chatController from './controllers/chatController.js';
 
 const router = express.Router();
 
@@ -66,6 +67,9 @@ router.post('/evenement/ajouter', identification.isNotLogged, identification.isA
 // router.get('/evenement/modifier/:event', identification.isNotLogged, identification.isAdmin, eventController.updateEvent);
 router.post('/evenement/modifier/:event', identification.isNotLogged, identification.isAdmin, eventController.updateEventAction);
 router.post('/evenement/supprimer/:event', identification.isNotLogged, identification.isAdmin, eventController.deleteEventAction);
+
+router.get('/messages', identification.isNotLogged, chatController.inbox);
+router.get('/messages/:contactId', identification.isNotLogged, chatController.conversation);
 
 router.get('/faq', mainController.faq);
 

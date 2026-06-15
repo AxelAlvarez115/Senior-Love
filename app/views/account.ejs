@@ -5,23 +5,28 @@
   </div>
   <%- include('partials/alerts', {type:'global'}) %>
   <div class="account-page">
-    <nav class="account-nav">
-      <a href="/compte" class="account-nav__link account-nav__link--active">Mon profil</a>
-      <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
-      <a href="/compte/rencontre" class="account-nav__link">Mes rencontres</a>
-    </nav>
+    <%- include('partials/accountNav', { page: 'profil' }) %>
     <div class="account-card">
-      <h2 class="account-card__title">Votre profil</h2>
+      <div class="account-profile-header">
+        <div class="account-avatar">
+          <%= user.firstname.charAt(0).toUpperCase() %><%= user.lastname.charAt(0).toUpperCase() %>
+        </div>
+        <div class="account-profile-header__info">
+          <h2 class="account-profile-header__name"><%= user.firstname %> <%= user.lastname %></h2>
+          <% if (user.city) { %>
+            <p class="account-profile-header__location"><i class='bx bx-map-pin'></i> <%= user.city %></p>
+          <% } %>
+        </div>
+      </div>
       <%- include('partials/alerts', {type:'profil'}) %>
       <ul class="profile-data">
-        <li class="profile-data__item"><strong>Prénom :</strong> <%= user.firstname %></li>
-        <li class="profile-data__item"><strong>Nom :</strong> <%= user.lastname %></li>
-        <li class="profile-data__item"><strong>Email :</strong> <%= user.email %></li>
-        <li class="profile-data__item"><strong>Téléphone :</strong> <%= user.phone || '—' %></li>
-        <li class="profile-data__item"><strong>Date de naissance :</strong> <%= user.date_of_birth || '—' %></li>
-        <li class="profile-data__item"><strong>Ville :</strong> <%= user.city || '—' %></li>
-        <li class="profile-data__item"><strong>Genre :</strong> <%= user.gender || '—' %></li>
-        <li class="profile-data__item"><strong>À propos :</strong> <%= user.bio || '—' %></li>
+        <li class="profile-data__item"><i class='bx bx-envelope'></i> <%= user.email %></li>
+        <li class="profile-data__item"><i class='bx bx-phone'></i> <%= user.phone || '—' %></li>
+        <li class="profile-data__item"><i class='bx bx-cake'></i> <%= user.date_of_birth ? new Date(user.date_of_birth).toLocaleDateString('fr-FR') : '—' %></li>
+        <li class="profile-data__item"><i class='bx bx-user'></i> <%= user.gender || '—' %></li>
+        <% if (user.bio) { %>
+        <li class="profile-data__item profile-data__item--full"><i class='bx bx-notepad'></i> <%= user.bio %></li>
+        <% } %>
       </ul>
       <button class="form__button" id="formsButton">Modifier le profil</button>
     </div>

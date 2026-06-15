@@ -30,8 +30,8 @@ accountInfoAction: async function (req, res) {
       if (!user) {
         return res.redirect('/connexion');
       }
-      const { gender, city, bio } = req.body;
-      const payload = { gender, city, bio };
+      const { gender, city, bio, phone, date_of_birth } = req.body;
+      const payload = { gender, city, bio, phone, date_of_birth };
       if (req.session.isAdmin) {
         const { firstname, lastname } = req.body;
         if (firstname) payload.firstname = firstname;

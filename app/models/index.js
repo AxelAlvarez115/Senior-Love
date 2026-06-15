@@ -10,10 +10,10 @@ import sequelize from "../database/database.js";
 import Affinity from "./affinity.js";
 import User_Affinity from "./user_affinity.js";
 import UserPhoto from "./user_photo.js";
-
+import Notification from "./notification.js";
+import Message from "./message.js";
 User.hasMany(UserPhoto, { foreignKey: 'user_id', as: 'photos' });
 UserPhoto.belongsTo(User, { foreignKey: 'user_id' });
-
 User.hasMany(Comment, { foreignKey: "user_id" });
 Comment.belongsTo(User, { foreignKey: "user_id" });
 
@@ -44,7 +44,17 @@ User.belongsToMany(User, {through:User_ContactRequest, as:'requesters', foreignK
 Interest.hasMany(Event, { foreignKey: 'interest_id', onDelete: 'CASCADE'});
 Event.belongsTo(Interest, { foreignKey: 'interest_id'});
 
+User.hasMany(Notification, { foreignKey: "recipient_id", as: "receivedNotifications" });
+User.hasMany(Notification, { foreignKey: "sender_id", as: "sentNotifications" });
+Notification.belongsTo(User, { foreignKey: "recipient_id", as: "recipient" });
+Notification.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
+
+User.hasMany(Message, { foreignKey: "sender_id", as: "sentMessages" });
+User.hasMany(Message, { foreignKey: "recipient_id", as: "receivedMessages" });
+Message.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
+Message.belongsTo(User, { foreignKey: "recipient_id", as: "recipient" });
+
 // await sequelize.sync({ alter: true });
 console.log("All models were synchronized successfully.");
 
-export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity, UserPhoto };
+export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity, UserPhoto, Notification, Message };

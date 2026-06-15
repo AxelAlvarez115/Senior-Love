@@ -26,8 +26,11 @@
                   <p class="ig-contact-card__meta"><i class='bx bx-map-pin'></i> <%= contact.city %></p>
                 <% } %>
               </div>
+              <a class="ig-btn ig-btn--red ig-contact-card__link" href="/messages/<%= contact.id %>">
+                <i class='bx bx-message-rounded'></i> Message
+              </a>
               <a class="ig-btn ig-btn--outline ig-contact-card__link" href="/rencontre/<%= contact.id %>">
-                <i class='bx bx-user'></i> Voir le profil
+                <i class='bx bx-user'></i> Profil
               </a>
             </article>
           <% } %>

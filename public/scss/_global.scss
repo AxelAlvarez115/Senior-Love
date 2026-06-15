@@ -17,6 +17,9 @@ html {
 	--border: rgba(0, 0, 0, 0.2);
 	--text: black;
 	height: 100%;
+	// Barre de défilement toujours réservée : empêche le contenu centré de
+	// sauter horizontalement entre une page courte et une page longue.
+	overflow-y: scroll;
 }
 
 body {

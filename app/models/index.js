@@ -9,6 +9,11 @@ import User_ContactRequest from "./user_contactRequest.js";
 import sequelize from "../database/database.js";
 import Affinity from "./affinity.js";
 import User_Affinity from "./user_affinity.js";
+import UserPhoto from "./user_photo.js";
+
+User.hasMany(UserPhoto, { foreignKey: 'user_id', as: 'photos' });
+UserPhoto.belongsTo(User, { foreignKey: 'user_id' });
+
 User.hasMany(Comment, { foreignKey: "user_id" });
 Comment.belongsTo(User, { foreignKey: "user_id" });
 
@@ -42,4 +47,4 @@ Event.belongsTo(Interest, { foreignKey: 'interest_id'});
 // await sequelize.sync({ alter: true });
 console.log("All models were synchronized successfully.");
 
-export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity };
+export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity, UserPhoto };

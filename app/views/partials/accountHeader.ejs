@@ -1,0 +1,65 @@
+<%- include('./alerts', {type:'profil'}) %>
+<%- include('./alerts', {type:'photos'}) %>
+
+<header class="ig-profile">
+
+  <!-- Colonne avatar -->
+  <div class="ig-profile__avatar-col">
+    <div class="ig-profile__avatar-wrap">
+      <% if (user.avatar) { %>
+        <img class="ig-profile__avatar-img" src="/uploads/avatars/<%= user.avatar %>" alt="Photo de profil">
+      <% } else { %>
+        <div class="ig-profile__avatar-initials">
+          <%= user.firstname.charAt(0).toUpperCase() %><%= user.lastname.charAt(0).toUpperCase() %>
+        </div>
+      <% } %>
+    </div>
+    <form action="/compte/avatar" method="POST" enctype="multipart/form-data">
+      <label class="ig-profile__change-photo">
+        <i class='bx bx-camera'></i> Modifier la photo
+        <input type="file" name="avatar" accept="image/jpeg,image/png,image/webp" onchange="this.form.submit()">
+      </label>
+    </form>
+  </div>
+
+  <!-- Colonne infos -->
+  <div class="ig-profile__info">
+
+    <div class="ig-profile__name-row">
+      <h1 class="ig-profile__name"><%= user.firstname %> <%= user.lastname %></h1>
+      <button class="ig-btn ig-btn--outline" id="formsButton">
+        <i class='bx bx-edit-alt'></i> Modifier le profil
+      </button>
+    </div>
+
+    <div class="ig-profile__stats">
+      <span><strong><%= photoCount %></strong> photo<%= photoCount !== 1 ? 's' : '' %></span>
+    </div>
+
+    <div class="ig-profile__meta">
+      <% if (user.city) { %><span class="ig-chip"><i class='bx bx-map-pin'></i> <%= user.city %></span><% } %>
+      <% if (user.gender) { %><span class="ig-chip"><i class='bx bx-user-circle'></i> <%= user.gender %></span><% } %>
+      <% if (user.date_of_birth) { %><span class="ig-chip"><i class='bx bx-cake'></i> <%= user.date_of_birth %></span><% } %>
+      <span class="ig-chip"><i class='bx bx-envelope'></i> <%= user.email %></span>
+      <% if (user.phone) { %><span class="ig-chip"><i class='bx bx-phone'></i> <%= user.phone %></span><% } %>
+    </div>
+
+    <% if (user.bio) { %>
+      <p class="ig-profile__bio"><%= user.bio %></p>
+    <% } %>
+
+  </div>
+</header>
+
+<!-- Navigation onglets (persistante) -->
+<nav class="ig-nav">
+  <a href="/compte" class="ig-nav__link <%= activeTab === 'photos' ? 'ig-nav__link--active' : '' %>">
+    <i class='bx bx-grid-alt'></i><span>Mes photos</span>
+  </a>
+  <a href="/compte/evenement" class="ig-nav__link <%= activeTab === 'evenements' ? 'ig-nav__link--active' : '' %>">
+    <i class='bx bx-calendar-event'></i><span>Mes évènements</span>
+  </a>
+  <a href="/compte/rencontre" class="ig-nav__link <%= activeTab === 'rencontres' ? 'ig-nav__link--active' : '' %>">
+    <i class='bx bx-heart'></i><span>Mes rencontres</span>
+  </a>
+</nav>

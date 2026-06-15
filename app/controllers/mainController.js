@@ -1,4 +1,4 @@
-import { User, User_Relationship } from '../models/index.js';
+import { User, User_Relationship, UserPhoto } from '../models/index.js';
 import { Op } from "sequelize";
 import User_ContactRequest from '../models/user_contactRequest.js';
 
@@ -52,7 +52,11 @@ const mainController = {
 	meetingProfil: async function (req, res) {
 		try {
 			const contact = await User.findByPk(req.params.contactId);
-			res.render('meetingProfil', { contact });
+			const photos = await UserPhoto.findAll({
+				where: { user_id: req.params.contactId },
+				order: [['createdAt', 'DESC']],
+			});
+			res.render('meetingProfil', { contact, photos });
 		}
 		catch (error) {
 			console.log(error);
@@ -69,25 +73,29 @@ const mainController = {
 			if (!contact) {
 				return res.redirect('/rencontre');
 			}
+			const photos = await UserPhoto.findAll({
+				where: { user_id: contactId },
+				order: [['createdAt', 'DESC']],
+			});
 			const relationship = await User_Relationship.findOne({where: {user_id: userId, contact_id: contact.id}});
 			const isRequest = await User_ContactRequest.findOne({where: {[Op.or]: [{requester_id: userId, requestee_id: contact.id}, {requester_id: contact.id, requestee_id: userId}]}});
 			if (relationship) {
-				res.render('meetingProfil', { contact, alert: { type: 'global', value: 'warning', message: `${contact.firstname} fait déjà partie de vos contacts.` } });
+				res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'warning', message: `${contact.firstname} fait déjà partie de vos contacts.` } });
 			}
 			else if (isRequest) {
 				if (isRequest.requester_id === userId) {
-					res.render('meetingProfil', { contact, alert: { type: 'global', value: 'warning', message: `Vous avez déjà envoyé une demande de contact à ${contact.firstname}.` } });
+					res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'warning', message: `Vous avez déjà envoyé une demande de contact à ${contact.firstname}.` } });
 				}
 				else if (isRequest.requestee_id === userId) {
 					await isRequest.destroy({force: true});
 					await User_Relationship.create({user_id: userId, contact_id: contact.id});
 					await User_Relationship.create({user_id: contact.id, contact_id: userId});
-					res.render('meetingProfil', { contact, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
+					res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
 				}
 			}
 			else {
 				await User_ContactRequest.create({requester_id: userId, requestee_id: contact.id});
-				res.render('meetingProfil', { contact, alert: { type: 'global', value: 'success', message: `Votre demande de contact à ${contact.firstname} a bien été enregistrée.` } });
+				res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'success', message: `Votre demande de contact à ${contact.firstname} a bien été enregistrée.` } });
 			}
 		}
 		catch (error) {

@@ -80,6 +80,10 @@ User.init(
 		bio: {
 			type: DataTypes.STRING(255), // STRING(255)
 		},
+		avatar: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+		},
 		administrator: {
 			type: DataTypes.BOOLEAN, // BOOLEAN
 			allowNull: false, // la valeur ne peut pas etre NULL

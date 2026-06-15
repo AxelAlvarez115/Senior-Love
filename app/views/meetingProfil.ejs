@@ -1,53 +1,74 @@
 <%- include('partials/header')%>
 <main>
-  <div class="page-banner">
-    <h1 class="page-banner__title">Profil de <%= contact.firstname %></h1>
-  </div>
-
   <%- include('partials/alerts', {type:'global'}) %>
 
-  <div class="account-page">
-    <div class="profile-card">
+  <div class="ig-page">
 
-      <!-- Avatar initiales -->
-      <div class="profile-card__avatar">
-        <%= contact.firstname ? contact.firstname.charAt(0).toUpperCase() : '' %><%= contact.lastname ? contact.lastname.charAt(0).toUpperCase() : '' %>
+    <!-- En-tête profil -->
+    <header class="ig-profile">
+
+      <!-- Colonne avatar -->
+      <div class="ig-profile__avatar-col">
+        <div class="ig-profile__avatar-wrap">
+          <% if (contact.avatar) { %>
+            <img class="ig-profile__avatar-img" src="/uploads/avatars/<%= contact.avatar %>" alt="Photo de profil">
+          <% } else { %>
+            <div class="ig-profile__avatar-initials">
+              <%= contact.firstname ? contact.firstname.charAt(0).toUpperCase() : '' %><%= contact.lastname ? contact.lastname.charAt(0).toUpperCase() : '' %>
+            </div>
+          <% } %>
+        </div>
       </div>
 
-      <!-- Nom -->
-      <h2 class="profile-card__name">
-        <%= contact.firstname %> <%= contact.lastname %>
-      </h2>
+      <!-- Colonne infos -->
+      <div class="ig-profile__info">
 
-      <!-- Chips infos -->
-      <div class="profile-card__chips">
-        <% if (contact.city) { %>
-          <span class="profile-card__chip">
-            <i class='bx bx-map-pin'></i> <%= contact.city %>
-          </span>
+        <div class="ig-profile__name-row">
+          <h1 class="ig-profile__name"><%= contact.firstname %> <%= contact.lastname %></h1>
+          <form action='/rencontre/<%= contact.id %>/ajouter' method='POST'>
+            <button class="ig-btn ig-btn--red" type="submit">
+              <i class='bx bx-user-plus'></i> Ajouter aux contacts
+            </button>
+          </form>
+        </div>
+
+        <% if (photos && photos.length > 0) { %>
+          <div class="ig-profile__stats">
+            <span><strong><%= photos.length %></strong> photo<%= photos.length !== 1 ? 's' : '' %></span>
+          </div>
         <% } %>
-        <% if (contact.gender) { %>
-          <span class="profile-card__chip">
-            <i class='bx bx-user-circle'></i> <%= contact.gender %>
-          </span>
+
+        <div class="ig-profile__meta">
+          <% if (contact.city) { %><span class="ig-chip"><i class='bx bx-map-pin'></i> <%= contact.city %></span><% } %>
+          <% if (contact.gender) { %><span class="ig-chip"><i class='bx bx-user-circle'></i> <%= contact.gender %></span><% } %>
+        </div>
+
+        <% if (contact.bio) { %>
+          <p class="ig-profile__bio"><%= contact.bio %></p>
         <% } %>
+
       </div>
+    </header>
 
-      <!-- Bio -->
-      <% if (contact.bio) { %>
-        <p class="profile-card__bio"><%= contact.bio %></p>
-      <% } %>
-
-      <!-- Bouton contact -->
-      <div class="profile-card__action">
-        <form action='/rencontre/<%= contact.id %>/ajouter' method='POST'>
-          <button class="profile-card__btn" type="submit">
-            <i class='bx bx-user-plus'></i> Ajouter aux contacts
-          </button>
-        </form>
+    <!-- Grille photos (si disponible) -->
+    <% if (photos && photos.length > 0) { %>
+      <div class="ig-tabs">
+        <span class="ig-tabs__tab ig-tabs__tab--active">
+          <i class='bx bx-grid-alt'></i><span>Photos</span>
+        </span>
       </div>
+      <div class="ig-grid">
+        <% photos.forEach(function(photo) { %>
+          <div class="ig-grid__item">
+            <img class="ig-grid__img" src="/uploads/gallery/<%= photo.filename %>" alt="Photo de <%= contact.firstname %>">
+            <div class="ig-grid__overlay ig-grid__overlay--view">
+              <i class='bx bx-zoom-in'></i>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
 
-    </div>
   </div>
 </main>
 <%- include('./partials/footer')%>

@@ -1,24 +1,24 @@
-import { User, Event, Interest } from '../models/index.js';
+import { User, Event, Interest, UserPhoto } from '../models/index.js';
 import { Op } from 'sequelize';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import User_Relationship from '../models/user_relationship.js';
 import sequelize from '../database/database.js';
 import userController from './userController.js';
+import { avatarUpload, photoUpload } from '../middleware/upload.js';
+import fs from 'fs';
+
+const MAX_GALLERY_PHOTOS = 8;
 
 const accountController = {
 account: async function (req, res) {
     try {
-        // const user = await User.findOne({where: { id:req.session.userId }, include: [
-        //     { model: User, as: 'contacts', attributes: ['id', 'firstname', 'lastname'] },
-        //     { model: User, as: 'requesters', attributes: ['id', 'firstname', 'lastname'] },
-        //     { model: User, as: 'requestees', attributes: ['id', 'firstname', 'lastname'] }
-        // ]});
-        // const contacts = user.contacts;
-        // const requestees = user.requestees;
-        // const requesters = user.requesters;
         const user = await User.findByPk(req.session.userId);
-        res.render('account', { user });
+        const photos = await UserPhoto.findAll({
+            where: { user_id: req.session.userId },
+            order: [['createdAt', 'DESC']],
+        });
+        res.render('account', { user, photos });
     }
     catch (error) {
         console.log(error);
@@ -174,6 +174,17 @@ accountDeleteAction: async function (req, res) {
             setAlert('error', 'La phrase de validation est incorrecte');
             return res.redirect('/compte');
         }
+
+        // Supprime les fichiers photos de l'utilisateur
+        const photos = await UserPhoto.findAll({ where: { user_id: user.id } });
+        for (const photo of photos) {
+            fs.unlink(`public/uploads/gallery/${photo.filename}`, () => {});
+        }
+        if (user.avatar) {
+            fs.unlink(`public/uploads/avatars/${user.avatar}`, () => {});
+        }
+
+        await UserPhoto.destroy({ where: { user_id: user.id } });
         await user.destroy({ force: true });
         req.session.destroy(() => res.redirect('/'));
     }
@@ -183,14 +194,87 @@ accountDeleteAction: async function (req, res) {
         res.redirect('/compte');
     }
 },
+accountAvatarAction: function (req, res) {
+    avatarUpload(req, res, async (err) => {
+        if (err) {
+            req.session.alert = { type: 'profil', value: 'error', message: err.message };
+            return res.redirect('/compte');
+        }
+        try {
+            if (!req.file) {
+                req.session.alert = { type: 'profil', value: 'error', message: 'Aucun fichier sélectionné' };
+                return res.redirect('/compte');
+            }
+            const user = await User.findByPk(req.session.userId);
+            if (user.avatar) {
+                fs.unlink(`public/uploads/avatars/${user.avatar}`, () => {});
+            }
+            await user.update({ avatar: req.file.filename });
+            req.session.alert = { type: 'profil', value: 'success', message: 'Votre photo de profil a été mise à jour' };
+            res.redirect('/compte');
+        } catch (error) {
+            console.log(error);
+            req.session.alert = { type: 'profil', value: 'error', message: 'Une erreur est survenue' };
+            res.redirect('/compte');
+        }
+    });
+},
+accountPhotoAddAction: function (req, res) {
+    photoUpload(req, res, async (err) => {
+        if (err) {
+            req.session.alert = { type: 'photos', value: 'error', message: err.message };
+            return res.redirect('/compte');
+        }
+        try {
+            if (!req.file) {
+                req.session.alert = { type: 'photos', value: 'error', message: 'Aucun fichier sélectionné' };
+                return res.redirect('/compte');
+            }
+            const count = await UserPhoto.count({ where: { user_id: req.session.userId } });
+            if (count >= MAX_GALLERY_PHOTOS) {
+                fs.unlink(`public/uploads/gallery/${req.file.filename}`, () => {});
+                req.session.alert = { type: 'photos', value: 'error', message: `Vous avez atteint la limite de ${MAX_GALLERY_PHOTOS} photos` };
+                return res.redirect('/compte');
+            }
+            await UserPhoto.create({ user_id: req.session.userId, filename: req.file.filename });
+            req.session.alert = { type: 'photos', value: 'success', message: 'Photo ajoutée avec succès' };
+            res.redirect('/compte');
+        } catch (error) {
+            console.log(error);
+            req.session.alert = { type: 'photos', value: 'error', message: 'Une erreur est survenue' };
+            res.redirect('/compte');
+        }
+    });
+},
+accountPhotoDeleteAction: async function (req, res) {
+    try {
+        const photo = await UserPhoto.findOne({
+            where: { id: req.params.id, user_id: req.session.userId },
+        });
+        if (!photo) {
+            req.session.alert = { type: 'photos', value: 'error', message: 'Photo introuvable' };
+            return res.redirect('/compte');
+        }
+        fs.unlink(`public/uploads/gallery/${photo.filename}`, () => {});
+        await photo.destroy();
+        req.session.alert = { type: 'photos', value: 'success', message: 'Photo supprimée' };
+        res.redirect('/compte');
+    } catch (error) {
+        console.log(error);
+        req.session.alert = { type: 'photos', value: 'error', message: 'Une erreur est survenue' };
+        res.redirect('/compte');
+    }
+},
 accountEvent: async function (req, res) {
     try {
-        const user = await User.findOne({
+        const user = await User.findByPk(req.session.userId);
+        const photoCount = await UserPhoto.count({ where: { user_id: req.session.userId } });
+        const userWithEvents = await User.findOne({
             where: { id: req.session.userId },
             include: [{ model: Event, as: 'events', include: [{ model: Interest }] }]
         });
-        const events = user.events;
-        res.render('account-event', { events });
+        const events = userWithEvents.events;
+        res.render('account-event', { user, photoCount, events });
     }
     catch (error) {
         console.log(error);
@@ -199,9 +283,11 @@ accountEvent: async function (req, res) {
 
 accountMeeting: async function (req, res) {
     try {
-        const user = await User.findOne({where: { id:req.session.userId }, include:'contacts'});
-        const contacts = user.contacts;
-        res.render('account-meeting', {contacts});
+        const user = await User.findByPk(req.session.userId);
+        const photoCount = await UserPhoto.count({ where: { user_id: req.session.userId } });
+        const userWithContacts = await User.findOne({ where: { id: req.session.userId }, include: 'contacts' });
+        const contacts = userWithContacts.contacts;
+        res.render('account-meeting', { user, photoCount, contacts });
     }
     catch (error) {
         console.log(error);

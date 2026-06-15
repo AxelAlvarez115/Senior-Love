@@ -1,0 +1,51 @@
+<%- include('./partials/header') %>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Mes messages</h1>
+  </div>
+  <%- include('./partials/alerts', { type: 'global' }) %>
+  <div class="account-page">
+    <%- include('partials/accountNav', { page: 'messages' }) %>
+
+    <% if (conversations && conversations.length) { %>
+    <ul class="chat-inbox">
+      <% for (const conv of conversations) { %>
+      <li class="chat-inbox__item <%= conv.unreadCount > 0 ? 'chat-inbox__item--unread' : '' %>">
+        <a href="/messages/<%= conv.contact.id %>" class="chat-inbox__link">
+          <div class="chat-inbox__avatar">
+            <%= conv.contact.firstname.charAt(0).toUpperCase() %>
+          </div>
+          <div class="chat-inbox__body">
+            <div class="chat-inbox__header">
+              <span class="chat-inbox__name"><%= conv.contact.firstname %> <%= conv.contact.lastname %></span>
+              <% if (conv.lastMessage) { %>
+              <span class="chat-inbox__time">
+                <%= new Date(conv.lastMessage.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) %>
+              </span>
+              <% } %>
+            </div>
+            <p class="chat-inbox__preview">
+              <% if (conv.lastMessage) { %>
+                <%= conv.lastMessage.content.length > 60 ? conv.lastMessage.content.slice(0, 60) + '…' : conv.lastMessage.content %>
+              <% } else { %>
+                <em>Aucun message pour l'instant</em>
+              <% } %>
+            </p>
+          </div>
+          <% if (conv.unreadCount > 0) { %>
+          <span class="chat-inbox__badge"><%= conv.unreadCount %></span>
+          <% } %>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+    <% } else { %>
+    <div class="account-empty">
+      <i class="bx bx-message-x account-empty__icon"></i>
+      <p class="account-empty__text">Vous n'avez aucun contact avec qui échanger.</p>
+      <a href="/rencontre" class="form__button account-empty__cta">Trouver des rencontres</a>
+    </div>
+    <% } %>
+  </div>
+</main>
+<%- include('./partials/footer') %>

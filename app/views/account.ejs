@@ -1,31 +1,52 @@
 <%- include('./partials/header')%>
 <main>
-  <div class="page-banner">
-    <h1 class="page-banner__title">Mon compte</h1>
-  </div>
   <%- include('partials/alerts', {type:'global'}) %>
-  <div class="account-page">
-    <nav class="account-nav">
-      <a href="/compte" class="account-nav__link account-nav__link--active">Mon profil</a>
-      <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
-      <a href="/compte/rencontre" class="account-nav__link">Mes rencontres</a>
-    </nav>
-    <div class="account-card">
-      <h2 class="account-card__title">Votre profil</h2>
-      <%- include('partials/alerts', {type:'profil'}) %>
-      <ul class="profile-data">
-        <li class="profile-data__item"><strong>Prénom :</strong> <%= user.firstname %></li>
-        <li class="profile-data__item"><strong>Nom :</strong> <%= user.lastname %></li>
-        <li class="profile-data__item"><strong>Email :</strong> <%= user.email %></li>
-        <li class="profile-data__item"><strong>Téléphone :</strong> <%= user.phone || '—' %></li>
-        <li class="profile-data__item"><strong>Date de naissance :</strong> <%= user.date_of_birth || '—' %></li>
-        <li class="profile-data__item"><strong>Ville :</strong> <%= user.city || '—' %></li>
-        <li class="profile-data__item"><strong>Genre :</strong> <%= user.gender || '—' %></li>
-        <li class="profile-data__item"><strong>À propos :</strong> <%= user.bio || '—' %></li>
-      </ul>
-      <button class="form__button" id="formsButton">Modifier le profil</button>
-    </div>
+
+  <div class="ig-page">
+
+    <%- include('partials/accountHeader', { user, photoCount: photos.length, activeTab: 'photos' }) %>
+
+    <!-- Grille photos -->
+    <% if (photos.length > 0) { %>
+      <div class="ig-grid">
+        <% photos.forEach(function(photo) { %>
+          <div class="ig-grid__item">
+            <img class="ig-grid__img" src="/uploads/gallery/<%= photo.filename %>" alt="Photo">
+            <div class="ig-grid__overlay">
+              <form action="/compte/photo/<%= photo.id %>/supprimer" method="POST" onsubmit="return confirm('Supprimer cette photo ?')">
+                <button class="ig-grid__delete-btn" type="submit">
+                  <i class='bx bx-trash'></i> Supprimer
+                </button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+        <% if (photos.length < 8) { %>
+          <form action="/compte/photo/ajouter" method="POST" enctype="multipart/form-data" class="ig-grid__add-form">
+            <label class="ig-grid__add-tile">
+              <i class='bx bx-plus'></i>
+              <span>Ajouter</span>
+              <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" onchange="this.form.submit()">
+            </label>
+          </form>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="ig-empty">
+        <i class='bx bx-camera'></i>
+        <p>Partagez votre première photo</p>
+        <small>JPG, PNG ou WebP · max 5 Mo · 8 photos max</small>
+        <form action="/compte/photo/ajouter" method="POST" enctype="multipart/form-data">
+          <label class="ig-btn ig-btn--outline">
+            <i class='bx bx-upload'></i> Ajouter une photo
+            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" onchange="this.form.submit()">
+          </label>
+        </form>
+      </div>
+    <% } %>
+
   </div>
+
   <script src="/js/forms.js" defer></script>
   <script type="module" src="/js/showPassword.js"></script>
   <%- include('./partials/userForm', user)%>

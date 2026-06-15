@@ -1,0 +1,52 @@
+<%- include('./partials/header') %>
+<main>
+  <div class="chat-page">
+
+    <div class="chat-topbar">
+      <a href="/messages" class="chat-topbar__back"><i class='bx bx-arrow-back'></i></a>
+      <div class="chat-topbar__avatar">
+        <%= contact.firstname.charAt(0).toUpperCase() %>
+      </div>
+      <div class="chat-topbar__info">
+        <span class="chat-topbar__name"><%= contact.firstname %> <%= contact.lastname %></span>
+        <% if (contact.city) { %>
+        <span class="chat-topbar__location"><i class='bx bx-map-pin'></i> <%= contact.city %></span>
+        <% } %>
+      </div>
+      <a href="/rencontre/<%= contact.id %>" class="chat-topbar__profile">Voir le profil</a>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <% for (const msg of messages) { %>
+      <div class="chat-bubble <%= msg.sender_id === currentUserId ? 'chat-bubble--mine' : 'chat-bubble--theirs' %>">
+        <p class="chat-bubble__text"><%= msg.content %></p>
+        <span class="chat-bubble__time">
+          <%= new Date(msg.createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) %>
+        </span>
+      </div>
+      <% } %>
+    </div>
+
+    <form class="chat-form" id="chatForm">
+      <input
+        class="chat-form__input"
+        type="text"
+        id="chatInput"
+        placeholder="Écrire un message…"
+        autocomplete="off"
+        maxlength="1000"
+      />
+      <button class="chat-form__send" type="submit">
+        <i class='bx bx-send'></i>
+      </button>
+    </form>
+
+  </div>
+</main>
+<script>
+  const CONTACT_ID = <%= contact.id %>;
+  const CURRENT_USER_ID = <%= currentUserId %>;
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
+<%- include('./partials/footer') %>

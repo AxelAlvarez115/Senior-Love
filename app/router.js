@@ -42,8 +42,11 @@ router.get('/compte/evenement', identification.isNotLogged, accountController.ac
 router.get('/compte/rencontre', identification.isNotLogged, accountController.accountMeeting);
 router.post('/compte/infos', identification.isNotLogged, accountController.accountInfoAction);
 router.post('/compte/mot-de-passe', identification.isNotLogged, accountController.accountPasswordAction);
-router.post('/compte/email', identification.isNotLogged, accountController.accountEmailAction)
+router.post('/compte/email', identification.isNotLogged, accountController.accountEmailAction);
 router.post('/compte/supprimer', identification.isNotLogged, accountController.accountDeleteAction);
+router.post('/compte/avatar', identification.isNotLogged, accountController.accountAvatarAction);
+router.post('/compte/photo/ajouter', identification.isNotLogged, accountController.accountPhotoAddAction);
+router.post('/compte/photo/:id/supprimer', identification.isNotLogged, accountController.accountPhotoDeleteAction);
 
 router.get('/rencontre', identification.isNotLogged, mainController.meeting);
 router.get('/rencontre/:contactId', identification.isNotLogged, mainController.meetingProfil);

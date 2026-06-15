@@ -1,45 +1,50 @@
-<%- include('./partials/header')  %>
-<main class="main">
-    <div class="page-banner">
-        <h1 class="page-banner__title">Mes rencontres</h1>
-    </div>
-    <%- include('./partials/alerts', {type:'global'}) %>
-        <div class="account-page">
-        <nav class="account-nav">
-            <a href="/compte" class="account-nav__link">Mon profil</a>
-            <a href="/compte/evenement" class="account-nav__link">Mes évènements</a>
-            <a href="/compte/rencontre" class="account-nav__link account-nav__link--active">Mes rencontres</a>
-        </nav>
-            <% if (contacts && contacts.length) { %>
-            <div class="card__container">
-            <% for (const contact of contacts) { %>
-                <article class="meeting" href="/rencontre/profil/<%= contact.id %>">
-                    <div class="meeting__avatar">
-                        <i class='bx bx-user'></i>
-                    </div>
-                    <h2 class="meeting__name"><%= contact.firstname %></h2>
-                    <ul class="meeting__infos">
-                        <% if (contact.city) { %>
-                            <li class="meeting__info-item">
-                                <i class='bx bx-map-pin'></i> <%= contact.city %>
-                            </li>
-                        <% } %>
-                        <p class="meeting__description"><%= contact.description %></p>
-                        <div style="display: flex; justify-content: space-between;">
-                            <a class="card__content__link" href="/rencontre/profil/supprimer/<%= contact.id %>" class="meeting__button meeting__button--delete">Supprimer</a>
-                            <a class="card__content__link card__content__link--icon" href="/rencontre/<%= contact.id %>" class="meeting__button meeting__button--view">Voir le profil</a>
-                        </div>
-                    </ul>
-                </article>
-            <% } %>
-            <% } else { %>
-                <div class="account-card" style="text-align:center; padding: 3rem 2rem;">
-                    <i class="bx bx-user-x" style="font-size:2.8rem; color:#cf5858; display:block; margin-bottom:0.8rem;"></i>
-                    <p style="color:#666; margin-bottom:1.2rem;">Vous n'avez encore fait aucune rencontre.</p>
-                    <a href="/rencontre" class="form__button" style="display:inline-block; text-decoration:none;">Trouver des rencontres</a>
-                </div>
-            <% } %>
+<%- include('./partials/header') %>
+<main>
+  <%- include('./partials/alerts', {type:'global'}) %>
+
+  <div class="ig-page">
+
+    <%- include('partials/accountHeader', { user, photoCount, activeTab: 'rencontres' }) %>
+
+    <div class="ig-content">
+      <% if (contacts && contacts.length) { %>
+        <div class="ig-contacts">
+          <% for (const contact of contacts) { %>
+            <article class="ig-contact-card">
+              <div class="ig-contact-card__avatar">
+                <% if (contact.avatar) { %>
+                  <img src="/uploads/avatars/<%= contact.avatar %>" alt="<%= contact.firstname %>">
+                <% } else { %>
+                  <span>
+                    <%= contact.firstname ? contact.firstname.charAt(0).toUpperCase() : '' %><%= contact.lastname ? contact.lastname.charAt(0).toUpperCase() : '' %>
+                  </span>
+                <% } %>
+              </div>
+              <div class="ig-contact-card__body">
+                <h3 class="ig-contact-card__name"><%= contact.firstname %> <%= contact.lastname %></h3>
+                <% if (contact.city) { %>
+                  <p class="ig-contact-card__meta"><i class='bx bx-map-pin'></i> <%= contact.city %></p>
+                <% } %>
+              </div>
+              <a class="ig-btn ig-btn--outline ig-contact-card__link" href="/rencontre/<%= contact.id %>">
+                <i class='bx bx-user'></i> Voir le profil
+              </a>
+            </article>
+          <% } %>
         </div>
+      <% } else { %>
+        <div class="ig-empty">
+          <i class='bx bx-user-x'></i>
+          <p>Vous n'avez encore fait aucune rencontre.</p>
+          <a href="/rencontre" class="ig-btn ig-btn--red" style="text-decoration:none;">Trouver des rencontres</a>
+        </div>
+      <% } %>
     </div>
+
+  </div>
+
+  <script src="/js/forms.js" defer></script>
+  <script type="module" src="/js/showPassword.js"></script>
+  <%- include('./partials/userForm', user)%>
 </main>
-<%- include('./partials/footer')  %>
+<%- include('./partials/footer') %>

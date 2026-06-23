@@ -42,17 +42,19 @@ const mainController = {
 					id: { [Op.notIn]: [...contactIds, userId] },
 					...genderFilter,
 					...acceptsMeFilter,
-				}
+				},
+				attributes: { exclude: ['password'] }
 			});
 			res.render('meeting', { users });
 		}
 		catch (error) {
 			console.log(error);
+			res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
 		}
 	},
 	meetingProfil: async function (req, res) {
 		try {
-			const contact = await User.findByPk(req.params.contactId);
+			const contact = await User.findByPk(req.params.contactId, { attributes: { exclude: ['password'] } });
 			const photos = await UserPhoto.findAll({
 				where: { user_id: req.params.contactId },
 				order: [['createdAt', 'DESC']],
@@ -61,6 +63,7 @@ const mainController = {
 		}
 		catch (error) {
 			console.log(error);
+			res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
 		}
 	},
 	meetingProfilAdd: async function (req, res) {
@@ -70,7 +73,7 @@ const mainController = {
 			if (!Number.isInteger(contactId) || contactId === userId) {
 				return res.redirect('/rencontre');
 			}
-			const contact = await User.findByPk(contactId);
+			const contact = await User.findByPk(contactId, { attributes: { exclude: ['password'] } });
 			if (!contact) {
 				return res.redirect('/rencontre');
 			}
@@ -98,6 +101,9 @@ const mainController = {
 						senderName: currentUser.firstname,
 					});
 					res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
+				}
+				else {
+					res.redirect('/rencontre');
 				}
 			}
 			else {

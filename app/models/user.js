@@ -33,7 +33,7 @@ User.init(
 			},
 		},
 		email: {
-			type: DataTypes.STRING(40), // VARCHAR(40)
+			type: DataTypes.STRING(255), // VARCHAR(255) - un email peut atteindre 254 caractères
 			allowNull: false, // la valeur ne peut pas etre NULL
 			unique: true,
 			validate: {

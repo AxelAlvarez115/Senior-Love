@@ -63,14 +63,9 @@ const userController = {
     }
   },
   userList: async function (req, res) {
-    try {
-      const users = await User.findAll();
-      res.render('user_list', { users });
-    }
-    catch (error) {
-      console.log(error);
-      res.render('user_list', { alert: error.message });
-    }
+    // La gestion des utilisateurs se fait via le tableau de bord admin (vue existante et fonctionnelle).
+    // L'ancienne vue 'user_list' n'existe pas : on redirige vers la liste admin pour éviter une erreur de rendu.
+    res.redirect('/admin/users');
   },
   update: async function (req, res) {
     try {

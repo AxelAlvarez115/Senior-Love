@@ -27,6 +27,7 @@ const eventController = {
         }
         catch(error) {
             console.log(error);
+            res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
         }
     },
     eventDetails: async function (req, res, next) {
@@ -42,7 +43,7 @@ const eventController = {
                 const doParticipate = event.users.find(user => user.id===userId);
                 const count = event.users.length;
                 let action = 'modifier';
-                res.render('event-details', { userId, interests, action, event, comments: event.Comments, userId, users: event.users, doParticipate, count });
+                res.render('event-details', { userId, interests, action, event, comments: event.Comments, users: event.users, doParticipate, count });
             }
             else {
                 next();
@@ -50,6 +51,7 @@ const eventController = {
         }
         catch(error) {
             console.log(error);
+            res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/evenement', pageName: 'evenement' });
         }
     },
     toggleParticipate: async function (req, res) {
@@ -58,7 +60,7 @@ const eventController = {
             const eventId = req.params.event;
             const doParticipate = await User_Event.findOne({where: { user_id:userId, event_id:eventId }});
             if(doParticipate) {
-                doParticipate.destroy({ force: true });
+                await doParticipate.destroy({ force: true });
                 req.session.alert = {
                     type: 'global',
                     value:'success',
@@ -75,9 +77,10 @@ const eventController = {
                 };
                 res.redirect(`/evenement/${req.params.event}`);
             }
-        } 
+        }
         catch(error) {
             console.log(error);
+            res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/evenement', pageName: 'evenement' });
         }
     },
     addEvent: async function (req, res) {
@@ -94,11 +97,25 @@ const eventController = {
     },
     addEventAction: async function (req, res) {
         try {
-            const event = await Event.create(req.body);
+            const { name, description, city, date, adresse, interest_id } = req.body;
+            const event = await Event.create({
+                name,
+                description,
+                city,
+                date,
+                adresse: adresse || null,
+                interest_id: interest_id || null,
+            });
             res.redirect(`/evenement/${event.id}`);
         }
         catch(error) {
             console.log(error);
+            req.session.alert = {
+                type: 'global',
+                value: 'error',
+                message: 'Une erreur est survenue lors de la création de l\'événement'
+            };
+            res.redirect('/evenement');
         }
     },
     updateEvent: async function (req, res) {
@@ -186,6 +203,7 @@ const eventController = {
         }
         catch(error) {
             console.log(error);
+            res.redirect(`/evenement/${req.params.event}`);
         }
     },
     updateCommentAction: async function (req, res) {

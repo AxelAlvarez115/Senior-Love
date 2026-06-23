@@ -36,6 +36,7 @@ const chatController = {
             res.render("chat-inbox", { conversations });
         } catch (error) {
             console.log(error);
+            res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
         }
     },
 
@@ -50,7 +51,7 @@ const chatController = {
             const isContact = currentUser.contacts.some(c => c.id === contactId);
             if (!isContact) return res.redirect("/messages");
 
-            const contact = await User.findByPk(contactId);
+            const contact = await User.findByPk(contactId, { attributes: { exclude: ['password'] } });
             if (!contact) return res.redirect("/messages");
 
             const messages = await Message.findAll({
@@ -71,6 +72,7 @@ const chatController = {
             res.render("chat-conversation", { contact, messages, currentUserId: userId });
         } catch (error) {
             console.log(error);
+            res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
         }
     },
 };

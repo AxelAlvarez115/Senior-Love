@@ -8,7 +8,7 @@ const commentController = {
             const eventId = req.params.event;
             const userId = req.session.userId;
             const contents = req.body.contents;
-            if(validator.isEmpty(contents)) {
+            if(!contents || validator.isEmpty(contents)) {
                 res.json({success: false});
             }
             else {
@@ -23,6 +23,7 @@ const commentController = {
         }
         catch(error) {
             console.log(error, req.params, req.session.userId, req.body.contents);
+            res.status(500).json({success: false});
         }
     },
     findByPk: async (req, res) => {

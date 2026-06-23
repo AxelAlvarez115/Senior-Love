@@ -1,2 +1,8 @@
 .env
 node_modules
+
+# Fichiers uploadés par les utilisateurs (ne pas versionner)
+public/uploads/avatars/*
+public/uploads/gallery/*
+!public/uploads/avatars/.gitkeep
+!public/uploads/gallery/.gitkeep

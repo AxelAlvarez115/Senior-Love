@@ -13,7 +13,7 @@ const MAX_GALLERY_PHOTOS = 8;
 const accountController = {
 account: async function (req, res) {
     try {
-        const user = await User.findByPk(req.session.userId);
+        const user = await User.findByPk(req.session.userId, { attributes: { exclude: ['password'] } });
         const photos = await UserPhoto.findAll({
             where: { user_id: req.session.userId },
             order: [['createdAt', 'DESC']],
@@ -22,6 +22,7 @@ account: async function (req, res) {
     }
     catch (error) {
         console.log(error);
+        res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
     }
 },
 accountInfoAction: async function (req, res) {
@@ -267,7 +268,7 @@ accountPhotoDeleteAction: async function (req, res) {
 },
 accountEvent: async function (req, res) {
     try {
-        const user = await User.findByPk(req.session.userId);
+        const user = await User.findByPk(req.session.userId, { attributes: { exclude: ['password'] } });
         const photoCount = await UserPhoto.count({ where: { user_id: req.session.userId } });
         const userWithEvents = await User.findOne({
             where: { id: req.session.userId },
@@ -278,19 +279,24 @@ accountEvent: async function (req, res) {
     }
     catch (error) {
         console.log(error);
+        res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
     }
 },
 
 accountMeeting: async function (req, res) {
     try {
-        const user = await User.findByPk(req.session.userId);
+        const user = await User.findByPk(req.session.userId, { attributes: { exclude: ['password'] } });
         const photoCount = await UserPhoto.count({ where: { user_id: req.session.userId } });
-        const userWithContacts = await User.findOne({ where: { id: req.session.userId }, include: 'contacts' });
+        const userWithContacts = await User.findOne({
+            where: { id: req.session.userId },
+            include: [{ model: User, as: 'contacts', attributes: { exclude: ['password'] } }]
+        });
         const contacts = userWithContacts.contacts;
         res.render('account-meeting', { user, photoCount, contacts });
     }
     catch (error) {
         console.log(error);
+        res.status(500).render('error', { message: 'Une erreur est survenue.', link: '/', pageName: 'd\'accueil' });
     }
 }
 }

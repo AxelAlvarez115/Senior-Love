@@ -1,19 +1,24 @@
 {
-	"name": "project-name",
+	"name": "senior-love",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"type": "module",
+	"engines": {
+		"node": ">=18"
+	},
 	"scripts": {
-		"start": "sass --no-source-map --watch public/scss/index.scss public/css/main.css",
+		"start": "node index.js",
+		"sass": "sass --no-source-map --watch public/scss/index.scss public/css/main.css",
 		"nodemon": "nodemon index.js -e *",
-		"dev": "npm-run-all --parallel start nodemon"
+		"dev": "npm-run-all --parallel sass nodemon"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.1.0",
+		"connect-pg-simple": "^10.0.0",
 		"dotenv": "^16.0.3",
 		"ejs": "^3.1.8",
 		"express": "^4.18.2",

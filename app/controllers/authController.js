@@ -3,16 +3,11 @@ import validator from 'validator';
 import bcrypt from 'bcrypt';
 
 const PASSWORD_OPTIONS = {
-    // minLength: 12,
-    // minLowercase: 1,
-    // minUppercase: 1,
-    // minNumbers: 1,
-    // minSymbols: 1
-    minLength: 8,
-    minLowercase: 0,
-    minUppercase: 0,
-    minNumbers: 0,
-    minSymbols: 0
+    minLength: 12,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1
 };
 
 const authController = {

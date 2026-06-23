@@ -1,4 +1,6 @@
-import { Message } from "./models/index.js";
+import { Message, User_Relationship } from "./models/index.js";
+
+const MAX_MESSAGE_LENGTH = 2000;
 
 export function initSocket(io, sessionMiddleware) {
 
@@ -17,23 +19,34 @@ export function initSocket(io, sessionMiddleware) {
         socket.join(`user:${socket.userId}`);
 
         socket.on("chat:message", async ({ to, message }) => {
-            if (!to || !message || !message.trim()) return;
+            const recipientId = Number(to);
+            if (!Number.isInteger(recipientId) || recipientId <= 0) return;
+            if (recipientId === socket.userId) return;
+            if (!message || !message.trim()) return;
+
+            const content = message.trim().slice(0, MAX_MESSAGE_LENGTH);
+
+            // Vérifie que le destinataire fait bien partie des contacts de l'expéditeur
+            const relationship = await User_Relationship.findOne({
+                where: { user_id: socket.userId, contact_id: recipientId },
+            });
+            if (!relationship) return;
 
             const saved = await Message.create({
                 sender_id: socket.userId,
-                recipient_id: to,
-                content: message.trim(),
+                recipient_id: recipientId,
+                content,
             });
 
             const payload = {
                 id: saved.id,
                 from: socket.userId,
-                to,
+                to: recipientId,
                 message: saved.content,
                 createdAt: saved.createdAt,
             };
 
-            io.to(`user:${to}`).emit("chat:message", payload);
+            io.to(`user:${recipientId}`).emit("chat:message", payload);
             io.to(`user:${socket.userId}`).emit("chat:message", payload);
         });
 

@@ -25,11 +25,17 @@
 
         <div class="ig-profile__name-row">
           <h1 class="ig-profile__name"><%= contact.firstname %> <%= contact.lastname %></h1>
-          <form action='/rencontre/<%= contact.id %>/ajouter' method='POST'>
-            <button class="ig-btn ig-btn--red" type="submit">
-              <i class='bx bx-user-plus'></i> Ajouter aux contacts
-            </button>
-          </form>
+          <% if (locals.isContact) { %>
+            <a class="ig-btn ig-btn--outline" href="/messages/<%= contact.id %>">
+              <i class='bx bx-message-rounded'></i> Envoyer un message
+            </a>
+          <% } else { %>
+            <form action='/rencontre/<%= contact.id %>/ajouter' method='POST'>
+              <button class="ig-btn ig-btn--red" type="submit">
+                <i class='bx bx-user-plus'></i> Ajouter aux contacts
+              </button>
+            </form>
+          <% } %>
         </div>
 
         <% if (photos && photos.length > 0) { %>

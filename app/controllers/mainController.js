@@ -55,11 +55,18 @@ const mainController = {
 	meetingProfil: async function (req, res) {
 		try {
 			const contact = await User.findByPk(req.params.contactId, { attributes: { exclude: ['password'] } });
+			if (!contact) {
+				return res.redirect('/rencontre');
+			}
 			const photos = await UserPhoto.findAll({
 				where: { user_id: req.params.contactId },
 				order: [['createdAt', 'DESC']],
 			});
-			res.render('meetingProfil', { contact, photos });
+			const relationship = await User_Relationship.findOne({
+				where: { user_id: req.session.userId, contact_id: contact.id }
+			});
+			const isContact = !!relationship;
+			res.render('meetingProfil', { contact, photos, isContact });
 		}
 		catch (error) {
 			console.log(error);
@@ -84,11 +91,11 @@ const mainController = {
 			const relationship = await User_Relationship.findOne({where: {user_id: userId, contact_id: contact.id}});
 			const isRequest = await User_ContactRequest.findOne({where: {[Op.or]: [{requester_id: userId, requestee_id: contact.id}, {requester_id: contact.id, requestee_id: userId}]}});
 			if (relationship) {
-				res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'warning', message: `${contact.firstname} fait déjà partie de vos contacts.` } });
+				res.render('meetingProfil', { contact, photos, isContact: true, alert: { type: 'global', value: 'warning', message: `${contact.firstname} fait déjà partie de vos contacts.` } });
 			}
 			else if (isRequest) {
 				if (isRequest.requester_id === userId) {
-					res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'warning', message: `Vous avez déjà envoyé une demande de contact à ${contact.firstname}.` } });
+					res.render('meetingProfil', { contact, photos, isContact: false, alert: { type: 'global', value: 'warning', message: `Vous avez déjà envoyé une demande de contact à ${contact.firstname}.` } });
 				}
 				else if (isRequest.requestee_id === userId) {
 					await isRequest.destroy({force: true});
@@ -100,7 +107,7 @@ const mainController = {
 						type: "contact_accepted",
 						senderName: currentUser.firstname,
 					});
-					res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
+					res.render('meetingProfil', { contact, photos, isContact: true, alert: { type: 'global', value: 'success', message: `${contact.firstname} a été ajouté.e à vos contacts avec succès.` } });
 				}
 				else {
 					res.redirect('/rencontre');
@@ -114,7 +121,7 @@ const mainController = {
 					type: "contact_request",
 					senderName: currentUser2.firstname,
 				});
-				res.render('meetingProfil', { contact, photos, alert: { type: 'global', value: 'success', message: `Votre demande de contact à ${contact.firstname} a bien été enregistrée.` } });
+				res.render('meetingProfil', { contact, photos, isContact: false, alert: { type: 'global', value: 'success', message: `Votre demande de contact à ${contact.firstname} a bien été enregistrée.` } });
 			}
 		}
 		catch (error) {

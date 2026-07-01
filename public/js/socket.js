@@ -1,15 +1,41 @@
-const socket = io();
+// Nom de variable distinct de "socket" (utilisé dans chat.js) pour éviter
+// un conflit de redéclaration lorsque les deux scripts sont chargés sur la page de conversation.
+const notificationSocket = io();
 
-socket.on("notification:new", (data) => {
+const messagesBadge = document.getElementById("messages-badge");
+const currentUserId = messagesBadge ? Number(messagesBadge.dataset.userId) : null;
+
+notificationSocket.on("notification:new", (data) => {
     showNotificationBadge(data);
 });
 
+notificationSocket.on("chat:message", (data) => {
+    updateMessagesBadge(data);
+});
+
+function updateMessagesBadge(data) {
+    if (!messagesBadge || currentUserId === null) return;
+    // On ignore les messages que l'on a soi-même envoyés
+    if (data.from === currentUserId) return;
+    // Si on est déjà sur la conversation de l'expéditeur, le message est considéré comme lu
+    if (window.location.pathname === `/messages/${data.from}`) return;
+
+    const count = Number(messagesBadge.dataset.count || "0") + 1;
+    messagesBadge.dataset.count = count;
+    messagesBadge.textContent = count;
+    messagesBadge.classList.remove("hidden");
+}
+
 function showNotificationBadge(data) {
-    const badge = document.getElementById("notification-badge");
-    if (badge) {
-        const count = parseInt(badge.textContent || "0") + 1;
-        badge.textContent = count;
-        badge.classList.remove("hidden");
+    // Seule une nouvelle demande de contact reçue incrémente la pastille du bouton Compte
+    if (data.type === "contact_request") {
+        const badge = document.getElementById("contacts-badge");
+        if (badge) {
+            const count = Number(badge.dataset.count || "0") + 1;
+            badge.dataset.count = count;
+            badge.textContent = count;
+            badge.classList.remove("hidden");
+        }
     }
 
     const label = data.type === "contact_request"

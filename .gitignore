@@ -1,5 +1,7 @@
 .env
 node_modules
+socket.io.md
+test.md
 
 # Fichiers uploadés par les utilisateurs (ne pas versionner)
 public/uploads/avatars/*

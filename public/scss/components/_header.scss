@@ -126,6 +126,24 @@
         align-items: center;
         text-decoration: none;
     }
+
+    // ── Badge de notification (messages non lus) ──────────────────────────────
+    &__badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        border-radius: 9px;
+        background-color: vars.$main-yellow;
+        color: vars.$main-red;
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 18px;
+        text-align: center;
+        box-shadow: 0 0 0 2px vars.$main-red;
+    }
 }
 
 // ── Mobile burger menu ────────────────────────────────────────────────────────

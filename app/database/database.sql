@@ -26,6 +26,9 @@ BEGIN;
 -- -----------------------------------------------------------------------------
 -- Suppression des tables (ordre inverse des dépendances FK)
 -- -----------------------------------------------------------------------------
+DROP TABLE IF EXISTS message              CASCADE;
+DROP TABLE IF EXISTS notification         CASCADE;
+DROP TABLE IF EXISTS user_photo           CASCADE;
 DROP TABLE IF EXISTS user_affinity        CASCADE;
 DROP TABLE IF EXISTS user_interest        CASCADE;
 DROP TABLE IF EXISTS user_event           CASCADE;
@@ -36,6 +39,9 @@ DROP TABLE IF EXISTS event                CASCADE;
 DROP TABLE IF EXISTS interest             CASCADE;
 DROP TABLE IF EXISTS affinity             CASCADE;
 DROP TABLE IF EXISTS "user"               CASCADE;
+
+-- Type énuméré de la table notification (créé par Sequelize à l'origine)
+DROP TYPE IF EXISTS enum_notification_type CASCADE;
 
 -- -----------------------------------------------------------------------------
 -- Tables de référence
@@ -152,6 +158,45 @@ CREATE TABLE user_contactrequest (
   requestee_id INTEGER     NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
   "createdAt"  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updatedAt"  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- -----------------------------------------------------------------------------
+-- Messagerie, notifications et galerie photo
+-- (ajoutées lors de la reprise 2026, avec l'intégration de Socket.io)
+-- -----------------------------------------------------------------------------
+
+-- message — conversation privée entre deux membres déjà en relation.
+-- Le contrôle de la relation est effectué côté serveur avant tout enregistrement.
+CREATE TABLE message (
+  id           SERIAL      PRIMARY KEY,
+  sender_id    INTEGER     NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  recipient_id INTEGER     NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  content      TEXT        NOT NULL,
+  read         BOOLEAN     DEFAULT false,
+  "createdAt"  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updatedAt"  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- notification — deux types seulement : demande reçue, et demande acceptée
+CREATE TYPE enum_notification_type AS ENUM ('contact_request', 'contact_accepted');
+
+CREATE TABLE notification (
+  id           SERIAL                 PRIMARY KEY,
+  recipient_id INTEGER                NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  sender_id    INTEGER                NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  type         enum_notification_type NOT NULL,
+  read         BOOLEAN                DEFAULT false,
+  "createdAt"  TIMESTAMPTZ            NOT NULL DEFAULT NOW(),
+  "updatedAt"  TIMESTAMPTZ            NOT NULL DEFAULT NOW()
+);
+
+-- user_photo — galerie de photos d'un membre (l'avatar est porté par "user")
+CREATE TABLE user_photo (
+  id          SERIAL      PRIMARY KEY,
+  user_id     INTEGER     NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  filename    VARCHAR     NOT NULL,
+  "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  "updatedAt" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- =============================================================================
@@ -318,5 +363,26 @@ INSERT INTO user_relationship (user_id, contact_id) VALUES
   (2, 6),   -- Jean est contact de Robert
   (6, 2);   -- Robert est contact de Jean
 SELECT setval('user_relationship_id_seq', 4);
+
+-- ─── Notifications liées aux demandes en attente ─────────────────────────────
+INSERT INTO notification (recipient_id, sender_id, type, read) VALUES
+  (2, 1, 'contact_request',  false),   -- Jean    <- Marie
+  (4, 3, 'contact_request',  false),   -- Pierre  <- Françoise
+  (6, 5, 'contact_request',  false),   -- Robert  <- Michèle
+  (5, 2, 'contact_request',  false),   -- Michèle <- Jean
+  (1, 3, 'contact_accepted', true);    -- Françoise a accepté Marie
+SELECT setval('notification_id_seq', 5);
+
+-- ─── Conversations entre membres déjà en relation ────────────────────────────
+-- Marie (1) et Françoise (3)
+INSERT INTO message (sender_id, recipient_id, content, read) VALUES
+  (3, 1, 'Bonjour Marie, ravie que nous soyons en contact !',                 true),
+  (1, 3, 'Bonjour Françoise ! Moi aussi. J''ai vu que vous aimiez la danse.', true),
+  (3, 1, 'Oui, la valse surtout, tous les dimanches.',                        true),
+  (1, 3, 'La soirée danse à Bordeaux vous tente ? Je m''y suis inscrite.',    false),
+-- Jean (2) et Robert (6)
+  (6, 2, 'Bonjour Jean, partant pour l''atelier cuisine à Marseille ?',       true),
+  (2, 6, 'Avec plaisir Robert ! La bouillabaisse, c''est tentant.',           false);
+SELECT setval('message_id_seq', 6);
 
 COMMIT;

@@ -1,0 +1,75 @@
+%% ---------------------------------------------------------------------------
+%% Senior Love — Diagramme de navigation
+%% Rendu : https://mermaid.live
+%% ---------------------------------------------------------------------------
+flowchart TD
+    subgraph PUBLIC["🌐 Zone publique — sans authentification"]
+        HOME["Accueil<br/>/"]
+        FAQ["FAQ<br/>/faq"]
+        HELP["Assistance<br/>/assistance"]
+        REG["Inscription<br/>/inscription"]
+        LOG["Connexion<br/>/connexion"]
+    end
+
+    AUTH{"Authentifié ?"}
+
+    subgraph MEMBRE["🔒 Zone membre"]
+        MEET["Rencontres<br/>/rencontre"]
+        PROFIL["Profil d'un membre<br/>/rencontre/:id"]
+        EVT["Événements<br/>/evenement"]
+        EVTD["Détail événement<br/>/evenement/:id"]
+        MSG["Boîte de réception<br/>/messages"]
+        CONV["Conversation<br/>/messages/:id"]
+        CPT["Mon compte<br/>/compte"]
+        CPTE["Mes événements<br/>/compte/evenement"]
+        CPTR["Mes rencontres<br/>/compte/rencontre"]
+    end
+
+    ADMIN{"Administrateur ?"}
+
+    subgraph BO["⚙️ Back-office"]
+        DASH["Tableau de bord<br/>/admin"]
+        AUSER["Membres<br/>/admin/users"]
+        AEVT["Événements<br/>/admin/events"]
+        ACOM["Commentaires<br/>/admin/comments"]
+        AREF["Référentiels<br/>/admin/interests · /affinities"]
+    end
+
+    ERR403["Erreur 403<br/>Accès refusé"]
+
+    HOME --> REG
+    HOME --> LOG
+    HOME --> FAQ
+    HOME --> HELP
+    REG --> AUTH
+    LOG --> AUTH
+
+    AUTH -- non --> LOG
+    AUTH -- oui --> MEET
+
+    MEET --> PROFIL
+    PROFIL -- "demande de contact" --> CPTR
+    MEET --> EVT
+    EVT --> EVTD
+    EVTD -- "commentaire" --> EVTD
+
+    MEET --> MSG
+    MSG --> CONV
+    CONV -. "temps réel<br/>Socket.io" .-> CONV
+
+    MEET --> CPT
+    CPT --> CPTE
+    CPT --> CPTR
+
+    CPT --> ADMIN
+    ADMIN -- non --> ERR403
+    ADMIN -- oui --> DASH
+    DASH --> AUSER
+    DASH --> AEVT
+    DASH --> ACOM
+    DASH --> AREF
+
+    style PUBLIC fill:#EAF4FF,stroke:#7FA8D4
+    style MEMBRE fill:#F2E4EC,stroke:#B00060
+    style BO fill:#FFF3E0,stroke:#E09A2E
+    style ERR403 fill:#FFE0E0,stroke:#C0392B

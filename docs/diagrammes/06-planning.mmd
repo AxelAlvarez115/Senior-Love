@@ -1,0 +1,29 @@
+gantt
+    title Senior Love — reprise individuelle du 1er mai au 1er juillet
+    dateFormat YYYY-MM-DD
+    axisFormat %d %b
+    todayMarker off
+
+    section Appropriation
+    Lecture et compréhension du code existant  :a1, 2026-05-01, 7d
+    Remise en route de l'environnement         :a2, 2026-05-01, 4d
+
+    section Consolidation
+    Exclusion du mot de passe des lectures     :b1, after a1, 4d
+    Contrôle d'accès à la messagerie           :b2, after b1, 4d
+    Sessions persistées en base (PostgreSQL)   :b3, after b2, 4d
+    Reprise de la gestion des erreurs          :b4, after b3, 3d
+
+    section Messagerie temps réel
+    Intégration de Socket.io                   :c1, after b4, 6d
+    Modèles Message et Notification            :c2, after c1, 4d
+    Sécurisation de la couche temps réel       :c3, after c2, 5d
+    Vues de conversation et boîte de réception :c4, after c3, 5d
+
+    section Notifications
+    Compteur de messages non lus               :d1, after c4, 4d
+    Pastille de demande de contact             :d2, after d1, 3d
+
+    section Documentation
+    README technique et schémas                :e1, after d2, 4d
+    Rédaction du dossier de projet             :e2, after e1, 6d

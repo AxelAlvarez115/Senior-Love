@@ -1,0 +1,57 @@
+%% ---------------------------------------------------------------------------
+%% Senior Love — Schéma d'architecture technique
+%% Rendu : https://mermaid.live
+%% ---------------------------------------------------------------------------
+flowchart TB
+    subgraph CLIENT["💻 Navigateur"]
+        UI["HTML rendu par le serveur<br/>CSS compilé depuis SCSS"]
+        JS["Scripts client<br/>filtres · modales · menu"]
+        WS["Client Socket.io<br/>chat.js · socket.js"]
+    end
+
+    subgraph SERVEUR["🖥️ Serveur Node.js 18+ — ESM"]
+        HTTP["Serveur HTTP natif"]
+
+        subgraph EXPRESS["Express 4.18"]
+            MW1["express.json / urlencoded"]
+            MW2["express.static → /public"]
+            MW3["express-session<br/>store: connect-pg-simple"]
+            MW4["addUserData<br/>injecte l'utilisateur dans res.locals"]
+            MW5["handleAlerts<br/>messages flash"]
+            ROUTER["router.js<br/>47 routes"]
+            GUARD["identification.js<br/>isNotLogged · isAdmin"]
+            CTRL["8 contrôleurs<br/>auth · account · main · event<br/>comment · chat · admin · user"]
+            VIEWS["Moteur EJS<br/>pages + fragments"]
+        end
+
+        SOCK["socket.js — Socket.io 4.8<br/>session partagée · rooms user:id"]
+        MODELS["13 modèles Sequelize 6.36<br/>associations centralisées"]
+        UPLOAD["multer<br/>filtre MIME · 5 Mo max"]
+    end
+
+    subgraph DONNEES["🗄️ Persistance"]
+        PG[("PostgreSQL 14+<br/>10 tables")]
+        SESS[("Table des sessions")]
+        FILES["/public/uploads<br/>avatars · galerie"]
+    end
+
+    UI -->|"requête HTTP"| HTTP
+    JS -->|"fetch / POST"| HTTP
+    WS <-->|"WebSocket"| SOCK
+
+    HTTP --> MW1 --> MW2 --> MW3 --> MW4 --> MW5 --> ROUTER
+    ROUTER --> GUARD --> CTRL
+    CTRL --> MODELS
+    CTRL --> VIEWS
+    CTRL --> UPLOAD
+    VIEWS -->|"HTML"| UI
+
+    SOCK --> MODELS
+    MODELS --> PG
+    MW3 --> SESS
+    UPLOAD --> FILES
+
+    style CLIENT fill:#EAF4FF,stroke:#7FA8D4
+    style SERVEUR fill:#F7F7F7,stroke:#888888
+    style EXPRESS fill:#F2E4EC,stroke:#B00060
+    style DONNEES fill:#E8F5E9,stroke:#4CAF50

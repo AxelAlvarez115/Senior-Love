@@ -54,7 +54,7 @@ User.hasMany(Message, { foreignKey: "recipient_id", as: "receivedMessages" });
 Message.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
 Message.belongsTo(User, { foreignKey: "recipient_id", as: "recipient" });
 
-// await sequelize.sync({ alter: true });
+await sequelize.sync({ alter: true });
 console.log("Models loaded and associations defined.");
 
 export { User, Event, Interest, Comment, User_Event, User_Interest, User_Relationship, User_ContactRequest, Affinity, User_Affinity, UserPhoto, Notification, Message };

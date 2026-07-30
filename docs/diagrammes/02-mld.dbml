@@ -1,0 +1,131 @@
+// ---------------------------------------------------------------------------
+// Senior Love — Modèle Logique de Données (MLD)
+// Rendu : https://dbdiagram.io/d  (coller dans l'éditeur, puis Export > PNG/PDF)
+// Fidèle au script app/database/database.sql
+// ---------------------------------------------------------------------------
+
+Table user {
+  id                serial      [pk]
+  firstname         varchar(40) [not null]
+  lastname          varchar(40) [not null]
+  password          varchar     [not null, note: 'empreinte bcrypt']
+  email             varchar(40) [not null, unique]
+  phone             varchar(20) [not null, unique]
+  city              varchar(58) [not null]
+  date_of_birth     date
+  gender            varchar(10)
+  gender_preference varchar(10) [note: "CHECK IN ('homme','femme','tous')"]
+  bio               varchar(255)
+  administrator     boolean     [not null, default: false]
+  createdAt         timestamptz [not null]
+  updatedAt         timestamptz [not null]
+  deletedAt         timestamptz [note: 'suppression logique']
+}
+
+Table interest {
+  id   serial      [pk]
+  name varchar(20) [not null]
+}
+
+Table affinity {
+  id        serial      [pk]
+  name      varchar(20) [not null]
+  createdAt timestamptz [not null]
+  updatedAt timestamptz [not null]
+  deletedAt timestamptz
+}
+
+Table event {
+  id          serial      [pk]
+  name        varchar(70) [not null]
+  description text        [not null]
+  city        varchar(58) [not null]
+  date        timestamptz [not null]
+  adresse     varchar(70)
+  interest_id integer     [ref: > interest.id, note: 'ON DELETE SET NULL']
+  createdAt   timestamptz [not null]
+  updatedAt   timestamptz [not null]
+  deletedAt   timestamptz
+}
+
+Table comment {
+  id        serial       [pk]
+  contents  varchar(255) [not null]
+  user_id   integer      [ref: > user.id]
+  event_id  integer      [ref: > event.id]
+  createdAt timestamptz  [not null]
+  updatedAt timestamptz  [not null]
+  deletedAt timestamptz
+}
+
+// --- Tables de jointure : clé primaire composite ---------------------------
+
+Table user_event {
+  user_id  integer [ref: > user.id,  note: 'ON DELETE CASCADE']
+  event_id integer [ref: > event.id, note: 'ON DELETE CASCADE']
+
+  indexes {
+    (user_id, event_id) [pk]
+  }
+}
+
+Table user_interest {
+  user_id     integer [ref: > user.id,     note: 'ON DELETE CASCADE']
+  interest_id integer [ref: > interest.id, note: 'ON DELETE CASCADE']
+
+  indexes {
+    (user_id, interest_id) [pk]
+  }
+}
+
+Table user_affinity {
+  user_id     integer [ref: > user.id,     note: 'ON DELETE CASCADE']
+  affinity_id integer [ref: > affinity.id, note: 'ON DELETE CASCADE']
+
+  indexes {
+    (user_id, affinity_id) [pk]
+  }
+}
+
+// --- Tables réflexives : un utilisateur vers un autre utilisateur -----------
+
+Table user_contactrequest {
+  id           serial      [pk]
+  requester_id integer     [not null, ref: > user.id, note: 'le demandeur']
+  requestee_id integer     [not null, ref: > user.id, note: 'le destinataire']
+  createdAt    timestamptz [not null]
+  updatedAt    timestamptz [not null]
+}
+
+Table user_relationship {
+  id         serial      [pk]
+  user_id    integer     [not null, ref: > user.id]
+  contact_id integer     [not null, ref: > user.id]
+  createdAt  timestamptz [not null]
+  updatedAt  timestamptz [not null]
+  deletedAt  timestamptz
+}
+
+// --- Messagerie et notifications -------------------------------------------
+
+Table message {
+  id           serial      [pk]
+  sender_id    integer     [ref: > user.id]
+  recipient_id integer     [ref: > user.id]
+  content      text
+  createdAt    timestamptz [not null]
+}
+
+Table notification {
+  id           serial      [pk]
+  sender_id    integer     [ref: > user.id]
+  recipient_id integer     [ref: > user.id]
+  type         varchar     [note: 'contact_request | contact_accepted']
+  createdAt    timestamptz [not null]
+}
+
+Table user_photo {
+  id      serial  [pk]
+  user_id integer [ref: > user.id, note: 'ON DELETE CASCADE']
+  url     varchar
+}

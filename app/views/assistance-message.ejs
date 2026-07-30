@@ -1,0 +1,85 @@
+<%- include('./partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Assistance par message</h1>
+    <p class="page-banner__subtitle">Échangez avec un conseiller sans quitter votre navigateur</p>
+  </div>
+
+  <div class="assistance">
+    <a class="assistance__back" href="/assistance">
+      <i class='bx bx-arrow-back'></i> Retour à l'assistance
+    </a>
+
+    <section class="assistance__card assistance__card--chat">
+
+      <!-- État 1 — invitation -->
+      <div class="support" id="support-idle">
+        <i class='bx bx-message-rounded-dots assistance__card-icon'></i>
+        <h2 class="assistance__subtitle assistance__subtitle--centered">
+          Besoin d'aide ? Un conseiller peut vous répondre
+        </h2>
+        <p class="assistance__text assistance__text--centered">
+          Cliquez sur le bouton ci-dessous pour être mis en relation avec un membre
+          de notre équipe d'assistance. Vous n'avez rien à installer.
+        </p>
+        <button type="button" class="assistance__button" id="support-start">
+          <i class='bx bx-headphone'></i> Demander à être mis en relation
+        </button>
+      </div>
+
+      <!-- État 2 — recherche en cours -->
+      <div class="support support--hidden" id="support-waiting">
+        <div class="support__spinner" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <h2 class="assistance__subtitle assistance__subtitle--centered">
+          Recherche d'un conseiller disponible
+        </h2>
+        <p class="assistance__text assistance__text--centered">
+          Nous vous mettons en relation, merci de patienter quelques instants.
+          Ne fermez pas cette page.
+        </p>
+        <div class="support__progress" aria-hidden="true"><span></span></div>
+      </div>
+
+      <!-- État 3 — aucun conseiller -->
+      <div class="support support--hidden" id="support-unavailable">
+        <i class='bx bx-time assistance__card-icon assistance__card-icon--muted'></i>
+        <h2 class="assistance__subtitle assistance__subtitle--centered">
+          Aucun conseiller n'est disponible pour le moment
+        </h2>
+        <p class="assistance__text assistance__text--centered">
+          Toute notre équipe est actuellement occupée. Vous pouvez relancer une
+          demande dans quelques minutes, ou nous joindre par téléphone : nos
+          conseillers répondent du lundi au vendredi, de 9 h à 18 h.
+        </p>
+        <div class="support__actions">
+          <button type="button" class="assistance__button assistance__button--outline" id="support-retry">
+            <i class='bx bx-refresh'></i> Relancer la demande
+          </button>
+          <a class="assistance__button" href="/assistance/telephone">
+            <i class='bx bx-phone'></i> Nous appeler
+          </a>
+        </div>
+      </div>
+
+      <!-- Annonce vocale pour les lecteurs d'écran -->
+      <p class="support__live" id="support-live" role="status" aria-live="polite"></p>
+
+    </section>
+
+    <section class="assistance__card assistance__card--soft">
+      <h2 class="assistance__subtitle">
+        <i class='bx bx-help-circle'></i> Votre réponse est peut-être déjà écrite
+      </h2>
+      <p class="assistance__text">
+        Beaucoup de questions reviennent souvent : création de compte, mot de passe
+        oublié, demandes de contact, inscription à un événement. Notre foire aux
+        questions y répond en quelques lignes.
+      </p>
+      <a class="assistance__link-button" href="/faq">Consulter la foire aux questions</a>
+    </section>
+  </div>
+</main>
+<script src="/js/assistance.js"></script>
+<%- include('./partials/footer')%>

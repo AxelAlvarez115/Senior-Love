@@ -1,0 +1,85 @@
+%% ---------------------------------------------------------------------------
+%% Senior Love — Modèle Conceptuel de Données (MCD)
+%% Rendu : https://mermaid.live  (coller, puis Actions > PNG / SVG)
+%% ---------------------------------------------------------------------------
+erDiagram
+    USER ||--o{ COMMENT       : "rédige"
+    EVENT ||--o{ COMMENT      : "reçoit"
+    INTEREST ||--o{ EVENT     : "catégorise"
+
+    USER }o--o{ EVENT         : "participe à"
+    USER }o--o{ INTEREST      : "s'intéresse à"
+    USER }o--o{ AFFINITY      : "se reconnaît dans"
+
+    USER ||--o{ USER_PHOTO    : "publie"
+
+    USER }o--o{ USER          : "demande en contact"
+    USER }o--o{ USER          : "est en relation avec"
+
+    USER ||--o{ MESSAGE       : "envoie"
+    USER ||--o{ NOTIFICATION  : "reçoit"
+
+    USER {
+        int id PK
+        string firstname
+        string lastname
+        string email UK
+        string phone UK
+        string password
+        string city
+        date date_of_birth
+        string gender
+        string gender_preference
+        string bio
+        bool administrator
+        datetime deletedAt
+    }
+
+    EVENT {
+        int id PK
+        string name
+        text description
+        string city
+        datetime date
+        string adresse
+        int interest_id FK
+    }
+
+    COMMENT {
+        int id PK
+        string contents
+        int user_id FK
+        int event_id FK
+    }
+
+    INTEREST {
+        int id PK
+        string name
+    }
+
+    AFFINITY {
+        int id PK
+        string name
+    }
+
+    MESSAGE {
+        int id PK
+        int sender_id FK
+        int recipient_id FK
+        text content
+        datetime createdAt
+    }
+
+    NOTIFICATION {
+        int id PK
+        int sender_id FK
+        int recipient_id FK
+        string type
+        bool is_read
+    }
+
+    USER_PHOTO {
+        int id PK
+        int user_id FK
+        string url
+    }

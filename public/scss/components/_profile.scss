@@ -854,14 +854,19 @@
 // ─── Liste contacts (onglet Mes rencontres) ───────────────────────────────────
 .ig-contacts {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    // 320px : en dessous, l'avatar et les deux boutons ne tiennent plus sur une
+    // seule ligne avec le nom. Le passage à la ligne reste géré plus bas.
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1rem;
 }
 
 .ig-contact-card {
     display: flex;
+    // Les trois blocs sont incompressibles : sans wrap, ils débordent de la carte
+    // et écrasent le nom du contact.
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem 1rem;
     background: white;
     border: 1px solid #efefef;
     border-radius: 0.8rem;
@@ -897,8 +902,10 @@
         }
     }
 
+    // flex-basis de 9rem : en dessous, le bloc passe à la ligne au lieu d'être
+    // écrasé. min-width: 0 reste nécessaire pour que l'ellipsis fonctionne.
     &__body {
-        flex: 1;
+        flex: 1 1 9rem;
         min-width: 0;
     }
 
@@ -910,6 +917,15 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    // Les deux boutons voyagent ensemble : ils basculent sur une seconde ligne
+    // plutôt que de déborder de la carte.
+    &__actions {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 0.5rem;
+        margin-left: auto;
     }
 
     &__meta {

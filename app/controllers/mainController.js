@@ -135,6 +135,15 @@ const mainController = {
 	help: function (req, res) {
 		res.render('help');
 	},
+	helpPhone: function (req, res) {
+		res.render('assistance-telephone', { title: 'Assistance par téléphone' });
+	},
+	helpMessage: function (req, res) {
+		res.render('assistance-message', { title: 'Assistance par message' });
+	},
+	legalNotice: function (req, res) {
+		res.render('mentions-legales', { title: 'Mentions légales' });
+	},
 	notFound: function (req, res) {
 		res.render('error', { message: 'La page à laquelle vous essayez de vous connecter n\'existe pas.', link: '/', pageName: 'd\'accueil'});
 	},

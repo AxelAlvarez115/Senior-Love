@@ -1,0 +1,38 @@
+%% ---------------------------------------------------------------------------
+%% Senior Love — MCD en notation MERISE
+%% Rendu : https://mocodo.net  (coller dans l'éditeur, export SVG/PNG)
+%%
+%% Notation française attendue par la plupart des jurys de titre professionnel :
+%% entités rectangulaires, associations ovales, cardinalités 0,N / 1,1 …
+%% ---------------------------------------------------------------------------
+
+UTILISATEUR: id, prenom, nom, email, telephone, mot_de_passe, ville, date_naissance, genre, preference_genre, bio, administrateur
+EVENEMENT: id, nom, description, ville, date, adresse
+COMMENTAIRE: id, contenu, date_creation
+CENTRE_INTERET: id, libelle
+AFFINITE: id, libelle
+MESSAGE: id, contenu, date_envoi
+PHOTO: id, url
+
+:
+Participer, 0N UTILISATEUR, 0N EVENEMENT
+:
+
+Rediger, 0N UTILISATEUR, 11 COMMENTAIRE
+Porter, 11 COMMENTAIRE, 0N EVENEMENT
+:
+
+S_interesser, 0N UTILISATEUR, 0N CENTRE_INTERET
+Categoriser, 01 EVENEMENT, 0N CENTRE_INTERET
+:
+
+Se_reconnaitre, 0N UTILISATEUR, 0N AFFINITE
+Publier, 0N UTILISATEUR, 11 PHOTO
+:
+
+Demander_contact, 0N UTILISATEUR, 0N UTILISATEUR
+Etre_en_relation, 0N UTILISATEUR, 0N UTILISATEUR
+:
+
+Envoyer, 0N UTILISATEUR, 11 MESSAGE
+Recevoir, 0N UTILISATEUR, 11 MESSAGE

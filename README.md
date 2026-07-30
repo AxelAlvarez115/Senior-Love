@@ -13,9 +13,11 @@ Application web de rencontres et de mise en relation dédiée aux seniors. Les u
 | Template | EJS |
 | Base de données | PostgreSQL + Sequelize |
 | Style | SCSS → CSS |
-| Sessions | express-session |
+| Temps réel | Socket.io (messagerie et notifications) |
+| Sessions | express-session + connect-pg-simple (stockage en base) |
 | Hash mots de passe | bcrypt |
 | Validation | validator.js |
+| Téléversement | multer (filtrage MIME, 5 Mo max) |
 
 ---
 
@@ -71,7 +73,8 @@ SECRET_POUR_EXPRESS_SESSION=<chaine_aleatoire_32_chars_minimum>
 |----------|-------------|
 | `npm run dev` | Serveur + compilation SCSS en parallèle (développement) |
 | `npm run nodemon` | Serveur uniquement avec rechargement auto |
-| `npm run start` | Compilation SCSS uniquement (watch) |
+| `npm run sass` | Compilation SCSS uniquement (watch) |
+| `npm run start` | Serveur en production (`node index.js`) |
 
 ---
 
@@ -124,6 +127,12 @@ Senior-Love/
 | `user_affinity` | Affinités par utilisateur |
 | `user_relationship` | Contacts acceptés |
 | `user_contactrequest` | Demandes de contact en attente |
+| `message` | Messages privés entre contacts (messagerie temps réel) |
+| `notification` | Notifications (demande reçue / demande acceptée) |
+| `user_photo` | Galerie de photos d'un membre |
+
+> Soit **13 tables applicatives**, auxquelles s'ajoute la table `session` créée
+> automatiquement par `connect-pg-simple` pour la persistance des sessions.
 
 ### Comptes de test
 
@@ -162,6 +171,8 @@ Senior-Love/
 | GET | `/rencontre` | Connecté |
 | GET | `/evenement` | Connecté |
 | GET | `/compte` | Connecté |
+| GET | `/messages` | Connecté |
+| GET | `/messages/:contactId` | Connecté |
 | GET | `/admin` | Admin |
 | GET | `/faq` | Public |
 | GET | `/assistance` | Public |

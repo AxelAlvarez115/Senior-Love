@@ -1,0 +1,62 @@
+<%- include('./partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Assistance par téléphone</h1>
+    <p class="page-banner__subtitle">Un conseiller vous répond et vous accompagne pas à pas</p>
+  </div>
+
+  <div class="assistance">
+    <a class="assistance__back" href="/assistance">
+      <i class='bx bx-arrow-back'></i> Retour à l'assistance
+    </a>
+
+    <section class="assistance__card assistance__card--phone">
+      <i class='bx bx-phone-call assistance__card-icon'></i>
+      <p class="assistance__label">Appelez-nous au</p>
+
+      <a class="assistance__phone" href="tel:+33199001234">01 99 00 12 34</a>
+
+      <p class="assistance__note">Appel non surtaxé, au prix d'une communication locale.</p>
+
+      <div class="assistance__hours">
+        <h2 class="assistance__hours-title">
+          <i class='bx bx-time-five'></i> Horaires d'ouverture
+        </h2>
+        <ul class="assistance__hours-list">
+          <li><span>Du lundi au vendredi</span><strong>9 h – 18 h</strong></li>
+          <li><span>Le samedi</span><strong>10 h – 16 h</strong></li>
+          <li><span>Dimanche et jours fériés</span><strong>Fermé</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="assistance__card">
+      <h2 class="assistance__subtitle">
+        <i class='bx bx-check-circle'></i> Pour gagner du temps
+      </h2>
+      <p class="assistance__text">
+        Avant d'appeler, pensez à préparer les éléments suivants : ils permettront
+        à votre conseiller de vous aider plus rapidement.
+      </p>
+      <ul class="assistance__checklist">
+        <li>L'adresse électronique associée à votre compte</li>
+        <li>La page ou l'action qui vous pose difficulté</li>
+        <li>Le message d'erreur affiché, si vous en avez vu un</li>
+      </ul>
+    </section>
+
+    <section class="assistance__card assistance__card--soft">
+      <h2 class="assistance__subtitle">
+        <i class='bx bx-envelope'></i> Vous préférez écrire ?
+      </h2>
+      <p class="assistance__text">
+        Notre assistance par message vous met en relation avec un conseiller
+        directement depuis votre navigateur, sans téléphoner.
+      </p>
+      <a class="assistance__link-button" href="/assistance/message">
+        Passer par la messagerie d'assistance
+      </a>
+    </section>
+  </div>
+</main>
+<%- include('./partials/footer')%>

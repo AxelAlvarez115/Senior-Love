@@ -1,0 +1,107 @@
+' ---------------------------------------------------------------------------
+' Senior Love — Diagramme de cas d'utilisation (UML)
+' Rendu : https://www.plantuml.com/plantuml/uml/  (coller, puis clic droit > enregistrer l'image)
+' Alternative hors ligne : extension VS Code « PlantUML »
+' ---------------------------------------------------------------------------
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+actor "Visiteur" as V
+actor "Membre" as M
+actor "Administrateur" as A
+
+M --|> V
+A --|> M
+
+rectangle "Senior Love" {
+
+  package "Accès" {
+    usecase "Consulter l'accueil"        as UC1
+    usecase "Consulter la FAQ"           as UC2
+    usecase "Créer un compte"            as UC3
+    usecase "Se connecter"               as UC4
+    usecase "Se déconnecter"             as UC5
+  }
+
+  package "Mon compte" {
+    usecase "Modifier ses informations"  as UC6
+    usecase "Changer son mot de passe"   as UC7
+    usecase "Gérer ses photos"           as UC8
+    usecase "Supprimer son compte"       as UC9
+  }
+
+  package "Rencontres" {
+    usecase "Parcourir les membres"      as UC10
+    usecase "Filtrer par intérêts"       as UC11
+    usecase "Consulter un profil"        as UC12
+    usecase "Envoyer une demande\nde contact" as UC13
+    usecase "Accepter ou refuser\nune demande" as UC14
+  }
+
+  package "Événements" {
+    usecase "Consulter les événements"   as UC15
+    usecase "S'inscrire à un événement"  as UC16
+    usecase "Commenter un événement"     as UC17
+    usecase "Modifier ou supprimer\nson commentaire" as UC18
+  }
+
+  package "Messagerie" {
+    usecase "Consulter sa boîte\nde réception" as UC19
+    usecase "Échanger des messages"      as UC20
+    usecase "Recevoir des notifications" as UC21
+  }
+
+  package "Administration" {
+    usecase "Consulter le tableau\nde bord" as UC22
+    usecase "Gérer les membres"          as UC23
+    usecase "Gérer les événements"       as UC24
+    usecase "Modérer les commentaires"   as UC25
+    usecase "Gérer les référentiels"     as UC26
+  }
+}
+
+V --> UC1
+V --> UC2
+V --> UC3
+V --> UC4
+
+M --> UC5
+M --> UC6
+M --> UC7
+M --> UC8
+M --> UC9
+M --> UC10
+M --> UC11
+M --> UC12
+M --> UC13
+M --> UC14
+M --> UC15
+M --> UC16
+M --> UC17
+M --> UC18
+M --> UC19
+M --> UC20
+M --> UC21
+
+A --> UC22
+A --> UC23
+A --> UC24
+A --> UC25
+A --> UC26
+
+UC11 .> UC10 : <<extend>>
+UC13 .> UC12 : <<extend>>
+UC20 .> UC19 : <<include>>
+UC18 .> UC17 : <<extend>>
+
+note right of UC20
+  Possible uniquement entre
+  membres dont la relation
+  a été acceptée (RG5)
+end note
+
+@enduml

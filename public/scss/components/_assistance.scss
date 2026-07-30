@@ -1,0 +1,440 @@
+@use "../vars";
+
+// =============================================================================
+//  Pages d'assistance (telephone, message) et mentions legales
+//  Typographie et zones cliquables genereuses : le public vise a 60 ans et plus.
+// =============================================================================
+
+.assistance,
+.legal {
+    width: min(860px, 92%);
+    margin: 3rem auto 4rem;
+}
+
+.assistance {
+
+    &__back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+        color: vars.$main-blue;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            text-decoration: underline;
+        }
+
+        i { font-size: 1.4rem; }
+    }
+
+    &__card {
+        background: white;
+        border-radius: 1.25rem;
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem 2.2rem;
+        margin-bottom: 1.75rem;
+
+        &--phone,
+        &--chat { text-align: center; }
+
+        &--soft {
+            background: #f7f9fa;
+            box-shadow: none;
+            border: 1px solid #e4e9ec;
+        }
+    }
+
+    &__card-icon {
+        font-size: 3.4rem;
+        color: vars.$main-red;
+        display: block;
+        margin-bottom: 0.75rem;
+
+        &--muted { color: #9aa5ae; }
+    }
+
+    &__label {
+        font-size: 1.1rem;
+        color: #667;
+        margin-bottom: 0.4rem;
+    }
+
+    // Numero de telephone : l'element le plus lisible de la page
+    &__phone {
+        display: inline-block;
+        font-family: PlayFair_Display, serif;
+        font-size: clamp(2rem, 6vw, 3rem);
+        font-weight: bold;
+        letter-spacing: 0.06em;
+        color: vars.$main-blue;
+        text-decoration: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.6rem;
+
+        &:hover,
+        &:focus-visible {
+            background: rgba(13, 149, 171, 0.08);
+            text-decoration: underline;
+        }
+    }
+
+    &__note {
+        font-size: 0.95rem;
+        color: #8a939b;
+        margin-top: 0.6rem;
+    }
+
+    &__subtitle {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: PlayFair_Display, serif;
+        font-size: 1.45rem;
+        color: #222;
+        margin-bottom: 0.9rem;
+
+        &--centered { justify-content: center; text-align: center; }
+
+        i { color: vars.$main-red; font-size: 1.6rem; }
+    }
+
+    &__text {
+        font-size: 1.08rem;
+        line-height: 1.6;
+        color: #4a5560;
+
+        &--centered {
+            text-align: center;
+            max-width: 46ch;
+            margin: 0 auto;
+        }
+    }
+
+    &__hours {
+        margin-top: 2.2rem;
+        text-align: left;
+        border-top: 1px solid #eceff1;
+        padding-top: 1.6rem;
+    }
+
+    &__hours-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.15rem;
+        color: #333;
+        margin-bottom: 0.9rem;
+
+        i { color: vars.$main-blue; font-size: 1.4rem; }
+    }
+
+    &__hours-list {
+        list-style: none;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.55rem 0;
+            font-size: 1.05rem;
+            border-bottom: 1px dashed #e8ebed;
+
+            &:last-child { border-bottom: none; }
+        }
+
+        strong { color: #222; white-space: nowrap; }
+    }
+
+    &__checklist {
+        list-style: none;
+        margin-top: 1rem;
+
+        li {
+            position: relative;
+            padding: 0.5rem 0 0.5rem 2rem;
+            font-size: 1.05rem;
+            color: #4a5560;
+
+            &::before {
+                content: "\2713";
+                position: absolute;
+                left: 0;
+                top: 0.5rem;
+                color: vars.$main-blue;
+                font-weight: bold;
+            }
+        }
+    }
+
+    // Boutons : hauteur confortable, cible large
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        margin-top: 1.6rem;
+        padding: 1rem 2rem;
+        min-height: 3.3rem;
+        border: 2px solid vars.$main-red;
+        border-radius: 2rem;
+        background: vars.$main-red;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.15s;
+
+        i { font-size: 1.4rem; }
+
+        &:hover,
+        &:focus-visible {
+            background: #b84a4a;
+            border-color: #b84a4a;
+            transform: translateY(-2px);
+        }
+
+        &--outline {
+            background: transparent;
+            color: vars.$main-red;
+
+            &:hover,
+            &:focus-visible {
+                background: rgba(207, 88, 88, 0.08);
+                color: vars.$main-red;
+            }
+        }
+    }
+
+    &__link-button {
+        display: inline-block;
+        margin-top: 1.2rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: vars.$main-blue;
+        text-decoration: underline;
+
+        &:hover, &:focus-visible { color: #0a7686; }
+    }
+}
+
+// ─── Les trois etats de la mise en relation ──────────────────────────────────
+.support {
+
+    &--hidden { display: none; }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    // Trois points qui rebondissent pendant la recherche
+    &__spinner {
+        display: flex;
+        justify-content: center;
+        gap: 0.55rem;
+        margin-bottom: 1.5rem;
+
+        span {
+            width: 0.95rem;
+            height: 0.95rem;
+            border-radius: 50%;
+            background: vars.$main-red;
+            animation: support-bounce 1.4s ease-in-out infinite both;
+
+            &:nth-child(1) { animation-delay: -0.32s; }
+            &:nth-child(2) { animation-delay: -0.16s; }
+        }
+    }
+
+    // Barre de progression indeterminee
+    &__progress {
+        position: relative;
+        height: 0.4rem;
+        width: min(320px, 80%);
+        margin: 1.8rem auto 0;
+        border-radius: 1rem;
+        background: #eceff1;
+        overflow: hidden;
+
+        span {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 40%;
+            border-radius: 1rem;
+            background: linear-gradient(90deg, vars.$main-red, vars.$main-yellow);
+            animation: support-slide 1.6s ease-in-out infinite;
+        }
+    }
+
+    // Zone d'annonce pour lecteurs d'ecran : invisible mais lue
+    &__live {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+}
+
+@keyframes support-bounce {
+    0%, 80%, 100% { transform: scale(0.5); opacity: 0.5; }
+    40%           { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes support-slide {
+    0%   { left: -40%; }
+    100% { left: 100%; }
+}
+
+// Respect du reglage systeme : on neutralise les animations decoratives
+@media (prefers-reduced-motion: reduce) {
+    .support__spinner span,
+    .support__progress span {
+        animation: none;
+    }
+    .support__spinner span { opacity: 1; transform: none; }
+    .support__progress span { left: 0; width: 100%; }
+    .assistance__button:hover { transform: none; }
+}
+
+// =============================================================================
+//  Mentions legales
+// =============================================================================
+.legal {
+
+    &__disclaimer {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-start;
+        background: #fff8e1;
+        border: 1px solid vars.$main-yellow;
+        border-radius: 0.9rem;
+        padding: 1.2rem 1.4rem;
+        font-size: 1.02rem;
+        line-height: 1.55;
+        color: #6b5a20;
+        margin-bottom: 2.5rem;
+
+        i { font-size: 1.5rem; flex-shrink: 0; color: #b8901a; }
+    }
+
+    &__section {
+        margin-bottom: 2.6rem;
+
+        &--highlight {
+            background: #f7f9fa;
+            border-left: 4px solid vars.$main-blue;
+            border-radius: 0 0.9rem 0.9rem 0;
+            padding: 1.8rem 1.8rem 1.4rem;
+        }
+    }
+
+    &__title {
+        font-family: PlayFair_Display, serif;
+        font-size: 1.55rem;
+        color: #222;
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eceff1;
+    }
+
+    &__subtitle {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: vars.$main-blue;
+        margin: 1.6rem 0 0.6rem;
+    }
+
+    &__text {
+        font-size: 1.06rem;
+        line-height: 1.68;
+        color: #45505b;
+        margin-bottom: 0.8rem;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: minmax(180px, auto) 1fr;
+        gap: 0.5rem 1.4rem;
+        font-size: 1.05rem;
+
+        dt { font-weight: 700; color: #333; }
+        dd { color: #45505b; }
+
+        @media screen and (max-width: 620px) {
+            grid-template-columns: 1fr;
+            gap: 0.15rem;
+            dd { margin-bottom: 0.7rem; }
+        }
+    }
+
+    &__bullets {
+        list-style: none;
+
+        li {
+            position: relative;
+            padding: 0.45rem 0 0.45rem 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #45505b;
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 1.05rem;
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                background: vars.$main-red;
+            }
+        }
+    }
+
+    // Le tableau doit pouvoir defiler seul sur mobile
+    &__table-wrap {
+        overflow-x: auto;
+        margin: 1rem 0 0.5rem;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.99rem;
+        min-width: 520px;
+
+        th, td {
+            text-align: left;
+            padding: 0.7rem 0.9rem;
+            border-bottom: 1px solid #e4e9ec;
+        }
+
+        th {
+            background: #eef3f5;
+            color: #2c3a45;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        td { color: #45505b; }
+
+        tbody tr:last-child td { border-bottom: none; }
+    }
+
+    &__updated {
+        margin-top: 3rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #eceff1;
+        font-size: 0.95rem;
+        font-style: italic;
+        color: #8a939b;
+        text-align: right;
+    }
+}

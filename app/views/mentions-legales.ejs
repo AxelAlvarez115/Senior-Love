@@ -1,0 +1,123 @@
+<%- include('./partials/header')%>
+<main>
+  <div class="page-banner">
+    <h1 class="page-banner__title">Mentions légales</h1>
+    <p class="page-banner__subtitle">Éditeur, hébergement et protection de vos données</p>
+  </div>
+
+  <div class="legal">
+
+    <p class="legal__disclaimer">
+      <i class='bx bx-info-circle'></i>
+      Senior Love est une application développée dans un cadre pédagogique, en vue
+      de l'obtention du titre professionnel Développeur Web et Web Mobile. Elle
+      n'est pas exploitée commercialement : les informations ci-dessous sont
+      fournies à titre d'exemple et les données présentes en base sont fictives.
+    </p>
+
+    <section class="legal__section">
+      <h2 class="legal__title">1. Éditeur du site</h2>
+      <dl class="legal__list">
+        <dt>Responsable de la publication</dt><dd>Axel Alvarez</dd>
+        <dt>Statut</dt><dd>Projet de formation, sans exploitation commerciale</dd>
+        <dt>Contact</dt><dd>Par le formulaire d'assistance du site</dd>
+      </dl>
+    </section>
+
+    <section class="legal__section">
+      <h2 class="legal__title">2. Hébergement</h2>
+      <p class="legal__text">
+        L'application fonctionne actuellement en environnement de développement
+        local. Aucune donnée n'est hébergée sur un serveur accessible au public.
+        En cas de mise en production, l'identité et les coordonnées de
+        l'hébergeur seront ajoutées à la présente page.
+      </p>
+    </section>
+
+    <section class="legal__section">
+      <h2 class="legal__title">3. Propriété intellectuelle</h2>
+      <p class="legal__text">
+        La structure du site, son code source et ses éléments graphiques sont
+        l'œuvre de leur auteur. Les polices de caractères Playfair Display et
+        Roboto sont distribuées sous licence libre SIL Open Font License. Les
+        icônes proviennent de la bibliothèque Boxicons.
+      </p>
+    </section>
+
+    <section class="legal__section legal__section--highlight">
+      <h2 class="legal__title">4. Protection des données personnelles</h2>
+
+      <h3 class="legal__subtitle">Données collectées et finalités</h3>
+      <p class="legal__text">
+        La collecte est limitée à ce qui est nécessaire au fonctionnement du
+        service. Aucune donnée bancaire ni donnée de santé n'est traitée.
+      </p>
+      <div class="legal__table-wrap">
+        <table class="legal__table">
+          <thead>
+            <tr><th>Donnée</th><th>Finalité</th><th>Caractère</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Nom et prénom</td><td>Identification auprès des autres membres</td><td>Obligatoire</td></tr>
+            <tr><td>Adresse électronique</td><td>Authentification, identifiant de connexion</td><td>Obligatoire</td></tr>
+            <tr><td>Numéro de téléphone</td><td>Identification du compte</td><td>Obligatoire</td></tr>
+            <tr><td>Ville</td><td>Proposition d'événements et de membres proches</td><td>Obligatoire</td></tr>
+            <tr><td>Date de naissance</td><td>Vérification de l'appartenance au public visé</td><td>Facultative</td></tr>
+            <tr><td>Genre et préférence</td><td>Suggestion réciproque de profils</td><td>Facultative</td></tr>
+            <tr><td>Présentation, photographies</td><td>Présentation libre du membre</td><td>Facultative</td></tr>
+            <tr><td>Messages échangés</td><td>Fonctionnement de la messagerie privée</td><td>Découlant de l'usage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="legal__subtitle">Base légale</h3>
+      <p class="legal__text">
+        Le traitement repose sur le <strong>consentement</strong> de la personne,
+        recueilli lors de la création du compte.
+      </p>
+
+      <h3 class="legal__subtitle">Sécurité</h3>
+      <ul class="legal__bullets">
+        <li>Les mots de passe sont hachés et ne sont jamais stockés en clair.</li>
+        <li>Les échanges ne sont possibles qu'entre membres s'étant mutuellement acceptés.</li>
+        <li>Aucune donnée de contact n'est affichée publiquement.</li>
+        <li>Les accès aux pages personnelles sont contrôlés à chaque requête.</li>
+      </ul>
+
+      <h3 class="legal__subtitle">Vos droits</h3>
+      <ul class="legal__bullets">
+        <li><strong>Accès et rectification</strong> — l'espace « Mon compte » permet de consulter et de modifier l'ensemble de vos informations.</li>
+        <li><strong>Effacement</strong> — la suppression du compte est accessible directement depuis votre espace personnel, sans démarche auprès d'un administrateur.</li>
+        <li><strong>Opposition et limitation</strong> — vous pouvez nous écrire par le formulaire d'assistance.</li>
+      </ul>
+      <p class="legal__text">
+        Vous disposez également du droit d'introduire une réclamation auprès de la
+        Commission nationale de l'informatique et des libertés (CNIL).
+      </p>
+    </section>
+
+    <section class="legal__section">
+      <h2 class="legal__title">5. Cookies</h2>
+      <p class="legal__text">
+        Le site dépose un unique cookie, strictement nécessaire au maintien de
+        votre session une fois connecté. Il n'est pas lisible par des scripts
+        tiers et n'est transmis qu'au site lui-même. <strong>Aucun traceur
+        publicitaire ni outil de mesure d'audience tiers n'est utilisé</strong> :
+        aucun consentement préalable n'est donc requis.
+      </p>
+    </section>
+
+    <section class="legal__section">
+      <h2 class="legal__title">6. Responsabilité</h2>
+      <p class="legal__text">
+        Les contenus publiés par les membres relèvent de leur seule
+        responsabilité. Tout contenu inapproprié peut être signalé à l'équipe,
+        qui se réserve la possibilité de le retirer.
+      </p>
+    </section>
+
+    <p class="legal__updated">Dernière mise à jour : <%= new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+
+  </div>
+</main>
+<%- include('./partials/footer')%>

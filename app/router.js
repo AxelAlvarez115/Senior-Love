@@ -77,6 +77,10 @@ router.get('/messages/:contactId', identification.isNotLogged, chatController.co
 router.get('/faq', mainController.faq);
 
 router.get('/assistance', mainController.help);
+router.get('/assistance/telephone', mainController.helpPhone);
+router.get('/assistance/message', mainController.helpMessage);
+
+router.get('/mentions-legales', mainController.legalNotice);
 
 // router.get('/evenement', identification.isNotLogged, eventController.event);
 
